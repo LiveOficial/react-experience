@@ -11,7 +11,7 @@ export default function SingIn() {
             <Text style={{ marginVertical: 30 }}>Faça o login ou cadastre-se:</Text>
             <BaseInput placeholder="E-mail ou CPF" />
             <BaseInput placeholder="Senha" />
-            <Link href="/reset-password" style={styles.link}>Esqueci minha senha</Link>
+            <Link href="/forgot-password" style={styles.link}>Esqueci minha senha</Link>
             <BaseButton>Fazer Login</BaseButton>
             <View style={{ display: 'flex', gap: 20, marginTop: 50 }}>
                 <Text style={{ textAlign: 'center' }}>Não tem uma conta?</Text>

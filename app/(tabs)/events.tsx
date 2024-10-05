@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
 
-export default function Index() {
+export default function Events() {
     return (
-        <View style={{ display: 'flex' }}>
+        <View>
             <Text>Eventos</Text>
         </View>
-    );
+    )
 }
