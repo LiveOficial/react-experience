@@ -1,10 +1,7 @@
-import { useState } from 'react'
 import { TextInput, StyleSheet, View } from 'react-native'
 import BaseError from '@/components/BaseError'
 
-export default function BaseInput({ placeholder, error = '' }) {
-    const [value, setValue] = useState(null)
-
+export default function BaseInput({ value, setValue, placeholder, error = '' }) {
     return (
         <>
             <TextInput

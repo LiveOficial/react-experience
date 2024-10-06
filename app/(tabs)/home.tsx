@@ -1,12 +1,12 @@
 import { Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native"
-import BasePage from '@/components/BasePage'
 import { Container, Text as TextType } from '@/components/TopSelector'
 import Title from '@/components/Home/Title'
 import SmallButton from '@/components/SmallButton'
+import { Page } from "@/components/LiveExperience"
 
 export default function Home() {
     return (
-        <BasePage style={{ padding: 10 }}>
+        <Page padding={10}>
             <Container>
                 {['Corrida', 'yoga', 'bike', 'luta', 'pilates'].map((type) => (
                     <TextType>{type}</TextType>
@@ -100,7 +100,7 @@ export default function Home() {
                     <Text>TEAM LIVE!</Text>
                 </View>
             </View>
-        </BasePage>
+        </Page>
     )
 }
 
