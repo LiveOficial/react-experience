@@ -1,8 +1,18 @@
+import { primary } from '@/constants/Colors';
 import { Tabs } from 'expo-router'
 
 export default function TabLayout() {
+  const tabSettings = {
+    headerStyle: {
+      backgroundColor: 'white',
+    },
+    tabBarStyle: {
+      backgroundColor: primary,
+    }
+  }
+
   return (
-    <Tabs>
+    <Tabs screenOptions={tabSettings}>
       <Tabs.Screen
         name="home"
         options={{

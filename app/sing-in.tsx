@@ -3,10 +3,11 @@ import Title from '@/components/Title'
 import BaseButton from '@/components/BaseButton'
 import BaseInput from '@/components/BaseInput'
 import { Link } from 'expo-router'
+import BasePage from '@/components/BasePage'
 
 export default function SingIn() {
     return (
-        <View style={{ display: 'flex', gap: 16, padding: 10 }}>
+        <BasePage style={{ display: 'flex', gap: 16, padding: 10 }}>
             <Title size={30}>Bem-Vindo!</Title>
             <Text style={{ marginVertical: 30 }}>Faça o login ou cadastre-se:</Text>
             <BaseInput placeholder="E-mail ou CPF" />
@@ -17,7 +18,7 @@ export default function SingIn() {
                 <Text style={{ textAlign: 'center' }}>Não tem uma conta?</Text>
                 <Link href="/sing-up" style={styles.link}>Cadastre-se</Link>
             </View>
-        </View>
+        </BasePage>
     );
 }
 

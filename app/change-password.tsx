@@ -5,5 +5,5 @@ export default function ChangePassword() {
         <View>
             <Text>Change Password Page</Text>
         </View>
-    )   
+    )
 }

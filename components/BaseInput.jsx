@@ -1,16 +1,28 @@
 import { useState } from 'react'
-import { TextInput, StyleSheet } from 'react-native'
+import { TextInput, StyleSheet, View } from 'react-native'
+import BaseError from '@/components/BaseError'
 
-export default function BaseInput({ placeholder }) {
+export default function BaseInput({ placeholder, error = '' }) {
     const [value, setValue] = useState(null)
 
     return (
-        <TextInput
-            value={value}
-            onChangeText={setValue}
-            placeholder={placeholder}
-            style={styles.input}
-        />
+        <>
+            <TextInput
+                value={value}
+                onChangeText={setValue}
+                placeholder={placeholder}
+                placeholderTextColor='#757575'
+                style={styles.input}
+            />
+            {
+                error &&
+                <View style={{ marginVertical: 5 }}>
+                    <BaseError>
+                        {error}
+                    </BaseError>
+                </View>
+            }
+        </>
     )
 }
 
