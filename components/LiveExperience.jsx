@@ -1,11 +1,16 @@
 import { primary } from '@/constants/Colors'
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 
-export function Page({ children, padding = 0 }) {
+export function Page({ children, header, padding = 0 }) {
     return (
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'column' }} style={{ backgroundColor: '#fff', padding: padding }}>
-            {children}
-        </ScrollView>
+        <>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: '#fff' }}>
+                {header}
+                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'column' }} style={{ padding: padding }}>
+                    {children}
+                </ScrollView>
+            </ScrollView>
+        </>
     )
 }
 
@@ -42,28 +47,6 @@ export function HighlightedButton({ children, onPress, loading = false }) {
                 <Text style={{ color: 'white', textAlign: 'center', textTransform: 'uppercase', fontSize: 13 }}>{children}</Text>
             }
         </Pressable>
-    )
-}
-
-export function Header({ title, right, left }) {
-    return (
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#fff', padding: 15 }}>
-            {right}
-            <Text style={{ fontWeight: 500, textTransform: 'uppercase' }}>{title}</Text>
-            {left}
-        </View>
-    )
-}
-
-export function Logo() {
-    return (
-        <Image
-            source={{
-                uri: 'https://imagens.liveoficial.com.br/app-experience/banners/31puFoRvKD920Ji5Hm0TggWnKu6GvhPM4psf8DNO.jpg',
-                width: 300,
-                height: 100
-            }}
-        />
     )
 }
 

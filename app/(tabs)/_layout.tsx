@@ -9,15 +9,10 @@ export default function Layout() {
         tabBarStyle: { backgroundColor: primary, height: 60, padding: 10 },
         tabBarInactiveTintColor: '#000',
         tabBarActiveTintColor: '#000',
+        headerShown: false
       }}
     >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          header: () => <Header title={'Logo'} right={'teste'} left={'teste'} />,
-        }}
-      />
+      <Tabs.Screen name="index" />
       <Tabs.Screen
         name="events"
         options={{

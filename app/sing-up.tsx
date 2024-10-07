@@ -2,7 +2,7 @@ import { Text, View } from 'react-native'
 import Title from '@/components/Title'
 import BaseInput from '@/components/BaseInput'
 import { useState } from 'react'
-import { HighlightedButton, Hr, Page } from '@/components/LiveExperience'
+import { Header, HighlightedButton, Hr, Page } from '@/components/LiveExperience'
 import { Link } from 'expo-router'
 
 export default function SingIn() {
@@ -17,8 +17,10 @@ export default function SingIn() {
         setLoading(true)
     }
 
+    const header = <Header right={'teste'} left={'teste'}>Meu Perfil</Header>
+
     return (
-        <Page padding={10}>
+        <Page padding={10} header={header}>
             <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <Title size={30}>Cadastre-se</Title>
                 <Text style={{ marginVertical: 15 }}>Junte-se a nós e faça parte dessa experiência!</Text>

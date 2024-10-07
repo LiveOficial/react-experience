@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet} from 'react-native'
 import Title from '@/components/Title'
 import BaseInput from '@/components/BaseInput'
-import { HighlightedButton, Hr, Page } from '@/components/LiveExperience'
+import { Header, HighlightedButton, Hr, Page } from '@/components/LiveExperience'
 import { useState } from 'react'
 import { Link } from 'expo-router'
 
@@ -23,8 +23,10 @@ export default function SingIn() {
             .finally(() => setLoading(false))
     }
 
+    const header = <Header right={'teste'} left={'teste'}>Meu Perfil</Header>
+
     return (
-        <Page padding={10}>
+        <Page padding={10} header={header}>
             <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <Title size={30}>Bem-Vindo!</Title>
                 <Text style={{ marginVertical: 20 }}>Faça o login ou cadastre-se:</Text>

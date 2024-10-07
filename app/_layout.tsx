@@ -1,4 +1,3 @@
-import { Header } from '@/components/LiveExperience';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -23,27 +22,13 @@ export default function RootLayout() {
   }
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="sing-in" 
-        options={{ 
-          header: () => <Header title={'Meu PErfil'} right={'teste'} left={'teste'} />
-        }}
-      />
-      <Stack.Screen
-        name="sing-up" 
-        options={{ 
-          header: () => <Header title={'Cadastro'} right={'teste'} left={'teste'} />
-        }}
-      />
-      <Stack.Screen
-        name="ajuda"
-        options={{
-          header: () => <Header title={'Ajuda'} right={'teste'} left={'teste'} />
-        }}
-      />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="sing-in" />
+      <Stack.Screen name="sing-up" />
+      <Stack.Screen name="ajuda" />
+      <Stack.Screen name="forgot-password" />
       <Stack.Screen name="+not-found" />
     </Stack>
-  );
+  )
 }

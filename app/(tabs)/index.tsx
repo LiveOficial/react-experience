@@ -1,25 +1,23 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import { Container, Text as TextType } from '@/components/TopSelector'
-import { Page, SmallButton } from "@/components/LiveExperience"
+import { Header, Page, SmallButton } from "@/components/LiveExperience"
 import { Title } from '@/components/Home'
 
 export default function Home() {
+    const header = <Header left={'teste'} right={'teste'}>Logo</Header>
+
     return (
-        <Page padding={10}>
+        <Page padding={10} header={header}>
             <Container style={{ marginBottom: 10 }}>
-                {['Corrida', 'yoga', 'bike', 'luta', 'pilates'].map((type) => (
-                    <TextType>{type}</TextType>
-                ))}
+                {['Corrida', 'yoga', 'bike', 'luta', 'pilates'].map((type) => <TextType>{type}</TextType>)}
                 <TextType>+</TextType>
             </Container>
-
             <Image
                 style={{ width: '100%', height: 500, marginBottom: 10 }}
                 source={{
                     uri: 'https://imagens.liveoficial.com.br/app-experience/banners/31puFoRvKD920Ji5Hm0TggWnKu6GvhPM4psf8DNO.jpg'
                 }}
             />
-
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Title>Novidades</Title>
                 <SmallButton onPress={() => {} }>Ver todos</SmallButton>
@@ -97,9 +95,6 @@ export default function Home() {
                     <Text>TEAM LIVE!</Text>
                 </View>
             </ScrollView>
-
-
-
         </Page>
     )
 }
