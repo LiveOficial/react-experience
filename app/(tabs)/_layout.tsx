@@ -1,42 +1,20 @@
-import { primary } from '@/constants/Colors';
-import { Tabs } from 'expo-router'
+import { PageTitle } from "@/components/LiveExperience"
+import { Tabs } from "expo-router"
 
-export default function TabLayout() {
-  const tabSettings = {
-    headerStyle: {
-      backgroundColor: 'white',
-    },
-    tabBarStyle: {
-      backgroundColor: primary,
-    }
-  }
-
+export default function Layout() {
   return (
-    <Tabs screenOptions={tabSettings}>
+    <Tabs screenOptions={{ headerStyle: { backgroundColor: '#fff' } }}>
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
           title: 'Home',
+          headerStyle: { backgroundColor: '#fff' },
+          headerTitle: () => <PageTitle>Home</PageTitle>,
         }}
       />
-      <Tabs.Screen
-        name="events"
-        options={{
-          title: 'Eventos',
-        }}
-      />
-      <Tabs.Screen
-        name="calendar"
-        options={{
-          title: 'Calendário',
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Perfil',
-        }}
-      />
+      <Tabs.Screen name="events" options={{ title: 'Eventos' }} />
+      <Tabs.Screen name="calendar" options={{ title: 'Calendário' }} /> 
+      <Tabs.Screen name="profile" options={{ title: 'Perfil' }} />
     </Tabs>
-  );
-}
+  )
+} 

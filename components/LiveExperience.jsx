@@ -1,5 +1,5 @@
 import { Link as ExpoLink } from 'expo-router'
-import { ScrollView } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 
 export function Link({ children, href }) {
     return (
@@ -14,5 +14,11 @@ export function Page({ children, padding = 0 }) {
         <ScrollView contentContainerStyle={{ display: 'flex', flexDirection: 'column', gap: 16 }} style={{ backgroundColor: '#fff', padding: padding }}>
             {children}
         </ScrollView>
+    )
+}
+
+export function PageTitle({ children }) {
+    return (
+        <Text style={{ fontSize: 10 }}>{children}</Text>
     )
 }
