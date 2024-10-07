@@ -1,9 +1,10 @@
+import { Page } from "@/components/LiveExperience";
 import { Text, View } from "react-native";
 
 export default function Calendar() {
     return (
-        <View>
+        <Page padding={10}>
             <Text>Calendar Page</Text>
-        </View>
+        </Page>
     )
 }

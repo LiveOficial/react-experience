@@ -1,8 +1,8 @@
 import { View, Text as ReactText, StyleSheet } from "react-native";
 
-export function Container({ children }) {
+export function Container({ children, style = {} }) {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, style]}>
             {children}
         </View>
     );
@@ -22,11 +22,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',    
         gap: 10,
-        marginBottom: 20,
     },
     text: {
         fontWeight: 'bold',
-        fontSize: 17,
+        fontSize: 15,
         textTransform: 'uppercase',
     }
 })

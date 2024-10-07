@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
 import Title from '@/components/Title'
-import BaseButton from '@/components/BaseButton'
 import BaseInput from '@/components/BaseInput'
-import { Link, Page } from '@/components/LiveExperience'
+import { Page, HighlightedButton } from '@/components/LiveExperience'
 import { useState } from 'react'
+import { Link } from 'expo-router'
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
@@ -29,14 +29,14 @@ export default function ForgotPassword() {
             <Title>Esqueceu sua senha?</Title>
             <Text>Informe seu e-mail ou CPF para recuperar o acesso a sua conta:</Text>
             <BaseInput value={email} setValue={setEmail} placeholder="E-mail ou CPF" />
-            <BaseButton onPress={onSubmit} loading={loading}>Enviar</BaseButton>
+            <HighlightedButton onPress={onSubmit} loading={loading}>Enviar</HighlightedButton>
             <Text>Você receberá um e-mail com as instruções para
                 <Text style={{ fontWeight: 'bold' }}>redefinir sua senha</Text>
             </Text>
             <View>
                 <Text>{response}</Text>
             </View>
-            <Link href="/home">Voltar ao menu principal</Link>
+            <Link href="/index">Voltar ao menu principal</Link>
         </Page>
     )
 }

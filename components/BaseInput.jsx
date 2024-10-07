@@ -1,9 +1,9 @@
-import { TextInput, StyleSheet, View } from 'react-native'
-import BaseError from '@/components/BaseError'
+import { primary } from '@/constants/Colors'
+import { TextInput, StyleSheet, View, Text } from 'react-native'
 
 export default function BaseInput({ value, setValue, placeholder, error = '' }) {
     return (
-        <>
+        <View>
             <TextInput
                 value={value}
                 onChangeText={setValue}
@@ -11,25 +11,27 @@ export default function BaseInput({ value, setValue, placeholder, error = '' }) 
                 placeholderTextColor='#757575'
                 style={styles.input}
             />
-            {
-                error &&
-                <View style={{ marginVertical: 5 }}>
-                    <BaseError>
-                        {error}
-                    </BaseError>
-                </View>
-            }
-        </>
+            {error && <Error>{error}</Error>}
+        </View>
+    )
+}
+
+export function Error({ children }) {
+    return (
+        <Text style={{ fontSize: 12, color: primary }}>
+            {children}
+        </Text>
     )
 }
 
 const styles = StyleSheet.create({
     input: {
         width: '100%',
-        height: 50,
-        borderColor: 'black',
+        height: 40,
+        borderColor: '#000',
         borderStyle: 'solid',
         borderWidth: 1,
         padding: 10,
-    },
+        marginBottom: 3,
+    }
 })

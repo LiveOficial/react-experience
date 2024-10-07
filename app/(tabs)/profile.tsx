@@ -1,5 +1,6 @@
-import { Page, Link } from '@/components/LiveExperience';
-import { View, Text, Pressable } from 'react-native';
+import { Page, Button } from '@/components/LiveExperience';
+import { Link } from 'expo-router';
+import { View, Text } from 'react-native';
 
 export default function Profile() {
   return (
@@ -8,10 +9,10 @@ export default function Profile() {
         <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Felipe Chiodini Bona</Text>
       </View>
       <View style={{ display: 'flex', gap: 10 }}>
-        <Link href="/change-password">Alterar Senha</Link>
-        <Pressable>
-          <Text>Sair</Text>
-        </Pressable>
+        <Link href={'/change-password'}>Alterar Senha</Link>
+        <Button onPress={() => {}}>
+          Sair
+        </Button>
       </View>
     </Page>
   )
