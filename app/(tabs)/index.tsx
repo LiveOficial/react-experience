@@ -1,10 +1,12 @@
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import { Container, Text as TextType } from '@/components/TopSelector'
-import { Header, Page, SmallButton } from "@/components/LiveExperience"
+import { Page, SmallButton } from "@/components/LiveExperience"
 import { Title } from '@/components/Home'
+import { Header } from "@/components/Header"
+import Logo from '@/components/Logo'
 
 export default function Home() {
-    const header = <Header left={'teste'} right={'teste'}>Logo</Header>
+    const header = <Header left={'teste'} right={'teste'}><Logo /></Header>
 
     return (
         <Page padding={10} header={header}>

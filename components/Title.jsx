@@ -1,9 +1,8 @@
 import { Text } from 'react-native'
-import { primary } from '@/constants/Colors'
 
-export default function Title({ children, size = 24 }) {
+export default function Title({ children }) {
     return (
-        <Text style={{ fontSize: size, color: primary, fontWeight: 'bold' }}>
+        <Text style={{ fontSize: 18 }}>
             {children}
         </Text>
     );

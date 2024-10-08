@@ -5,7 +5,8 @@
 
 const tintColorLight = '#0a7ea4'
 const tintColorDark = '#fff'
-export const primary = '#F7A859'
+export const primary = '#c15000'
+export const secondary = '#efebe6'
 
 export const Colors = {
   light: {

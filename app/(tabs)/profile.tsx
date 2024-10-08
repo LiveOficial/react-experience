@@ -9,7 +9,7 @@ export default function Profile() {
         <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Felipe Chiodini Bona</Text>
       </View>
       <View style={{ display: 'flex', gap: 10 }}>
-        <Link href={'/change-password'}>Alterar Senha</Link>
+        <Link href={'/alterar-senha'}>Alterar Senha</Link>
         <Button onPress={() => {}}>
           Sair
         </Button>

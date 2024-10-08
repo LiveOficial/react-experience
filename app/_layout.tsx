@@ -24,10 +24,11 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="sing-in" />
-      <Stack.Screen name="sing-up" />
+      <Stack.Screen name="entrar" />
+      <Stack.Screen name="cadastro" />
       <Stack.Screen name="ajuda" />
-      <Stack.Screen name="forgot-password" />
+      <Stack.Screen name="esqueci-minha-senha" />
+      <Stack.Screen name="alterar-senha" />
       <Stack.Screen name="+not-found" />
     </Stack>
   )
