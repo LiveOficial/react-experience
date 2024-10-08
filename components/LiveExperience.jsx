@@ -110,3 +110,19 @@ export function NeedHelp() {
         </Link>
     )
 }
+
+export function BoxMessage({ children }) {
+    return (
+        <View style={{ marginBottom: 25, backgroundColor: '#f5f3ef', padding: 20 }}>
+            {children}
+        </View>
+    )
+}
+
+export function BoxMessageTitle({ children }) {
+    return (
+        <Text style={{ color: '#587211', fontWeight: 500 }}>
+            {children}
+        </Text>
+    )
+}
