@@ -42,7 +42,9 @@ export default function ForgotPassword() {
                 <HighlightedButton onPress={onSubmit} loading={loading}>
                     Enviar
                 </HighlightedButton>
-                <Link href="/entrar" style={{ alignSelf: 'center', marginVertical: 30 }}>Voltar para login</Link>
+                <Link href="/entrar" style={{ alignSelf: 'center', marginVertical: 30 }}>
+                    Voltar para login
+                </Link>
                 <Hr />
                 <NeedHelp />
             </View>

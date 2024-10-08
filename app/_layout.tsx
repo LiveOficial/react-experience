@@ -29,6 +29,8 @@ export default function RootLayout() {
       <Stack.Screen name="ajuda" />
       <Stack.Screen name="esqueci-minha-senha" />
       <Stack.Screen name="alterar-senha" />
+      <Stack.Screen name="pedidos" />
+      <Stack.Screen name="eventos/[slug]" />
       <Stack.Screen name="+not-found" />
     </Stack>
   )

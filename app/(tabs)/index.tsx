@@ -1,9 +1,10 @@
-import { Image, ScrollView, Text, View } from "react-native"
+import { Image, Pressable, ScrollView, Text, View } from "react-native"
 import { Footer, Hr, Link, SmallButton } from "@/components/LiveExperience"
 import { Button, Title, SearchInput } from '@/components/Home'
 import Logo from "@/components/Logo"
 import { secondary } from "@/constants/Colors"
 import { useState } from "react"
+import { router } from "expo-router"
 
 export default function Home() {
     const [query, setQuery] = useState()
@@ -27,6 +28,18 @@ export default function Home() {
                 </ScrollView>
                 <SearchInput />
             </View>
+
+
+            <View>
+                <Pressable onPress={() => { router.push('/pedidos')  }}>
+                    <Text>Pedidos</Text>
+                </Pressable>
+                <Pressable onPress={() => { router.push('/treinadores')  }}>
+                    <Text>Professores</Text>
+                </Pressable>
+            </View>
+
+
             <View style={{ paddingHorizontal: '5%' }}>
 
                 <View style={{ marginTop: 25 }}>
