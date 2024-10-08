@@ -1,6 +1,7 @@
-import { primary } from '@/constants/Colors'
+import { primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
-import { Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import Logo from "@/components/Logo"
 
 export function Page({ children, header, padding = 0 }) {
     return (
@@ -33,9 +34,9 @@ export function Button({ children, onPress, style = {} }) {
 
 export function SmallButton({ children, onPress }) {
     return (
-        <Button onPress={onPress} style={{ textTransform: 'uppercase', fontSize: 11 }}>
-            {children}
-        </Button>
+        <Pressable onPress={onPress}>
+            <Text style={{ color: primary, fontSize: 12 }}>{children}</Text>
+        </Pressable>
     )
 }
 
@@ -124,5 +125,51 @@ export function BoxMessageTitle({ children }) {
         <Text style={{ color: '#587211', fontWeight: 500 }}>
             {children}
         </Text>
+    )
+}
+
+export function Footer() {
+    const { width, height } = Dimensions.get('window')
+
+    return (
+        <View style={{ paddingHorizontal: '5%', padding: 20, backgroundColor: secondary }}>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                <View>
+                    <View style={{ marginBottom: 25 }}>
+                        <Logo />
+                    </View>
+                    <Text>Baixe o nosso app LIVE! Experience</Text>
+                    <View style={{ display: 'flex', flexDirection: 'row', gap: 10, marginTop: 25 }}>
+                        <Text>Google Play</Text>
+                        <View style={{ borderRightWidth: 1, borderColor: '#ccc' }} />
+                        <Text>App Store</Text>
+                    </View>
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
+                    <View>
+                        <Text>LIVE! Experience</Text>
+                        <Text>Eventos</Text>
+                        <Text>Aulas</Text>
+                        <Text>Professores</Text>
+                        <Text>Resultados</Text>
+                    </View>
+                    <View>
+                        <Text>Suporte</Text>
+                        <Text>Ajuda</Text>
+                        <Text>Perguntas frequentes</Text>
+                        <Text>Contato</Text>
+                    </View>
+                    <View>
+                        <Text>Informações</Text>
+                        <Text>Privacidade</Text>
+                        <Text>Politica de privacidade</Text>
+                        <Text>Rastreio do uso do App</Text>
+                        <Text>Excluir minha conta</Text>
+                    </View>
+                </View>
+            </View>
+            <Hr />
+            <Text>LIVE! Roupas Esportivas  Ltda. TODOS OS DIREITOS RESERVADOS</Text>
+        </View>
     )
 }

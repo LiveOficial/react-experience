@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native'
 import Title from '@/components/Title'
 import { useState } from 'react'
-import { HighlightedButton, Hr, Input, Label as BaseLabel, Page, Link, NeedHelp } from '@/components/LiveExperience'
+import { HighlightedButton, Hr, Input, Label as BaseLabel, Page, NeedHelp } from '@/components/LiveExperience'
 import { Header } from '@/components/Header'
 import { primary } from '@/constants/Colors'
 
@@ -21,7 +21,7 @@ export default function SingIn() {
 
     return (
         <Page padding={10} header={header}>
-            <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <View style={{ display: 'flex', flexDirection: 'column', margin: 'auto', minWidth: 350, maxWidth: 500 }}>
                 <View style={{ alignItems: 'center', marginTop: 40, marginBottom: 13 }}>
                     <Title>Faça seu cadastro</Title>
                 </View>

@@ -1,109 +1,150 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
-import { Container, Text as TextType } from '@/components/TopSelector'
-import { Page, SmallButton } from "@/components/LiveExperience"
-import { Title } from '@/components/Home'
-import { Header } from "@/components/Header"
-import Logo from '@/components/Logo'
+import { Image, ScrollView, Text, View } from "react-native"
+import { Footer, Hr, Link, SmallButton } from "@/components/LiveExperience"
+import { Button, Title, SearchInput } from '@/components/Home'
+import Logo from "@/components/Logo"
+import { secondary } from "@/constants/Colors"
+import { useState } from "react"
 
 export default function Home() {
-    const header = <Header left={'teste'} right={'teste'}><Logo /></Header>
+    const [query, setQuery] = useState()
 
     return (
-        <Page padding={10} header={header}>
-            <Container style={{ marginBottom: 10 }}>
-                {['Corrida', 'yoga', 'bike', 'luta', 'pilates'].map((type) => <TextType>{type}</TextType>)}
-                <TextType>+</TextType>
-            </Container>
-            <Image
-                style={{ width: '100%', height: 500, marginBottom: 10 }}
-                source={{
-                    uri: 'https://imagens.liveoficial.com.br/app-experience/banners/31puFoRvKD920Ji5Hm0TggWnKu6GvhPM4psf8DNO.jpg'
-                }}
-            />
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Title>Novidades</Title>
-                <SmallButton onPress={() => {} }>Ver todos</SmallButton>
+        <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={{ paddingHorizontal: '5%', paddingVertical: '5%', backgroundColor: secondary }}>
+                <View style={{ display: 'flex', flexDirection: 'row', gap: 10, marginBottom: 35 }}>
+                    <Logo />
+                    <Link href={'/eventos'}>Eventos</Link>
+                    <Link href={'/eventos'}>Resultados</Link>
+                </View>
+                <Text style={{ marginBottom: 3 }}>Pesquise por tipo de atividade</Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 10, marginVertical: 10 }}>
+                    <Button active={true}>Corrida</Button>
+                    <Button>Evento de loja</Button>
+                    <Button>Yoga</Button>
+                    <Button>Beach Tennis</Button>
+                    <Button>Treino</Button>
+                    <Button>Bike</Button>
+                </ScrollView>
+                <SearchInput />
             </View>
+            <View style={{ paddingHorizontal: '5%' }}>
 
-            <ScrollView horizontal style={{ marginVertical: 10 }}>
-                <View style={{ marginRight: 10, width: 180 }}>
-                    <Image style={{ height: '50%', width: '100%' }} source={{ uri: 'https://imagens.liveoficial.com.br/app-experience/events/Ftlp253d7E8b1gn2LrI8urf60ZaaJ0OSM6yyHJi3.jpg' }} />  
-                    <Text style={{ fontWeight: 700 }}>LIVE! Superioga Paulo Junqueira - Plano Mensal: Acesso ilimitado por 30 dias corridos</Text>
-                    <Text>Yoga</Text>
+                <View style={{ marginTop: 25 }}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Title>Próximos eventos</Title>
+                        <SmallButton onPress={() => {} }>Ver tudo</SmallButton>
+                    </View>
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row' }}>
+                        {[1,2,3,4].map(() => {
+                            return (
+                                <View style={{ width: 220, marginRight: 10 }}>
+                                    <Image
+                                        style={{ height: 130, width: '100%' }}
+                                        source={{
+                                            uri: 'https://imagens.liveoficial.com.br/app-experience/events/H7FBAlhVkTH7GZRTaoUydYU9KBrgTPyP88LrkdM6.jpg'
+                                        }}
+                                    />
+                                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 10, marginTop: 7 }}>
+                                        <Text style={{ fontWeight: 500 }}>LIVE! RUN XP São José do Vale do Rio Preto</Text>
+                                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Text style={{ fontWeight: 700, fontSize: 15 }}>24</Text>
+                                            <Text style={{ textTransform: 'uppercase', fontSize: 10 }}>Nov</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
                 </View>
-                <View style={{ marginRight: 10, width: 180 }}>
-                    <Image style={{ height: '50%', width: '100%' }} source={{ uri: 'https://imagens.liveoficial.com.br/app-experience/events/Ftlp253d7E8b1gn2LrI8urf60ZaaJ0OSM6yyHJi3.jpg' }} />  
-                    <Text style={{ fontWeight: 700 }}>LIVE! Superioga Paulo Junqueira - Plano Mensal: Acesso ilimitado por 30 dias corridos</Text>
-                    <Text>Yoga</Text>
-                </View>
-            </ScrollView>
 
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Title>Top 10 conteúdos</Title>
-                <SmallButton onPress={() => {} }>Ver todos</SmallButton>
+                <View style={{ marginTop: 50 }}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Title>Top 5 conteúdos</Title>
+                        <SmallButton onPress={() => {} }>Ver tudo</SmallButton>
+                    </View>
+
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row' }}>
+                        {[1,2,3,4].map(() => {
+                            return (
+                                <View style={{ width: 180, marginRight: 10 }}>
+                                    <Image
+                                        style={{ height: 100, width: '100%' }}
+                                        source={{
+                                            uri: 'https://imagens.liveoficial.com.br/app-experience/events/H7FBAlhVkTH7GZRTaoUydYU9KBrgTPyP88LrkdM6.jpg'
+                                        }}
+                                    />
+                                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}>
+                                        <Text>LIVE! RUN XP FORTALEZA 2024</Text>
+                                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Text style={{ fontWeight: 700, fontSize: 15 }}>24</Text>
+                                            <Text style={{ textTransform: 'uppercase', fontSize: 10 }}>Nov</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
+                </View>
+
+                <View style={{ marginTop: 50 }}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Title>Professores</Title>
+                        <SmallButton onPress={() => {} }>Ver tudo</SmallButton>
+                    </View>
+
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row' }}>
+                        {[1,2,3,4].map(() => {
+                            return (
+                                <View style={{ width: 180, marginRight: 10 }}>
+                                    <Image
+                                        style={{ height: 100, width: '100%' }}
+                                        source={{
+                                            uri: 'https://imagens.liveoficial.com.br/app-experience/events/H7FBAlhVkTH7GZRTaoUydYU9KBrgTPyP88LrkdM6.jpg'
+                                        }}
+                                    />
+                                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}>
+                                        <Text>LIVE! RUN XP FORTALEZA 2024</Text>
+                                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Text style={{ fontWeight: 700, fontSize: 15 }}>24</Text>
+                                            <Text style={{ textTransform: 'uppercase', fontSize: 10 }}>Nov</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
+                </View>
+
+                <View style={{ marginTop: 50 }}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                        <Title>Blog LIVE!</Title>
+                        <SmallButton onPress={() => {} }>Ver tudo</SmallButton>
+                    </View>
+
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row' }}>
+                        {[1,2,3,4].map(() => {
+                            return (
+                                <View style={{ width: 180, marginRight: 10 }}>
+                                    <Image
+                                        style={{ height: 100, width: '100%' }}
+                                        source={{
+                                            uri: 'https://imagens.liveoficial.com.br/app-experience/events/H7FBAlhVkTH7GZRTaoUydYU9KBrgTPyP88LrkdM6.jpg'
+                                        }}
+                                    />
+                                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}>
+                                        <Text>LIVE! RUN XP FORTALEZA 2024</Text>
+                                        <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                            <Text style={{ fontWeight: 700, fontSize: 15 }}>24</Text>
+                                            <Text style={{ textTransform: 'uppercase', fontSize: 10 }}>Nov</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )
+                        })}
+                    </ScrollView>
+                </View>
             </View>
-
-            <ScrollView horizontal style={{ marginVertical: 10 }}>
-                <View style={{ marginRight: 10, width: 180 }}>
-                    <Image style={{ height: '70%', width: '100%' }} source={{ uri: 'https://imagens.liveoficial.com.br/app-experience/events/Ftlp253d7E8b1gn2LrI8urf60ZaaJ0OSM6yyHJi3.jpg' }} />  
-                    <Text style={{ fontWeight: 700 }}>LIVE! Superioga Paulo Junqueira - Plano Mensal: Acesso ilimitado por 30 dias corridos</Text>
-                    <Text>Yoga</Text>
-                </View>
-                <View style={{ marginRight: 10, width: 180 }}>
-                    <Image style={{ height: '70%', width: '100%' }} source={{ uri: 'https://imagens.liveoficial.com.br/app-experience/events/Ftlp253d7E8b1gn2LrI8urf60ZaaJ0OSM6yyHJi3.jpg' }} />  
-                    <Text style={{ fontWeight: 700 }}>LIVE! Superioga Paulo Junqueira - Plano Mensal: Acesso ilimitado por 30 dias corridos</Text>
-                    <Text>Yoga</Text>
-                </View>
-            </ScrollView>
-
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Title>Aulas</Title>
-            </View>
-
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Title>Blog LIVE!</Title>
-                <SmallButton onPress={() => {} }>Acessar BLOG</SmallButton>
-            </View>
-
-            <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 10 }} horizontal>
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 5, width: 180, height: 180 }}>
-                    <Image
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: 'https://blog.liveoficial.com.br/wp-content/uploads/2024/09/SaveClip.App_461259581_869777821475104_1997755766220596861_n.jpg'
-                        }}
-                    />
-                    <Text style={{ fontWeight: 500, fontSize: 12 }}>Como Escolher a Roupa Fitness Ideal para a Primavera: Dicas de Estilo e Conforto</Text>
-                    <Text>TEAM LIVE!</Text>
-                </View>
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 5, width: 180, height: 180 }}>
-                    <Image
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: 'https://blog.liveoficial.com.br/wp-content/uploads/2024/09/SaveClip.App_461259581_869777821475104_1997755766220596861_n.jpg'
-                        }}
-                    />
-                    <Text style={{ fontWeight: 500, fontSize: 12 }}>Como Escolher a Roupa Fitness Ideal para a Primavera: Dicas de Estilo e Conforto</Text>
-                    <Text>TEAM LIVE!</Text>
-                </View>
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 5, width: 180, height: 180 }}>
-                    <Image
-                        style={styles.tinyLogo}
-                        source={{
-                            uri: 'https://blog.liveoficial.com.br/wp-content/uploads/2024/09/SaveClip.App_461259581_869777821475104_1997755766220596861_n.jpg'
-                        }}
-                    />
-                    <Text style={{ fontWeight: 500, fontSize: 12 }}>Como Escolher a Roupa Fitness Ideal para a Primavera: Dicas de Estilo e Conforto</Text>
-                    <Text>TEAM LIVE!</Text>
-                </View>
-            </ScrollView>
-        </Page>
+            <Footer />
+        </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    tinyLogo: {
-      width: '100%',
-      height: '50%',
-    },
-})

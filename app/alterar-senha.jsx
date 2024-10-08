@@ -21,7 +21,7 @@ export default function ChangePassword() {
 
     return (
         <Page padding={10} header={header}>
-            <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <View style={{ display: 'flex', flexDirection: 'column', margin: 'auto', minWidth: 350, maxWidth: 500 }}>
                 <View style={{ alignItems: 'center', marginTop: 30, marginBottom: 7 }}>
                     <Title>Alterar senha</Title>
                 </View>

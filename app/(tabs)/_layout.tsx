@@ -1,17 +1,32 @@
-import { primary } from "@/constants/Colors"
+import { secondary } from "@/constants/Colors"
 import { Tabs } from "expo-router"
+import { Dimensions } from "react-native"
 
 export default function Layout() {
+  const { width, height } = Dimensions.get('window')
+
   return (
     <Tabs screenOptions={{
-        headerStyle: { backgroundColor: '#fff' },
-        tabBarStyle: { backgroundColor: primary, height: 60, padding: 10 },
+        headerStyle: {
+          backgroundColor: '#fff'
+        },
+        tabBarStyle: {
+          display: width > 700 ? 'none' : 'flex',
+          backgroundColor: secondary,
+          height: 60,
+          padding: 10
+        },
         tabBarInactiveTintColor: '#000',
         tabBarActiveTintColor: '#000',
         headerShown: false
       }}
     >
-      <Tabs.Screen name="index" />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+        }}
+      />
       <Tabs.Screen
         name="events"
         options={{
@@ -21,7 +36,7 @@ export default function Layout() {
       <Tabs.Screen
         name="calendar"
         options={{
-          title: 'Meu Calendário',
+          title: 'Calendário',
         }}
       /> 
       <Tabs.Screen
