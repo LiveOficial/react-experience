@@ -1,7 +1,7 @@
 import { primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import Logo from "@/components/Logo"
+import { Logo } from "@/components/Icons"
 
 export function Page({ children, header, padding = 0 }) {
     return (
@@ -112,19 +112,12 @@ export function NeedHelp() {
     )
 }
 
-export function BoxMessage({ children }) {
+export function CheckBox({ children, value, setValue }) {
     return (
-        <View style={{ marginBottom: 25, backgroundColor: '#f5f3ef', padding: 20 }}>
+        <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+            <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 5, borderWidth: 2, borderColor: primary }} />
             {children}
-        </View>
-    )
-}
-
-export function BoxMessageTitle({ children }) {
-    return (
-        <Text style={{ color: '#587211', fontWeight: 500 }}>
-            {children}
-        </Text>
+        </Pressable>
     )
 }
 

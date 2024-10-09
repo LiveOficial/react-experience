@@ -1,7 +1,7 @@
 import { secondary } from "@/constants/Colors"
 import { router } from "expo-router"
 import { Pressable, Text, View } from "react-native"
-import Logo from "./Logo"
+import { Logo } from "@/components/Icons"
 
 export function Header({ children, style = { display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingVertical: 25, padding: 0 } }) {
     return (

@@ -28,27 +28,21 @@ export default function Layout() {
         }}
       />
       <Tabs.Screen
-        name="events"
+        name="eventos/index"
         options={{
           title: 'Eventos',
         }}
       />
       <Tabs.Screen
-        name="calendar"
+        name="calendario"
         options={{
           title: 'Calendário',
         }}
       /> 
       <Tabs.Screen
-        name="profile"
+        name="perfil"
         options={{
           title: 'Perfil',
-        }}
-      />
-      <Tabs.Screen
-        name="entrar"
-        options={{
-          tabBarButton: () => null,
         }}
       />
     </Tabs>

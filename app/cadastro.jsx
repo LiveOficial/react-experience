@@ -1,9 +1,8 @@
 import { Text, View } from 'react-native'
-import Title from '@/components/Title'
 import { useState } from 'react'
-import { HighlightedButton, Hr, Input, Label as BaseLabel, Page, NeedHelp } from '@/components/LiveExperience'
-import { Header } from '@/components/Header'
+import { HighlightedButton, Hr, Input, NeedHelp } from '@/components/LiveExperience'
 import { primary } from '@/constants/Colors'
+import { Container, Header, Title, FormBox, Label, TitleBox } from '@/components/CommomPages'
 
 export default function SingIn() {
     const [name, setName] = useState('')
@@ -17,34 +16,33 @@ export default function SingIn() {
         setLoading(true)
     }
 
-    const header = <Header>Cadastro</Header>
-
     return (
-        <Page padding={10} header={header}>
-            <View style={{ display: 'flex', flexDirection: 'column', margin: 'auto', minWidth: 350, maxWidth: 500 }}>
-                <View style={{ alignItems: 'center', marginTop: 40, marginBottom: 13 }}>
+        <Container>
+            <Header />
+            <View style={{ display: 'flex', flexDirection: 'column' }}>
+                <TitleBox>
                     <Title>Faça seu cadastro</Title>
-                </View>
-                <Row>
+                </TitleBox>
+                <FormBox>
                     <Label>Nome completo</Label>
                     <Input value={name} setValue={setName} placeholder="Insira seu nome completo" />
-                </Row>
-                <Row>
+                </FormBox>
+                <FormBox>
                     <Label>CPF</Label>
                     <Input value={cpf} setValue={setCpf} placeholder="000.000.000-00" />
-                </Row>
-                <Row>
+                </FormBox>
+                <FormBox>
                     <Label>E-mail</Label>
                     <Input value={email} setValue={setEmail} placeholder="Insira seu e-mail" />
-                </Row>
-                <Row>
+                </FormBox>
+                <FormBox>
                     <Label>Celular</Label>
                     <Input value={phone} setValue={setPhone} placeholder="Insira seu número de celular" />
-                </Row>
-                <Row>
+                </FormBox>
+                <FormBox>
                     <Label>Senha</Label>
                     <Input value={password} setValue={setPassword} placeholder="Insira sua senha" />
-                </Row>
+                </FormBox>
                 <HighlightedButton onPress={onSubmit} loading={loading}>
                     Criar Conta
                 </HighlightedButton>
@@ -55,22 +53,6 @@ export default function SingIn() {
                 <Hr marginVertical={10} />
                 <NeedHelp />
             </View>
-        </Page>
-    );
-}
-
-function Row({ children }) {
-    return (
-        <View style={{ marginBottom: 15 }}>
-            {children}
-        </View>
-    )
-}
-
-function Label({ children }) {
-    return (
-        <BaseLabel style={{ marginBottom: 10 }}>
-            {children}
-        </BaseLabel>
+        </Container>
     )
 }

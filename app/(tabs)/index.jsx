@@ -1,10 +1,10 @@
 import { Image, Pressable, ScrollView, Text, View } from "react-native"
 import { Footer, Hr, Link, SmallButton } from "@/components/LiveExperience"
 import { Button, Title, SearchInput } from '@/components/Home'
-import Logo from "@/components/Logo"
 import { secondary } from "@/constants/Colors"
 import { useState } from "react"
 import { router } from "expo-router"
+import { Logo } from "@/components/Icons"
 
 export default function Home() {
     const [query, setQuery] = useState()
@@ -34,6 +34,12 @@ export default function Home() {
                 <Pressable onPress={() => { router.push('/pedidos')  }}>
                     <Text>Pedidos</Text>
                 </Pressable>
+
+
+                <Pressable onPress={() => { router.push('/entrar')  }}>
+                    <Text>entra</Text>
+                </Pressable>
+
                 <Pressable onPress={() => { router.push('/treinadores')  }}>
                     <Text>Professores</Text>
                 </Pressable>

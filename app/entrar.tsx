@@ -1,10 +1,9 @@
 import { View } from 'react-native'
-import Title from '@/components/Title'
-import { HighlightedButton, Hr, Input, Label, Link, Page, NeedHelp } from '@/components/LiveExperience'
+import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveExperience'
 import { useState } from 'react'
-import { Header } from '@/components/Header'
+import { Container, FormBox, Header, Label, Title, TitleBox } from '@/components/CommomPages'
 
-export default function SingIn() {
+export default function Enter() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
@@ -22,22 +21,21 @@ export default function SingIn() {
             .finally(() => setLoading(false))
     }
 
-    const header = <Header>Meu Perfil</Header>
-
     return (
-        <Page padding={10} header={header}>
-            <View style={{ display: 'flex', flexDirection: 'column', margin: 'auto', minWidth: 350, maxWidth: 500 }}>
-                <View style={{ alignItems: 'center', marginVertical: 30 }}>
+        <Container>
+            <Header />
+            <View style={{ display: 'flex', flexDirection: 'column' }}>
+                <TitleBox>
                     <Title>Faça seu login</Title>
-                </View>
-                <View style={{ marginBottom: 25 }}>
-                    <Label style={{ marginBottom: 5 }}>E-mail</Label>
+                </TitleBox>
+                <FormBox>
+                    <Label>E-mail</Label>
                     <Input value={email} setValue={setEmail} placeholder="Insira seu e-mail ou CPF" />
-                </View>
-                <View style={{ marginBottom: 7 }}>
+                </FormBox>
+                <FormBox>
                     <Label>Senha</Label>
                     <Input value={password} setValue={setPassword} placeholder="Insira sua senha" />
-                </View>
+                </FormBox>
                 <Link href="/esqueci-minha-senha" style={{ textAlign: 'right', marginRight: 15, marginBottom: 25 }}>
                     Esqueci minha senha
                 </Link>
@@ -50,6 +48,6 @@ export default function SingIn() {
                 <Hr />
                 <NeedHelp />
             </View>
-        </Page>
+        </Container>
     )
 }

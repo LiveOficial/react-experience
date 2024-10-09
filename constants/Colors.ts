@@ -7,6 +7,9 @@ const tintColorLight = '#0a7ea4'
 const tintColorDark = '#fff'
 export const primary = '#c15000'
 export const secondary = '#efebe6'
+export const body = '#fbfaf9'
+export const grey = '#e5e1db'
+export const borderColor = '#bca291'
 
 export const Colors = {
   light: {
