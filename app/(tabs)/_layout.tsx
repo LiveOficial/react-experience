@@ -1,17 +1,14 @@
 import { secondary } from "@/constants/Colors"
 import { Tabs } from "expo-router"
-import { Dimensions } from "react-native"
 
 export default function Layout() {
-  const { width, height } = Dimensions.get('window')
-
   return (
     <Tabs screenOptions={{
         headerStyle: {
           backgroundColor: '#fff'
         },
         tabBarStyle: {
-          display: width > 700 ? 'none' : 'flex',
+          display: 'none',
           backgroundColor: secondary,
           height: 60,
           padding: 10
