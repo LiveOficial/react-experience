@@ -1,4 +1,4 @@
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput } from 'react-native';
 
 export function Title({ children }) {
     return (
@@ -16,14 +16,6 @@ export function Button({ children, active = false }) {
             </Text>
         </Pressable>
     );
-}
-
-export function Welcome() {
-    return (
-        <View style={{ position: 'fixed', top: 0, left: 0, zIndex: 1, height: '100%', width: '100%', backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
-            <Text>ddddddd</Text>
-        </View>
-    )
 }
 
 export function SearchInput() {
