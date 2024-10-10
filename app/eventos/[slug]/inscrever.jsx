@@ -3,6 +3,7 @@ import { ChevronLeft, Cart } from "@/components/Icons";
 import { secondary, body, primary, grey, borderColor } from "@/constants/Colors";
 import { CheckBox, HighlightedButton, Input } from "@/components/LiveExperience";
 import { useState } from "react";
+import { router } from "expo-router";
 
 export default function Inscrever() {
     const [coupon, setCoupon] = useState(null)
@@ -24,9 +25,9 @@ export default function Inscrever() {
     return (
         <ScrollView style={{ backgroundColor: body,  paddingTop: 50, paddingHorizontal: 20 }}>
             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', paddingVertical: 20, paddingHorizontal: 10 }}>
-                <View style={{ display: 'flex', alignItems: 'start', width: '10%' }}>
+                <Pressable onPress={() => {router.back()}} style={{ display: 'flex', alignItems: 'start', width: '10%' }}>
                     <ChevronLeft />
-                </View>
+                </Pressable>
                 <View style={{ width: '80%' }}>
                     <Text style={{ fontWeight: 500, fontSize: 23, textAlign: 'center' }}>LIVE! RUN XP São Jose do Vale do Rio Preto</Text>
                 </View>

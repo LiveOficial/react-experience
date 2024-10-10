@@ -9,7 +9,7 @@ import Cart from "@/components/Cart"
 
 export default function Home() {
     const [query, setQuery] = useState()
-    const [showCart, setShowCart] = useState(true)
+    const [showCart, setShowCart] = useState(false)
 
     return (
         <>

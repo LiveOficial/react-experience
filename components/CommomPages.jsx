@@ -1,5 +1,5 @@
 import { ScrollView, Text, View } from "react-native";
-import { Logo } from "@/components/Icons"
+import { Logo, SuccessCheck } from "@/components/Icons"
 import { body } from "@/constants/Colors";
 import { Label as BaseLabel } from '@/components/LiveExperience'
 
@@ -53,7 +53,8 @@ export function Label({ children }) {
 
 export function MessageBox({ children }) {
     return (
-        <View style={{ marginBottom: 25, backgroundColor: '#f5f3ef', padding: 20 }}>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 25, backgroundColor: '#f5f3ef', padding: 20 }}>
+            <SuccessCheck />
             {children}
         </View>
     )

@@ -1,14 +1,13 @@
 import { HighlightedButton, Input } from "@/components/LiveExperience"
-import { router } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import { Container, Header, Title, TitleBox, FormBox, Label } from '@/components/CommomPages'
+import { Container, Header, Title, TitleBox, FormBox, Label, MessageBox, MessageBoxText } from '@/components/CommomPages'
 
 export default function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [changed, setChanged] = useState(true);
+    const [changed, setChanged] = useState(false);
 
     const onSubmit = () => {
         setLoading(true);
@@ -19,34 +18,24 @@ export default function ChangePassword() {
     return (
         <Container>
             <Header />
-            <View style={{ display: 'flex', flexDirection: 'column', margin: 'auto', minWidth: 350, maxWidth: 500 }}>
+            <View style={{ display: 'flex', flexDirection: 'column' }}>
                 <TitleBox>
                     <Title>Alterar senha</Title>
                 </TitleBox>
-                {!changed ? (
-                    <>
-                        <FormBox>
-                            <Label>Senha atual</Label>
-                            <Input value={currentPassword} setValue={setCurrentPassword} placeholder="Insira a senha" />
-                        </FormBox>
-                        <FormBox>
-                            <Label>Nova senha</Label>
-                            <Input value={newPassword} setValue={setNewPassword} placeholder="Insira a senha" />
-                        </FormBox>
-                        <HighlightedButton onPress={onSubmit} loading={loading}>
-                            Alterar Senha
-                        </HighlightedButton>
-                    </>
-                ) : (
-                    <>
-                        <MessageBox style={{ alignItems: 'center', marginTop: 30, marginBottom: 7 }}>
-                            <MessageBoxText>Senha alterada com sucesso!</MessageBoxText>
-                        </MessageBox>
-                        <HighlightedButton onPress={() => { router.push('/') } }>
-                            Voltar 
-                        </HighlightedButton>
-                    </>
-                )}
+                <MessageBox style={{ alignItems: 'center', marginTop: 30, marginBottom: 7 }}>
+                    <MessageBoxText>Senha atualizada com sucesso</MessageBoxText>
+                </MessageBox>
+                <FormBox>
+                    <Label>Senha atual</Label>
+                    <Input value={currentPassword} setValue={setCurrentPassword} placeholder="Insira a senha" />
+                </FormBox>
+                <FormBox>
+                    <Label>Nova senha</Label>
+                    <Input value={newPassword} setValue={setNewPassword} placeholder="Insira a senha" />
+                </FormBox>
+                <HighlightedButton onPress={onSubmit} loading={loading}>
+                    Alterar Senha
+                </HighlightedButton>
             </View>
         </Container>
     )
