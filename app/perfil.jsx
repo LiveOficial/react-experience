@@ -5,16 +5,16 @@ import { Link as NativeLink, router } from 'expo-router';
 import { View, Text, ScrollView, Image, Pressable, Modal, StyleSheet } from 'react-native';
 import { primary } from '@/constants/Colors';
 import DeleteMyAccount from '@/components/DeleteMyAccount';
-import AuthContext from '@/context/auth'
-import { useContext, useState } from 'react';
+import { useAuth } from '@/context/auth'
+import { useState } from 'react';
 
 export default function Profile() {
   const [openModalLogout, setOpenModalLogout] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const { authenticated } = useContext(AuthContext)
+  const { token } = useAuth()
 
-  if (authenticated === false) {
+  if (token === null) {
     router.replace('/entrar')
   }
 

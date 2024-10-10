@@ -1,6 +1,6 @@
 import { Image as ReactImage, Pressable, ScrollView, Text, TextInput, View } from "react-native"
 import { SmallButton, HighlightedButton } from "@/components/LiveExperience"
-import { body, secondary, primary} from "@/constants/Colors"
+import { body, secondary } from "@/constants/Colors"
 import { useState } from "react"
 import { Logo, Menu, Cart as CartIcon } from "@/components/Icons"
 import { borderColor } from "@/constants/Colors"
