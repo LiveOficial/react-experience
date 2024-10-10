@@ -1,11 +1,23 @@
-import { ChevronLeft, Point, Camera } from '@/components/Icons';
-import { Hr } from '@/components/LiveExperience';
+import { ChevronLeft, Camera, EditProfile, Asterisk, OrderCart, CalendarTwo, Playlist, Help, Privacy, Exit, DeleteMyAcccount } from '@/components/Icons';
+import { Hr, HighlightedButton } from '@/components/LiveExperience';
 import { body } from '@/constants/Colors';
 import { Link as NativeLink, router } from 'expo-router';
-import { View, Text, ScrollView, Image, Pressable, Modal } from 'react-native';
+import { View, Text, ScrollView, Image, Pressable, Modal, StyleSheet } from 'react-native';
 import { primary } from '@/constants/Colors';
+import DeleteMyAccount from '@/components/DeleteMyAccount';
+import AuthContext from '@/context/auth'
+import { useContext, useState } from 'react';
 
 export default function Profile() {
+  const [openModalLogout, setOpenModalLogout] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const { authenticated } = useContext(AuthContext)
+
+  if (authenticated === false) {
+    router.replace('/entrar')
+  }
+
   return (
     <ScrollView style={{ backgroundColor: body, paddingTop: 60, paddingHorizontal: 20 }}>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
@@ -34,21 +46,41 @@ export default function Profile() {
       </View>
       <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <Hr />
-        <Link icon={<Point />} href='editar-perfil'>Editar perfil</Link>
-        <Link icon={<Point />} href='alterar-senha'>Alterar senha</Link>
+        <Link icon={<EditProfile />} href='editar-perfil'>Editar perfil</Link>
+        <Link icon={<Asterisk />} href='alterar-senha'>Alterar senha</Link>
         <Hr />
-        <Link icon={<Point />} href='pedidos'>Pedidos</Link>
-        <Link icon={<Point />} href='calendario'>Meu calendário</Link>
+        <Link icon={<OrderCart />} href='pedidos'>Pedidos</Link>
+        <Link icon={<CalendarTwo />} href='calendario'>Meu calendário</Link>
+        <Link icon={<Playlist />} href='teste'>Minha playlists</Link>
         <Hr />
-        <Link icon={<Point />} href='teste'>Minha playlists</Link>
-        <Link icon={<Point />} href='teste'>Ajuda</Link>
+        <Link icon={<Help />} href='teste'>Ajuda</Link>
+        <Link icon={<Privacy />} href='teste'>Privacidade</Link>
         <Hr />
-        <Link icon={<Point />} href='teste'>Privacidade</Link>
-        <Link icon={<Point />} href='teste'>Sair</Link>
-        <Hr />
-        <Link icon={<Point />} href='teste'>Excluir conta e dados</Link>
+
+        <Pressable style={styles.link} onPress={() => setOpenModalLogout(true)}>
+          <Exit />
+          <Text style={styles.linkText}>Sair</Text>
+        </Pressable>
+
+        <Pressable style={styles.link} onPress={() => setDeleteModal(true)}>
+          <DeleteMyAcccount />
+          <Text style={styles.linkText}>Excluir conta e dados</Text>
+        </Pressable>
+        
       </View>
-      <ModalLogout show={false} />
+      <DeleteMyAccount visible={deleteModal} setVisible={setDeleteModal} />
+
+      <TexModal visible={openModalLogout} setVisible={setOpenModalLogout}>
+        <View style={{ backgroundColor: 'white', padding: 20, paddingBottom: 50, borderRadius: 10, display: 'flex', flexDirection: 'column' }}>
+          <Text style={{ fontSize: 16, marginTop: 20, marginBottom: 40 }}>Tem certeza que deseja sair?</Text>
+          <HighlightedButton>
+            Sair
+          </HighlightedButton>
+          <Pressable style={{ marginTop: 20 }} onPress={() => setOpenModalLogout(false)}>
+            <Text style={{ textAlign: 'center', color: primary ,fontWeight: 500 }}>Deixa pra lá</Text>
+          </Pressable>
+        </View>
+      </TexModal>
     </ScrollView>
   )
 }
@@ -76,10 +108,27 @@ function Email({ children }) {
   )
 }
 
-function ModalLogout({ show }) {
+const styles = StyleSheet.create({
+  link: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5
+  },
+  linkText: {
+    color: primary,
+    fontWeight: 500
+  }
+})
+
+function TexModal({ children, visible, setVisible }) {
   return (
-    <Modal visible={show}>
-      <Text>Logout</Text>
-    </Modal>
+    <View style={{ flex: 1, justifyContent: "flex-end", backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+      <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={() => { setVisible(false) }}>
+        <View style={{ flex: 1, justifyContent: "flex-end", backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          {children}
+        </View>
+      </Modal>
+    </View>
   )
 }

@@ -5,7 +5,7 @@ import { Label as BaseLabel } from '@/components/LiveExperience'
 
 export function Container({ children }) {
     return (
-        <ScrollView style={{ backgroundColor: body, paddingHorizontal: 20, paddingTop: 50 }}>
+        <ScrollView style={{ backgroundColor: body, paddingHorizontal: 20 }}>
             {children}
         </ScrollView>
     )
@@ -29,7 +29,7 @@ export function Title({ children }) {
 
 export function Header() {
     return (
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginVertical: 60 }}>
+        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 120, paddingBottom: 40 }}>
             <Logo />
         </View>
     );
@@ -51,9 +51,17 @@ export function Label({ children }) {
     )
 }
 
-export function MessageBox({ children }) {
+export function MessageBox({ children, ...props }) {
     return (
-        <View style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 25, backgroundColor: '#f5f3ef', padding: 20 }}>
+        <View style={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: 10,
+            alignItems: 'center',
+            backgroundColor: '#f5f3ef',
+            padding: 20,
+            ...props,
+        }}>
             <SuccessCheck />
             {children}
         </View>

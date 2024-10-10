@@ -13,7 +13,9 @@ export default function Events() {
                         <ChevronLeft />
                     </Button>
                     <View>
-                        <Text style={{ textAlign: 'center', fontSize: 20 }}>Eventos</Text>
+                        <Text style={{ textAlign: 'center', fontSize: 20 }}>
+                            Eventos
+                        </Text>
                     </View>
                     <View />
                 </View>

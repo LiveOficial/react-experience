@@ -1,7 +1,9 @@
 import { primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native'
 import { Logo } from "@/components/Icons"
+import { LinearGradient } from 'expo-linear-gradient'
+import { Help } from '@/components/Icons'
 
 export function Page({ children, header, padding = 0 }) {
     return (
@@ -45,8 +47,7 @@ export function HighlightedButton({ children, onPress, loading = false }) {
         <Pressable onPress={onPress} style={{ backgroundColor: primary, padding: 10, width: '100%' }}>
             {
                 loading ?
-                <Text style={{ color: 'white', textAlign: 'center', textTransform: 'uppercase', fontSize: 13 }}>Loading...</Text> :
-                <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
+                <ActivityIndicator color={secondary} size="small" /> : <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
             }
         </Pressable>
     )
@@ -58,7 +59,7 @@ export function Hr({ marginVertical = 0 }) {
     )
 }
 
-export function Input({ value, setValue, placeholder }) {
+export function Input({ value, setValue, placeholder, secureTextEntry = false }) {
     return (
         <TextInput
             value={value}
@@ -66,6 +67,7 @@ export function Input({ value, setValue, placeholder }) {
             placeholder={placeholder}
             placeholderTextColor='#6d6d6d'
             style={styles.input}
+            secureTextEntry={secureTextEntry}
         />
     )
 }
@@ -106,8 +108,9 @@ const styles = StyleSheet.create({
 
 export function NeedHelp() {
     return (
-        <Link href={'/ajuda'} style={{ textAlign: 'center', marginTop: 30 }}>
-            Precisa de ajuda?
+        <Link href={'/ajuda'}>
+            <Help />
+            <Text>Precisa de ajuda?</Text>
         </Link>
     )
 }
@@ -164,5 +167,19 @@ export function Footer() {
             <Hr />
             <Text>LIVE! Roupas Esportivas  Ltda. TODOS OS DIREITOS RESERVADOS</Text>
         </View>
+    )
+}
+
+export function Gradient({ children }) {
+    return (
+        <LinearGradient colors={['#EFEBE6', '#FAFAFA']}>
+            {children}
+        </LinearGradient>
+    )
+}
+
+export function GradientRun() {
+    return (
+        <LinearGradient colors={['#A31F22', '#D3842C', '#D6892C', '#F3BA30', '#FFCD32', '#FFCD32']} style={{ height: 1 }} />
     )
 }

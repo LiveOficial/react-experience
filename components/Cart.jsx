@@ -1,5 +1,6 @@
 import { View, Text, Modal, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { primary, secondary } from '@/constants/Colors';
+import { Times } from '@/components/Icons';
 
 const CartOverlay = ({ visible, setVisible }) => {
   // Lista de itens no carrinho
@@ -19,7 +20,7 @@ const CartOverlay = ({ visible, setVisible }) => {
           <View style={styles.cartContainer}>
             <Text style={styles.cartTitle}>Carrinho ({cartItems.length} itens)</Text>
             <TouchableOpacity onPress={() => setVisible(false)} style={styles.closeButton}>
-              <Text style={styles.closeButtonText}>X</Text>
+              <Times />
             </TouchableOpacity>
             <ScrollView>
               {cartItems.map((item) => (
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 15,
+    padding: 10
   },
   closeButtonText: {
     fontSize: 18,

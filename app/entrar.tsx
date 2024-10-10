@@ -11,10 +11,21 @@ export default function Enter() {
     const onSubmit = () => {
         setLoading(true)
 
-        fetch('https://api.appliveexperience.com.br/app/authentication/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password })
-        })
+        fetch("https://api.appliveexperience.com.br/app/authentication/login?version=2150", {
+            "headers": {
+              "accept": "application/json",
+              "accept-language": "en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7",
+              "content-type": "application/json",
+              "priority": "u=1, i",
+              "sec-fetch-dest": "empty",
+              "sec-fetch-mode": "cors",
+              "sec-fetch-site": "same-site",
+              "Referer": "https://www.appliveexperience.com.br/",
+              "Referrer-Policy": "strict-origin-when-cross-origin"
+            },
+            body: JSON.stringify({ email, password }),
+            "method": "POST"
+          })
             .then(response => response.json())
             .then(json => console.log(json))
             .catch(error => console.log(error))
@@ -34,7 +45,7 @@ export default function Enter() {
                 </FormBox>
                 <FormBox>
                     <Label>Senha</Label>
-                    <Input value={password} setValue={setPassword} placeholder="Insira sua senha" />
+                    <Input value={password} setValue={setPassword} placeholder="Insira sua senha" secureTextEntry={true} />
                 </FormBox>
                 <Link href="/esqueci-minha-senha" style={{ textAlign: 'right', marginRight: 15, marginBottom: 25 }}>
                     Esqueci minha senha
