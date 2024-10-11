@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/eventos/[slug]/inscrever.jsx", "app/(tabs)/eventos.jsx"  ]
+, "app/eventos/[slug]/inscrever.jsx", "app/(tabs)/eventos.jsx", "app/entrar.jsx"  ]
 }

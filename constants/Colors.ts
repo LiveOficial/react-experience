@@ -5,7 +5,7 @@ export const grey = '#e5e1db'
 export const borderColor = '#bca291'
 export const danger = '#D6251A'
 export const text = '#5e4738'
-
+export const greenText = '#587211'
 
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';

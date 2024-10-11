@@ -1,8 +1,9 @@
-import { Image, Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { ChevronLeft, Point, Search, Order, Filter } from "@/components/Icons";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { ChevronLeft } from "@/components/Icons";
 import { primary, secondary, body } from "@/constants/Colors";
 import { Button } from "@/components/LiveExperience";
 import { router } from "expo-router";
+import { ResultsTitle, SearchInput, FilterButton, SortButton } from "@/components/MainPages";
 
 export default function Events() {
     return (
@@ -20,23 +21,15 @@ export default function Events() {
                     <View />
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginVertical: 25 }}>
-                    <SearchInput />
+                    <SearchInput placeholder={'Eventos ou localização'} />
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <CustomButton icon={<Filter />} onPress={() => {}}>
-                        Filtrar
-                    </CustomButton>
-                    <CustomButton icon={<Order />} onPress={() => {}}>
-                        Ordenar
-                    </CustomButton>
+                    <FilterButton />
+                    <SortButton />
                 </View>
             </View>
             <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginVertical: 20 }}>
-                    <Text>Eventos</Text>
-                    <Point />
-                    <Text>25 resultados</Text>
-                </View>
+                <ResultsTitle name="Eventos" resultsNumber={1} />
                 <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
                     {[1,2,3,4,5,6].map(() => <Card title='LIVE! RUN XP Rio de Janeiro' onPress={() => { router.push('/eventos/1')   }} />)}
                 </View>
@@ -47,7 +40,7 @@ export default function Events() {
 
 export function Card({ title, onPress }) {
     return (
-        <Pressable onPress={onPress} style={{ width: '100%' }}>
+    <Pressable onPress={onPress} style={{ width: '100%' }}>
             <Image
                 style={{ width: '100%', height: 220 }}
                 source={{
@@ -83,15 +76,4 @@ export function CustomButton({ children, icon, onPress }) {
             <Text style={{ color: primary, fontWeight: 500 }}>{children}</Text>
         </Pressable>
     )
-}
-
-export function SearchInput() {
-    return (
-        <>
-            <TextInput placeholder="Eventos ou localização" placeholderTextColor={'#6d6d6d'} style={{ backgroundColor: '#fff', flexGrow: 1, paddingVertical: 15, width: '80%', paddingHorizontal: 10 }} />
-            <View style={{ paddingHorizontal: 10 }}>
-                <Search />
-            </View>
-        </>
-    ) 
 }

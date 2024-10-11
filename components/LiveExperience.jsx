@@ -37,7 +37,7 @@ export function Button({ children, onPress, style = {} }) {
 export function SmallButton({ children, onPress }) {
     return (
         <Pressable onPress={onPress}>
-            <Text style={{ color: primary, fontSize: 12, fontWeight: 500 }}>{children}</Text>
+            <Text style={{ color: primary, fontSize: 14, fontWeight: 600 }}>{children}</Text>
         </Pressable>
     )
 }

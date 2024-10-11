@@ -22,10 +22,10 @@ export default function Profile() {
     <ScrollView style={{ backgroundColor: body, paddingTop: 60, paddingHorizontal: 20 }}>
       <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
         <Pressable style={{ padding: 10 }} onPress={() => router.back()}>
-            <ChevronLeft />
+          <ChevronLeft />
         </Pressable>
         <View>
-            <Text style={{ textAlign: 'center', fontSize: 20 }}>Meu perfil</Text>
+          <Text style={{ textAlign: 'center', fontSize: 20 }}>Meu perfil</Text>
         </View>
         <View />
       </View>

@@ -1,15 +1,14 @@
-import { Pressable, ScrollView, Text, View } from "react-native";
-import { body } from "@/constants/Colors";
-import { ChevronLeft } from "@/components/Icons";
-import { Hr } from "@/components/LiveExperience";
-import { router } from "expo-router";
-import { useContext } from "react";
-import AuthContext from '@/context/auth'
+import { Pressable, ScrollView, Text, View } from "react-native"
+import { body } from "@/constants/Colors"
+import { ChevronLeft } from "@/components/Icons"
+import { Hr } from "@/components/LiveExperience"
+import { router } from "expo-router"
+import { useAuth } from '@/context/auth'
 
 export default function Calendar() {
-    const { authenticated } = useContext(AuthContext)
+    const { token } = useAuth()
 
-    if (authenticated === false) {
+    if (token === null) {
         router.replace('/entrar')
     }
 

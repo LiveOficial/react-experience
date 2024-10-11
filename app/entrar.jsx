@@ -3,6 +3,7 @@ import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveE
 import { useState } from 'react'
 import { Container, FormBox, Header, Label, Title, TitleBox } from '@/components/CommomPages'
 import { useAuth } from '@/context/auth'
+import axios from 'axios'
 
 export default function Enter() {
     const [email, setEmail] = useState('11048424910')
@@ -13,32 +14,18 @@ export default function Enter() {
 
     const onSubmit = () => {
         setLoading(true)
-
         login(email, password)
-
-        // fetch("https://api.appliveexperience.com.br/app/authentication/login?version=2150", {
-        //     "headers": {
-        //       "accept": "application/json",
-        //       "accept-language": "en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7",
-        //       "content-type": "application/json",
-        //       "priority": "u=1, i",
-        //       "sec-fetch-dest": "empty",
-        //       "sec-fetch-mode": "cors",
-        //       "sec-fetch-site": "same-site",
-        //       "Referer": "https://www.appliveexperience.com.br/",
-        //       "Referrer-Policy": "strict-origin-when-cross-origin"
-        //     },
-        //     body: JSON.stringify({ email, password }),
-        //     "method": "POST"
-        //   })
-        //     .then(response => response.json())
-        //     .then(json => console.log(json))
-        //     .catch(error => console.log(error))
-        //     .finally(() => setLoading(false))
+            .then(({ data }) => {
+                console.log(data)
+            })
+            .catch((e) => {
+                console.log(JSON.stringify(e))
+            })  
+            .finally(() => setLoading(false))
     }
 
     return (
-        <Container>
+        <Container> 
             <Header />
             <View style={{ display: 'flex', flexDirection: 'column' }}>
                 <TitleBox>
