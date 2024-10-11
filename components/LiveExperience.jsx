@@ -106,12 +106,14 @@ const styles = StyleSheet.create({
     }
 })
 
-export function NeedHelp() {
+export function NeedHelp({ marginVertical = 30 }) {
     return (
-        <Link href={'/ajuda'}>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, marginVertical: marginVertical }}>
             <Help />
-            <Text>Precisa de ajuda?</Text>
-        </Link>
+            <Link href='/ajuda'>
+                Precisa de ajuda?
+            </Link>
+        </View>
     )
 }
 

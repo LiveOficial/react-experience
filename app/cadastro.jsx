@@ -51,10 +51,7 @@ export default function SingIn() {
                     <Text style={{ fontSize: 12, marginTop: 7, fontWeight: 500, fontSize: 14, color: primary }}>Termos de Uso e Políticas de Privacidade</Text>
                 </View>
                 <Hr marginVertical={10} />
-                <View style={{ display: 'flex', alignItems: 'center', paddingVertical: 50 }}>
-                    <NeedHelp />
-
-                </View>
+                <NeedHelp />
             </View>
         </Container>
     )
