@@ -44,7 +44,7 @@ export function SmallButton({ children, onPress }) {
 
 export function HighlightedButton({ children, onPress, loading = false }) {
     return (
-        <Pressable onPress={onPress} style={{ backgroundColor: primary, padding: 10, width: '100%' }}>
+        <Pressable onPress={onPress} style={{ backgroundColor: primary, paddingVertical: 13, width: '100%' }}>
             {
                 loading ?
                 <ActivityIndicator color={secondary} size="small" /> : <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
@@ -120,7 +120,7 @@ export function NeedHelp({ marginVertical = 30 }) {
 export function CheckBox({ children, value, setValue }) {
     return (
         <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-            <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 5, borderWidth: 2, borderColor: primary }} />
+            <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 5, borderWidth: 1, borderColor: primary }} />
             {children}
         </Pressable>
     )

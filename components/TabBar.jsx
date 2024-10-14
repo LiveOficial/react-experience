@@ -13,7 +13,7 @@ export default function TabBar() {
                 <Title active={currentRoute === '/'}>Home</Title>
             </Button>
             <Button onPress={() => router.push('/eventos')}>
-                <Mark color={currentRoute === '/eventos' ? primary : 'black' } size={30} />
+                <Mark color={currentRoute === '/eventos' ? primary : 'black' } size={25} />
                 <Title active={currentRoute === '/eventos'}>Eventos</Title>
             </Button>
             <Button onPress={() => router.push('/calendario')}>

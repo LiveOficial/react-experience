@@ -1,6 +1,31 @@
-import { CheckBox as LiveExpCheckBox } from '@/components/LiveExperience'
+import { HighlightedButton, CheckBox as LiveExpCheckBox } from '@/components/LiveExperience'
 import { primary } from '@/constants/Colors'
-import { Pressable, Text, View } from 'react-native'
+import { Modal, Pressable, Text, View } from 'react-native'
+import { Times } from './Icons'
+
+export default function({ children, visible, setVisible, onPressApplyFilters, onPressClearFilters, loading }) {
+    return (
+        <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={() => setVisible(false)}>
+            <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 20, backgroundColor: 'white' }}>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20, marginTop: 10 }}>
+                    <Pressable style={{ paddingHorizontal: 10, paddingVertical: 20 }} onPress={() => setVisible(false)}>
+                        <Times color={primary} size={25} />
+                    </Pressable>
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <Title>Filtrar por</Title>
+                    <ColoredButton onPress={onPressClearFilters}>Limpar filtros</ColoredButton>
+                </View>
+                {children}
+            </View>
+            <FloatingBox>
+                <HighlightedButton onPress={onPressApplyFilters} loading={loading}>
+                    Aplicar filtros
+                </HighlightedButton>
+            </FloatingBox>
+        </Modal>
+    )
+}
 
 export function Title({ children }) {
     return (
