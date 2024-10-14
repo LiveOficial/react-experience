@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { ResultsTitle, SearchInput, FilterButton, SortButton } from "@/components/MainPages";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Filter, { CheckBox } from '@/components/Filter'
+import Filter, { CheckBox, FilterBadge, BadgeContainer } from '@/components/Filter'
 import Select from '@/components/Select'
 
 export default function Events() {
@@ -49,9 +49,17 @@ export default function Events() {
                         <SearchInput placeholder={'Eventos ou localização'} />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <FilterButton onPress={() => setShowFilter(true)} />
+                        <FilterButton onPress={() => setShowFilter(true)} numberFilters={2} />
                         <SortButton />
                     </View>
+                    <BadgeContainer>
+                        <FilterBadge>
+                            São Paulo
+                        </FilterBadge>
+                        <FilterBadge>
+                            Evento em loja
+                        </FilterBadge>
+                    </BadgeContainer>
                 </View>
                 <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
                     <ResultsTitle name="Eventos" resultsNumber={data && data.events.length} />

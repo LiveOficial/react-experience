@@ -1,5 +1,5 @@
 import { HighlightedButton, CheckBox as LiveExpCheckBox } from '@/components/LiveExperience'
-import { primary } from '@/constants/Colors'
+import { borderColor, primary, secondary, textColor } from '@/constants/Colors'
 import { Modal, Pressable, Text, View } from 'react-native'
 import { Times } from './Icons'
 
@@ -64,5 +64,21 @@ export function ColoredButton({ children, onPress }) {
                 {children}
             </Text>
         </Pressable>
+    )
+}
+
+export function BadgeContainer({ children }) {
+    return (
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 10, marginTop: 20 }}>
+            {children}
+        </View>
+    )
+}
+
+export function FilterBadge({ children }) {
+    return (
+        <Text style={{ backgroundColor: secondary, color: textColor, paddingHorizontal: 10, paddingVertical: 15, borderWidth: 1, borderColor: borderColor }}>
+            {children}
+        </Text>
     )
 }
