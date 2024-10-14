@@ -5,23 +5,24 @@ import { primary } from "@/constants/Colors";
 
 export default function TabBar() {
     const currentRoute = usePathname()
+    const iconSize = 22
 
     return (
         <View horizontal style={[style.container, { display: currentRoute == '/perfil' ? 'none' : 'flex' }]}>
             <Button onPress={() => router.push('/')}>
-                <Home />
+                <Home color={currentRoute === '/' ? primary : 'black' } size={iconSize} />
                 <Title active={currentRoute === '/'}>Home</Title>
             </Button>
             <Button onPress={() => router.push('/eventos')}>
-                <Mark color={currentRoute === '/eventos' ? primary : 'black' } size={25} />
+                <Mark color={currentRoute === '/eventos' ? primary : 'black' } size={iconSize} />
                 <Title active={currentRoute === '/eventos'}>Eventos</Title>
             </Button>
             <Button onPress={() => router.push('/calendario')}>
-                <Calendar />
+                <Calendar color={currentRoute === '/calendario' ? primary : 'black' } size={iconSize} />
                 <Title active={currentRoute === '/calendario'}>Calendário</Title>
             </Button>
             <Button onPress={() => router.push('/perfil')}>
-                <Profile />
+                <Profile color={currentRoute === '/perfil' ? primary : 'black' } size={iconSize} />
                 <Title active={currentRoute === '/perfil'}>Perfil</Title>
             </Button>
         </View>
