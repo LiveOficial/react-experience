@@ -17,6 +17,7 @@ export default function RootLayout() {
     TextLight: require('../assets/fonts/text/Light.ttf'),
     TextRegular: require('../assets/fonts/text/Regular.ttf'),
     TextSemiBold: require('../assets/fonts/text/SemiBold.ttf'),
+    Icons: require('../assets/fonts/fontello/fontello.ttf'),
   });
 
   useEffect(() => {

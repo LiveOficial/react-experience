@@ -2,12 +2,13 @@ import { Image as ReactImage, Pressable, ScrollView, Text, TextInput, View } fro
 import { SmallButton, HighlightedButton } from "@/components/LiveExperience"
 import { body, secondary, text } from "@/constants/Colors"
 import { useEffect, useState } from "react"
-import { Logo, Menu, Cart as CartIcon, Point } from "@/components/Icons"
+import { Logo, Menu, Cart as CartIcon, Point, Mark } from "@/components/Icons"
 import { borderColor } from "@/constants/Colors"
 import Onboarding from "@/components/Onboarding"
 import Cart from "@/components/Cart"
 import { router } from "expo-router"
 import axios from 'axios'
+import Select from '@/components/Select'
 
 export default function Home() {
     const [data, setData] = useState()

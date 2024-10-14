@@ -1,55 +1,79 @@
-import { Image, Pressable, ScrollView, Text, View } from "react-native";
-import { ChevronLeft } from "@/components/Icons";
+import { Image as ReactImage, Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { ChevronLeft, Mark } from "@/components/Icons";
 import { primary, secondary, body } from "@/constants/Colors";
-import { Button } from "@/components/LiveExperience";
+import { Button, HighlightedButton, CheckBox as LiveExpCheckBox } from "@/components/LiveExperience";
 import { router } from "expo-router";
 import { ResultsTitle, SearchInput, FilterButton, SortButton } from "@/components/MainPages";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { CheckBox, FloatingBox, Title as FilterTitle, ColoredButton } from '@/components/Filter'
+import Select from '@/components/Select'
 
 export default function Events() {
+    const [data, setData] = useState()
+    const [type, setType] = useState()
+    const [modalVisible, setModalVisible] = useState(false)
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchData = () => {
+        axios.get('https://api.appliveexperience.com.br/app/event')
+            .then(({ data }) => setData(data))
+            .catch(err => console.log(err))
+    }
+
+    const applyFilters = () => {
+        axios.get('https://api.appliveexperience.com.br/app/event')
+            .then(({ data }) => setData(data))
+            .catch(err => console.log(err))
+    } 
+
     return (
-        <ScrollView style={{ backgroundColor: secondary, paddingTop: 40 }}>
-            <View style={{ display: 'flex', flexDirection: 'column', backgroundColor: secondary, paddingHorizontal: 20, paddingVertical: 30 }}>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-                    <Button onPress={() => router.back()}>
-                        <ChevronLeft />
-                    </Button>
-                    <View>
-                        <Text style={{ textAlign: 'center', fontSize: 20 }}>
-                            Eventos
-                        </Text>
+        <>
+            <ScrollView style={{ backgroundColor: secondary, paddingTop: 40 }}>
+                <View style={{ display: 'flex', flexDirection: 'column', backgroundColor: secondary, paddingHorizontal: 20, paddingVertical: 30 }}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+                        <Button onPress={() => router.back()}>
+                            <ChevronLeft />
+                        </Button>
+                        <View>
+                            <Text style={{ textAlign: 'center', fontSize: 20 }}>
+                                Eventos
+                            </Text>
+                        </View>
+                        <View />
                     </View>
-                    <View />
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginVertical: 25 }}>
+                        <SearchInput placeholder={'Eventos ou localização'} />
+                    </View>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <FilterButton onPress={() => setModalVisible(true)} />
+                        <SortButton />
+                    </View>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginVertical: 25 }}>
-                    <SearchInput placeholder={'Eventos ou localização'} />
+                <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
+                    <Text>{modalVisible}</Text>
+
+                    <ResultsTitle name="Eventos" resultsNumber={data && data.events.length} />
+                    <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
+                        {data && data.events.map(event => <Card event={event} onPress={() => { router.push('/eventos/1')   }} />)}
+                    </View>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <FilterButton />
-                    <SortButton />
-                </View>
-            </View>
-            <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
-                <ResultsTitle name="Eventos" resultsNumber={1} />
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
-                    {[1,2,3,4,5,6].map(() => <Card title='LIVE! RUN XP Rio de Janeiro' onPress={() => { router.push('/eventos/1')   }} />)}
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+            <ModalFilter modalVisible={modalVisible} setModalVisible={setModalVisible} onApplyFilters={applyFilters} />
+        </>
     )
 }
 
-export function Card({ title, onPress }) {
+function Card({ event, onPress }) {
     return (
-    <Pressable onPress={onPress} style={{ width: '100%' }}>
-            <Image
-                style={{ width: '100%', height: 220 }}
-                source={{
-                    uri: 'https://s3-alpha-sig.figma.com/img/9821/6eb6/dae7668912b66a4de8a4cd76096bb28f?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=i4f8yautv4KZ4pxO7vuPwUjnUlB1BibBklElgmhO7idXtalbNkuIBWPgzv9q~hJBzVthqCXydF9zVIoHzAQhraKuJl9U81XsMD0F~xt~vlknTzWyfAYFy1~RSjS2Iuv793Bbmo6k7I78XCFXYlp6CwFKVoPiHVMcHTQsY8OWppJEMSeM-dDoPPWJSfOJIfOZlNL0lNZqx4xihPQTsP1-1jxIavGmqvggqhhWFQfe1dpRJe9piHqsGys~eISBBnDh5W0DjGpnXQtXBJBi6VDl1BHA~BrrKP7u6O5sEqAGhfNjH80eJTMhXlQdxCpwcqkZZz6pKOz~g5iLivMUzJvTyw__'
-                }}
-            />
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
-                <View>
-                    <Text style={{ fontWeight: 500, fontSize: 20 }}>{title}</Text>
+        <Pressable onPress={onPress} style={{ width: '100%' }}>
+            <Image uri={event.image} />
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', columnGap: 10, marginTop: 15 }}>
+                <View style={{ display: 'flex', flexDirection: 'column', flexShrink: 1 }}>
+                    <Title>{event.name}</Title>
                     <Text>Rio de Janeiro</Text>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'column' }}>
@@ -61,19 +85,74 @@ export function Card({ title, onPress }) {
     )
 }
 
-export function Title({ children }) {
-    return (
-        <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 15 }}>
-            {children}
-        </Text>
-    )
-}
+const Title = ({ children }) => <Text style={{ fontWeight: 500, fontSize: 20 }}>{children}</Text>
+const Image = ({ uri }) => <ReactImage style={{ width: '100%', height: 220 }} source={{ uri: uri }} />
 
-export function CustomButton({ children, icon, onPress }) {
+function ModalFilter({ modalVisible, setModalVisible, onApplyFilters }) {
+    const [loading, setLoading] = useState(false)
+    const [data, setData] = useState({ state: null })
+    const [state, setState] = useState(null)
+
+    const applyFilters = () => {
+        onApplyFilters(data)
+    }
+
+    const clearFilters = () => {
+        setData({ state: null })
+
+        applyFilters()
+    }
+
+    const handleSetState = (state) => {
+        setState(state)
+    }
+
     return (
-        <Pressable style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }} onPress={onPress}>
-            {icon}
-            <Text style={{ color: primary, fontWeight: 500 }}>{children}</Text>
-        </Pressable>
+        <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={() => { setModalVisible(false) }}>
+            <View style={{ flex: 1, paddingTop: 60, paddingHorizontal: 20, backgroundColor: 'white' }}>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                    <FilterTitle>Filtrar por</FilterTitle>
+                    <ColoredButton onPress={clearFilters}>Limpar filtros</ColoredButton>
+                </View>
+
+                <View style={{ marginBottom: 20, marginTop: 40 }}>
+                    <Select.Label>
+                        Estado
+                    </Select.Label>
+                    <Select.Root placeholder='Selecione o estado' value={state}>
+                        <Select.Option onPress={() => handleSetState('Usar minha localização')} icon={<Mark color={primary} />}>Usar minha localização</Select.Option>
+                        <Select.Option onPress={() => handleSetState('São Paulo')}>São Paulo</Select.Option>
+                        <Select.Option onPress={() => handleSetState('Rio de Janeiro')}>Rio de Janeiro</Select.Option>
+                        <Select.Option onPress={() => handleSetState('Belo Horizonte')}>Belo Horizonte</Select.Option>
+                        <Select.Option onPress={() => handleSetState('Fortaleza')}>Fortaleza</Select.Option>
+                    </Select.Root>
+                </View>
+
+                <View style={{ backgroundColor: 'white' }}>
+                    <Text>Tipo de evento</Text>
+                    <CheckBox.Grid>
+                        {['Corrida', 'Evento de loja', 'Treino', 'Yoga', 'Bike', 'Beach Tennis'].map((name) => {
+                            return (
+                                <CheckBox.CheckBox>
+                                    <CheckBox.Title>{name}</CheckBox.Title>
+                                </CheckBox.CheckBox>
+                            )
+                        })}
+                    </CheckBox.Grid>
+
+                    <Text style={{ marginBottom: 20, marginTop: 30 }}>Disponibilidade</Text>
+                    <CheckBox.CheckBox>
+                        <CheckBox.Title>
+                            Mostrar eventos encerrados
+                        </CheckBox.Title>
+                    </CheckBox.CheckBox>
+                </View>
+            </View>
+            <FloatingBox>
+                <HighlightedButton onPress={applyFilters} loading={loading}>
+                    Aplicar filtros
+                </HighlightedButton>
+            </FloatingBox>
+        </Modal>
     )
 }

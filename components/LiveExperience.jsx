@@ -119,7 +119,7 @@ export function NeedHelp({ marginVertical = 30 }) {
 
 export function CheckBox({ children, value, setValue }) {
     return (
-        <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center' }}>
+        <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
             <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 5, borderWidth: 2, borderColor: primary }} />
             {children}
         </Pressable>
