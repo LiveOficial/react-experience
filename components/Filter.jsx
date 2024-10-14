@@ -75,10 +75,15 @@ export function BadgeContainer({ children }) {
     )
 }
 
-export function FilterBadge({ children }) {
+export function FilterBadge({ children, onPressClose }) {
     return (
-        <Text style={{ backgroundColor: secondary, color: textColor, paddingHorizontal: 10, paddingVertical: 15, borderWidth: 1, borderColor: borderColor }}>
-            {children}
-        </Text>
+        <View style={{ display: 'flex', flexDirection: 'row', gap: 5, alignItems: 'center', backgroundColor: secondary, borderWidth: 1, borderColor: borderColor }}>
+            <Text style={{ color: textColor, paddingLeft: 15 }}>
+                {children}
+            </Text>
+            <Pressable style={{ padding: 15 }} onPress={onPressClose}>
+                <Times color={textColor} size={17} />
+            </Pressable>
+        </View>
     )
 }
