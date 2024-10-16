@@ -1,9 +1,15 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ImageBackground, Modal, Pressable, Text } from "react-native"
+import { getItemAsync, setItemAsync } from "expo-secure-store"
 
 export default function OnBoarding() {
     const [show, setShow] = useState(false)
     const [backgroundIndex, setBackgroundIndex] = useState(0)
+
+    useEffect(async () => {
+        const onboarding = await getItemAsync('onboarding')
+        setShow(onboarding !== 'seen')
+    }, [])
 
     const backgrounds = [
         require('../assets/onboarding/1.png'),
@@ -12,7 +18,8 @@ export default function OnBoarding() {
         require('../assets/onboarding/4.jpg')
     ]
 
-    const skip = () => {
+    const close = () => {
+        setItemAsync('onboarding', 'seen')
         setShow(false)
     }
 
@@ -30,7 +37,7 @@ export default function OnBoarding() {
                 <Pressable style={{ top: 0, left: 0,  display: 'flex', alignItems: 'flex-end', height: '100%' }}>
                     <Pressable onPress={previousImage} style={{ position: 'absolute', top: 0, left: 0, width: '40%', height: '100%' }} />
                     <Pressable onPress={nextImage} style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '100%' }} />
-                    <Pressable style={{ paddingHorizontal: 20, paddingVertical: 15, backgroundColor: '#e5e2e0', marginTop: 60, marginRight: 20 }} onPress={skip}>
+                    <Pressable style={{ paddingHorizontal: 20, paddingVertical: 15, backgroundColor: '#e5e2e0', marginTop: 60, marginRight: 20 }} onPress={close}>
                         <Text style={{ fontWeight: 600, color: 'black' }}>Pular</Text>
                     </Pressable>
                 </Pressable>

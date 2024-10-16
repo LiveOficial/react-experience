@@ -2,6 +2,7 @@ import { View, Text } from 'react-native'
 import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveExperience'
 import { useState } from 'react'
 import { Container, Header, Title, Label, FormBox, TitleBox, MessageBox, MessageBoxText } from '@/components/CommomPages'
+import api from '@/hooks/api'
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
@@ -10,15 +11,8 @@ export default function ForgotPassword() {
 
     const onSubmit = () => {
         setLoading(true)
-        fetch('https://api.appliveexperience.com.br/app/event?version=2150', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email })
-        })
-            .then(response => response.json())
-            .then(json => setResponse(json))
+        api.post('forgot-password', { email })
+            .then(({ data }) => setResponse(data.message))
             .finally(() => setLoading(false))
     }
 

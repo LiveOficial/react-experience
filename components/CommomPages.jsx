@@ -51,27 +51,21 @@ export function Label({ children }) {
     )
 }
 
-export function MessageBox({ children, ...props }) {
-    return (
-        <View style={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 10,
-            alignItems: 'center',
-            backgroundColor: '#f5f3ef',
-            padding: 20,
-            ...props,
-        }}>
-            <SuccessCheck />
-            {children}
-        </View>
-    )
-}
-
-export function MessageBoxText({ children }) {
-    return (
-        <Text style={{ color: '#587211', fontWeight: 500 }}>
-            {children}
-        </Text>
-    )
+export const Alert = {
+    Box: ({ children }) => {
+        return (
+            <View style={{
+                display: 'flex',
+                flexDirection: 'row',
+                gap: 10,
+                alignItems: 'center',
+                backgroundColor: '#f5f3ef',
+                padding: 20,
+            }}>
+                <SuccessCheck />
+                {children}
+            </View>
+        )
+    },
+    Message: ({ children }) => <Text style={{ color: '#587211', fontWeight: 500 }}>{children}</Text>,
 }

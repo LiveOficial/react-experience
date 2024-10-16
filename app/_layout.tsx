@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
 import AuthContext from '@/context/auth';
+import { StatusBar } from 'react-native';
 
 SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
-
   const [loaded] = useFonts({
     ExtendedBold: require('../assets/fonts/extended/Bold.ttf'),
     ExtendedRegular: require('../assets/fonts/extended/Regular.ttf'),
@@ -32,6 +32,7 @@ export default function RootLayout() {
 
   return (
     <AuthContext>
+      <StatusBar barStyle={"dark-content"} />
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="entrar" />

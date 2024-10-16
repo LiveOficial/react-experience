@@ -1,7 +1,7 @@
 import { primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native'
-import { Logo } from "@/components/Icons"
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
+import { Logo, Times } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
 import { Help } from '@/components/Icons'
 
@@ -59,16 +59,19 @@ export function Hr({ marginVertical = 0 }) {
     )
 }
 
-export function Input({ value, setValue, placeholder, secureTextEntry = false }) {
+export function Input({ value, setValue, placeholder, error = false, secureTextEntry = false }) {
     return (
-        <TextInput
-            value={value}
-            onChangeText={setValue}
-            placeholder={placeholder}
-            placeholderTextColor='#6d6d6d'
-            style={styles.input}
-            secureTextEntry={secureTextEntry}
-        />
+        <>
+            <TextInput
+                value={value}
+                onChangeText={setValue}
+                placeholder={placeholder}
+                placeholderTextColor='#6d6d6d'
+                style={styles.input}
+                secureTextEntry={secureTextEntry}
+            />
+            {error && <Text style={{ color: primary, fontSize: 12, marginTop: 5 }}>{error}</Text>}
+        </>
     )
 }
 
@@ -182,6 +185,26 @@ export function Gradient({ children }) {
 
 export function GradientRun() {
     return (
-        <LinearGradient colors={['#A31F22', '#D3842C', '#D6892C', '#F3BA30', '#FFCD32', '#FFCD32']} style={{ height: 1 }} />
+        <LinearGradient colors={['#A31F22', '#D3842C', '#D6892C', '#F3BA30', '#FFCD32', '#FFCD32']} start={{ x: 0, y: 0 }} style={{ height: 1 }} />
     )
 }
+
+export function Modal({ children, visible, setVisible }) {
+    return (
+      <>
+        {visible && <Pressable onPress={() => setVisible(false)} style={{ position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.5)', width: '100%', height: '100%', top: 0 }}></Pressable>}
+        <NativeModal transparent={true} animationType='slide' visible={visible} onRequestClose={() => setVisible(false)}>
+          <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+            <View style={{ backgroundColor: 'white', borderRadius: 10, paddingBottom: 30 }}>
+              <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                <Pressable onPress={() => setVisible(false)} style={{ padding: 20 }}>
+                  <Times color={primary} size={25} />
+                </Pressable>
+              </View>
+              {children}
+            </View>
+          </View>
+        </NativeModal>
+      </>
+    )
+  }

@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
-import { borderColor } from '../constants/Colors';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { primary } from '../constants/Colors';
+import { Minus, Plus } from '@/components/Icons'
+import { Hr } from '@/components/LiveExperience'
 
 export function AccordionItem({ children, title }) {
   const [expanded, setExpanded] = useState(false)
@@ -10,15 +12,18 @@ export function AccordionItem({ children, title }) {
   }
 
   return (
-    <View style={{ display: 'flex', borderTopWidth: 1, borderTopColor: borderColor }}>
-      <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: 15, marginVertical: 10, paddingVertical: 15 }} onPress={ toggleItem }>
-        <Text style={styles.accordTitle}>{ title }</Text>
-        <Text style={styles.title}>{ expanded ? '-' : '+' }</Text>
-      </TouchableOpacity>
-      <View style={{ display: expanded ? 'flex' : 'none' }}>
-        {children}    
-      </View> 
-    </View>
+    <>
+      <Hr />
+      <View style={{ display: 'flex' }}>
+        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingRight: 10, marginVertical: 10 }} onPress={ toggleItem }>
+          <Text style={styles.accordTitle}>{title}</Text>
+          <Text style={styles.title}>{ expanded ? <Minus color={primary} size={30} /> : <Plus color={primary} size={30} /> }</Text>
+        </TouchableOpacity>
+        <View style={{ display: expanded ? 'flex' : 'none' }}>
+          {children}
+        </View>
+      </View>
+    </>
   )
 }
 

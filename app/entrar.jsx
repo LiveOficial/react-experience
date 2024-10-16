@@ -1,27 +1,36 @@
 import { View } from 'react-native'
 import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveExperience'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Container, FormBox, Header, Label, Title, TitleBox } from '@/components/CommomPages'
 import { useAuth } from '@/context/auth'
-import axios from 'axios'
+import { router } from 'expo-router'
 
 export default function Enter() {
     const [email, setEmail] = useState('11048424910')
     const [password, setPassword] = useState('experience')
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState({})
+    const { login, token } = useAuth()
 
-    const { login } = useAuth()
+    useEffect(() => {
+        console.log(token)
+        if (token !== null) {
+            router.push('/perfil')
+        }
+    }, [token])
 
-    const onSubmit = () => {
+
+    const onSubmit = async () => {
+        setError({})
         setLoading(true)
-        login(email, password)
-            .then(({ data }) => {
-                console.log(data)
-            })
-            .catch((e) => {
-                console.log(JSON.stringify(e))
-            })  
-            .finally(() => setLoading(false))
+        const success = await login(email, password)
+        setLoading(false)
+
+        if (success === true) {
+            router.push('/')
+        } else {
+            setError({ password: 'Credenciais inválidas' })
+        }
     }
 
     return (
@@ -37,7 +46,7 @@ export default function Enter() {
                 </FormBox>
                 <FormBox>
                     <Label>Senha</Label>
-                    <Input value={password} setValue={setPassword} placeholder="Insira sua senha" secureTextEntry={true} />
+                    <Input error={error.password} value={password} setValue={setPassword} placeholder="Insira sua senha" secureTextEntry={true} />
                 </FormBox>
                 <Link href="/esqueci-minha-senha" style={{ textAlign: 'right', marginRight: 15, marginBottom: 25 }}>
                     Esqueci minha senha

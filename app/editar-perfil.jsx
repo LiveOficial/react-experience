@@ -4,8 +4,13 @@ import { FormBox, Label, MessageBox, MessageBoxText } from "@/components/CommomP
 import { Input, HighlightedButton, Hr } from "@/components/LiveExperience";
 import { body } from "@/constants/Colors";
 import { router } from "expo-router";
+import { useAuth } from "@/context/auth";
 
 export default function EditarPerfil() {
+    const { user } = useAuth()
+
+    console.log(user)
+
     return (
         <ScrollView style={{ backgroundColor: body, paddingHorizontal: 20, paddingVertical: 60 }}>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
@@ -27,15 +32,15 @@ export default function EditarPerfil() {
             <Title>Seus dados</Title>
             <FormBox>
                 <Label>Nome e sobrenome</Label>
-                <Input></Input>
+                <Input value={user?.name} />
             </FormBox>
             <FormBox>
                 <Label>E-mail</Label>
-                <Input></Input>
+                <Input value={user?.email} />
             </FormBox>
             <FormBox>
                 <Label>CPF</Label>
-                <Input></Input>
+                <Input value={user?.document} />
             </FormBox>
             <FormBox>
                 <Label>Telefone</Label>

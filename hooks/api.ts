@@ -1,7 +1,28 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
+import { getItemAsync } from 'expo-secure-store'
 
-export default function request(): AxiosInstance {
-    return axios.create({
-        baseURL: "http://127.0.0.1:8000/app"
-    })
-}
+const api = axios.create({
+    baseURL: "http://172.16.57.93:8000/app",
+    params: {
+        version: 'new-layout'
+    }
+})
+
+api.interceptors.request.use(async (config: any) => {
+    const token = await getItemAsync('token')
+
+    console.log(token)
+
+    if (!token) {
+        return config
+    }
+
+    return {
+        ...config,
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    }
+})
+
+export default api

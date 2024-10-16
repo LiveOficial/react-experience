@@ -1,7 +1,8 @@
 import { HighlightedButton, Input } from "@/components/LiveExperience"
 import { useState } from "react";
 import { View } from "react-native";
-import { Container, Header, Title, TitleBox, FormBox, Label, MessageBox, MessageBoxText } from '@/components/CommomPages'
+import { Container, Header, Title, TitleBox, FormBox, Label, Alert } from '@/components/CommomPages'
+import api from '@/hooks/api'
 
 export default function ChangePassword() {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -10,9 +11,12 @@ export default function ChangePassword() {
     const [changed, setChanged] = useState(false);
 
     const onSubmit = () => {
-        setLoading(true);
-        setChanged(true);
-        setLoading(false);
+        setLoading(true)
+        api.post('change-password', { currentPassword, newPassword })
+            .then(() => {
+                setChanged(true)
+            })
+            .finally(() => setLoading(false))
     }
 
     return (
@@ -22,9 +26,11 @@ export default function ChangePassword() {
                 <TitleBox>
                     <Title>Alterar senha</Title>
                 </TitleBox>
-                <MessageBox style={{ alignItems: 'center', marginTop: 30, marginBottom: 7 }}>
-                    <MessageBoxText>Senha atualizada com sucesso</MessageBoxText>
-                </MessageBox>
+                <View style={{ marginVertical: 30 }}>
+                    <Alert.Box>
+                        <Alert.Message>Senha atualizada com sucesso</Alert.Message>
+                    </Alert.Box>
+                </View>
                 <FormBox>
                     <Label>Senha atual</Label>
                     <Input value={currentPassword} setValue={setCurrentPassword} placeholder="Insira a senha" />
