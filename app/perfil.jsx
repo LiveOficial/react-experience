@@ -14,7 +14,7 @@ export default function MyProfile() {
   const { user, logout, token } = useAuth()
 
   useEffect(() => {
-    if (!token) {
+    if (token === null) {
       router.replace('/entrar')
     }
   }, [token])
@@ -55,10 +55,10 @@ export default function MyProfile() {
           <Hr />
           <Link icon={<OrderCart />} href='pedidos'>Pedidos</Link>
           <Link icon={<CalendarTwo />} href='calendario'>Meu calendário</Link>
-          <Link icon={<Playlist />} href='teste'>Minha playlists</Link>
+          <Link icon={<Playlist />} href='playlist'>Minha playlists</Link>
           <Hr />
-          <Link icon={<Help />} href='teste'>Ajuda</Link>
-          <Link icon={<Privacy color={primary} />} href='teste'>Privacidade</Link>
+          <Link icon={<Help />} href='ajuda'>Ajuda</Link>
+          <Link icon={<Privacy color={primary} />} href='privacidade'>Privacidade</Link>
           <Hr />
           <Link icon={<Exit />} onPress={() => setOpenModalLogout(true)}>Sair</Link>
           <Link icon={<IconDeleteMyAcccount />} onPress={() => setOpenModalDeleteMyAcccount(true)}>Excluir conta e dados</Link>
@@ -81,8 +81,8 @@ function Link({ children, href, onPress, icon }) {
   }
 
   return (
-    <Pressable style={{ padding: 10 }} onPress={() => handlePress()}>
-      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+    <Pressable style={{ padding: 10 }} onPress={() => handlePress()}> 
+      <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
         {icon}
         <Text style={{ color: primary, fontWeight: 600 }}>{children}</Text>
       </View>

@@ -6,9 +6,9 @@ import { Container, Header, Title, FormBox, Label, TitleBox } from '@/components
 
 export default function SingIn() {
     const [name, setName] = useState('')
-    const [cpf, setCpf] = useState('')
+    const [document, setDocument] = useState('')
     const [email, setEmail] = useState('')
-    const [phone, setPhone] = useState('')
+    const [cellphone, setCellphone] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false)
 
@@ -29,7 +29,7 @@ export default function SingIn() {
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
-                    <Input value={cpf} setValue={setCpf} placeholder="000.000.000-00" />
+                    <Input value={document} setValue={setDocument} placeholder="000.000.000-00" />
                 </FormBox>
                 <FormBox>
                     <Label>E-mail</Label>
@@ -37,7 +37,7 @@ export default function SingIn() {
                 </FormBox>
                 <FormBox>
                     <Label>Celular</Label>
-                    <Input value={phone} setValue={setPhone} placeholder="Insira seu número de celular" />
+                    <Input value={cellphone} setValue={setCellphone} placeholder="Insira seu número de celular" />
                 </FormBox>
                 <FormBox>
                     <Label>Senha</Label>

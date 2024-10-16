@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { ChevronLeft } from "@/components/Icons";
-import { FormBox, Label, MessageBox, MessageBoxText } from "@/components/CommomPages";
+import { FormBox, Label, Alert } from "@/components/CommomPages";
 import { Input, HighlightedButton, Hr } from "@/components/LiveExperience";
 import { body } from "@/constants/Colors";
 import { router } from "expo-router";
@@ -9,25 +9,21 @@ import { useAuth } from "@/context/auth";
 export default function EditarPerfil() {
     const { user } = useAuth()
 
-    console.log(user)
-
     return (
         <ScrollView style={{ backgroundColor: body, paddingHorizontal: 20, paddingVertical: 60 }}>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
                 <Pressable onPress={() => router.back()}>
                     <ChevronLeft />
                 </Pressable>
-                <View>
-                    <Text style={{ textAlign: 'center', fontSize: 20 }}>Editar perfil</Text>
-                </View>
+                <Text style={{ textAlign: 'center', fontSize: 20 }}>Editar perfil</Text>
                 <View />
             </View>
 
-            <MessageBox marginTop={40}>
-                <MessageBoxText>
+            <Alert.Box marginTop={40}>
+                <Alert.Message>
                     Dados atualizados com sucesso
-                </MessageBoxText>
-            </MessageBox>
+                </Alert.Message>
+            </Alert.Box>
 
             <Title>Seus dados</Title>
             <FormBox>
@@ -44,11 +40,11 @@ export default function EditarPerfil() {
             </FormBox>
             <FormBox>
                 <Label>Telefone</Label>
-                <Input></Input>
+                <Input value={user?.cellphone} />
             </FormBox>
             <FormBox>
                 <Label>Data de nascimento</Label>
-                <Input></Input>
+                <Input value={user?.birthday} />
             </FormBox>
             <FormBox>
                 <Label>Gênero</Label>

@@ -1,6 +1,6 @@
 import api from "@/hooks/api"
 import { useContext, createContext, useState, useEffect } from "react"
-import { getItemAsync, setItemAsync } from 'expo-secure-store'
+import { deleteItemAsync, getItemAsync, setItemAsync } from 'expo-secure-store'
 
 const AuthContext = createContext()
 
@@ -9,18 +9,17 @@ export default function({ children }) {
   const [token, setToken] = useState(null)
 
   useEffect(() => {
-    getUserData()
+    (async () => {
+      const token = await getItemAsync('token')
+
+      if (token) {
+        const user = await getItemAsync('user')
+        setToken(token)
+        setUser(JSON.parse(user))
+      }
+    })()
   }, [])
 
-  const getUserData = async () => {
-    const token = await getItemAsync('token')
-
-    if (token) {
-      const user = JSON.parse(await getItemAsync('user'))
-      setToken(token)
-      setUser(user)
-    }
-  }
 
   const saveUserData = (user, token) => {
     setItemAsync('token', token)
@@ -43,8 +42,11 @@ export default function({ children }) {
     }
   }
 
-  const logout = () => {
-    saveUserData(null, null)
+  const logout = async () => {
+    await deleteItemAsync('token')
+    await deleteItemAsync('user')
+    setToken(null)
+    setUser(null)
   }
 
   return (

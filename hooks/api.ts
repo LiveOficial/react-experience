@@ -11,8 +11,6 @@ const api = axios.create({
 api.interceptors.request.use(async (config: any) => {
     const token = await getItemAsync('token')
 
-    console.log(token)
-
     if (!token) {
         return config
     }

@@ -2,29 +2,39 @@ import { Image as ReactImage, Pressable, ScrollView, Text, TextInput, View } fro
 import { SmallButton, HighlightedButton } from "@/components/LiveExperience"
 import { body, secondary, text } from "@/constants/Colors"
 import { useEffect, useState } from "react"
-import { Logo, Menu, Cart as CartIcon, Point, Mark } from "@/components/Icons"
-import { borderColor } from "@/constants/Colors"
+import { Logo, Menu, Cart as CartIcon, Point } from "@/components/Icons"
 import Onboarding from "@/components/Onboarding"
 import Cart from "@/components/Cart"
 import { router } from "expo-router"
-import axios from 'axios'
+import api from "@/hooks/api"
+import { openBrowserAsync } from "expo-web-browser"
 
 export default function Home() {
-    const [data, setData] = useState()
+    const [data, setData] = useState(null)
     const [showCart, setShowCart] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetchData()
+        fetchHome()
     }, [])
 
-    const fetchData = () => {
-        axios.get('https://api.appliveexperience.com.br/app/home')
+    const fetchHome = () => {
+        setLoading(true)
+        api.get('home')
             .then(({ data }) => setData(data.home))
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }
+
+    const onSelectCategory = (category) => {
+        router.push(`/eventos?category=${category}`)
     }
 
     return (
         <>
-            <ScrollView style={{ backgroundColor: secondary, paddingTop: 60 }} showsVerticalScrollIndicator={false}>
+        {loading ? <></> : 
+        <>
+            <ScrollView style={{ backgroundColor: secondary, paddingTop: 60 }} contentContainerStyle={{ paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
                 <View style={{ display: 'flex', flexDirection: 'column', paddingHorizontal: 20, paddingBottom: 20 }}>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Pressable onPress={() => {}}>
@@ -33,18 +43,13 @@ export default function Home() {
                         <View style={{ alignSelf: 'center', marginBottom: 35 }}>
                             <Logo />
                         </View>
-                        <Pressable onPress={() => { setShowCart(true) }}>
+                        <Pressable onPress={() => setShowCart(true)}>
                             <CartIcon />
                         </Pressable>
                     </View>
-                    <Text style={{ marginBottom: 3, fontFamily: 'TextSemiBold' }}>Pesquise por tipo de atividade</Text>
+                    <Text style={{ marginBottom: 3, fontWeight: 500, color: text }}>Pesquise por tipo de atividade</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 10, marginVertical: 10 }}>
-                        <Button active={true}>Corrida</Button>
-                        <Button>Evento de loja</Button>
-                        <Button>Yoga</Button>
-                        <Button>Beach Tennis</Button>
-                        <Button>Treino</Button>
-                        <Button>Bike</Button>
+                        {data && data.categories.map((category, index) => <Button onPress={() => onSelectCategory(category)} key={index}>{category}</Button>)}
                     </ScrollView>
                     <SearchInput />
                 </View>
@@ -82,7 +87,7 @@ export default function Home() {
                             </ScrollView>
                         </>
                     }
-                    <Section marginTop={data && data.recommended?.length > 0 ? 20 : 50}>
+                    <Section>
                         <TitleBox>
                             <SectionTitle>Próximos eventos</SectionTitle>
                             <SmallButton onPress={() => router.push('/eventos') }>Ver tudo</SmallButton>
@@ -152,7 +157,7 @@ export default function Home() {
                     <Section>
                         <TitleBox>
                             <SectionTitle>Blog LIVE!</SectionTitle>
-                            <SmallButton onPress={() => { }}>Ver tudo</SmallButton>
+                            <SmallButton onPress={() => openBrowserAsync('https://blog.liveoficial.com.br') }>Ver tudo</SmallButton>
                         </TitleBox>
                         <Carrousel>
                             {data && data.blog.map((post) => {
@@ -173,13 +178,15 @@ export default function Home() {
             <Onboarding />
             <Cart visible={showCart} setVisible={setShowCart} />
         </>
+        }
+        </>
     )
 }
 
-function Button({ children, onPress, active = false }) {
+function Button({ children, onPress }) {
     return (
-        <Pressable style={{ padding: 10, borderColor: active ? borderColor : '#fff', backgroundColor: active ? secondary : '#fff', borderWidth: 1, borderRadius: 20, flexGrow: 1 }} onPress={onPress}>
-            <Text style={{ fontSize: 12, fontWeight: 500 }}>
+        <Pressable style={{ padding: 10, borderColor: '#fff', backgroundColor: '#fff', borderWidth: 1, borderRadius: 20, flexGrow: 1 }} onPress={onPress}>
+            <Text style={{ fontSize: 12, fontWeight: 50, color: text, fontWeight: 500 }}>
                 {children}
             </Text>
         </Pressable>
@@ -193,5 +200,4 @@ const SectionTitle = ({ children }) => <Text style={{ fontSize: 20 }}>{children}
 const Carrousel = ({ children }) => <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row' }}>{children}</ScrollView>
 const Image = ({ uri }) => <ReactImage style={{ height: 200, width: '100%' }} source={{ uri }} />
 const Card = ({ children, onPress }) => <Pressable onPress={onPress} style={{ width: 300, marginRight: 10 }}>{children}</Pressable>
-const Title = ({ children }) => <Text style={{ fontSize: 17, fontWeight: 400 }}>{children}</Text>
 const CardSubTitle = ({ children }) => <Text style={{ color: text, fontWeight: 500, fontSize: 12 }}>{children}</Text>

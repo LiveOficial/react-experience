@@ -38,6 +38,7 @@ export default function RootLayout() {
         <Stack.Screen name="entrar" />
         <Stack.Screen name="cadastro" />
         <Stack.Screen name="ajuda" />
+        <Stack.Screen name="playlists" />
         <Stack.Screen name="esqueci-minha-senha" />
         <Stack.Screen name="alterar-senha" />
         <Stack.Screen name="pedidos" />

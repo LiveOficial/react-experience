@@ -67,9 +67,9 @@ export default function Events() {
                 <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
                     <ResultsTitle name="Eventos" resultsNumber={data && data.events.length} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
-                        {data && data.events.map(event => {
+                        {data && data.events.map((event, index) => {
                             return (
-                                <Pressable onPress={() => router.push(`/eventos/${event.slug}`)} style={{ width: '100%' }}>
+                                <Pressable onPress={() => router.push(`/eventos/${event.slug}`)} style={{ width: '100%' }} key={event.index}>
                                     <Image uri={event.image} />
                                     <View style={{ marginTop: 15 }}>
                                         {event.has_kits && <Text style={{ fontWeight: 500, color: greenText }}>Kits disponíveis</Text>}

@@ -13,7 +13,6 @@ export default function Enter() {
     const { login, token } = useAuth()
 
     useEffect(() => {
-        console.log(token)
         if (token !== null) {
             router.push('/perfil')
         }

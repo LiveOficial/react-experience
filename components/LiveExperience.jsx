@@ -59,12 +59,13 @@ export function Hr({ marginVertical = 0 }) {
     )
 }
 
-export function Input({ value, setValue, placeholder, error = false, secureTextEntry = false }) {
+export function Input({ value, setValue, onChange = null, placeholder, error = false, secureTextEntry = false }) {
     return (
         <>
             <TextInput
                 value={value}
                 onChangeText={setValue}
+                onChange={onChange}
                 placeholder={placeholder}
                 placeholderTextColor='#6d6d6d'
                 style={styles.input}

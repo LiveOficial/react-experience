@@ -1,18 +1,21 @@
-import { View, Text } from 'react-native'
+import { View, Text, Alert as A } from 'react-native'
 import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveExperience'
 import { useState } from 'react'
-import { Container, Header, Title, Label, FormBox, TitleBox, MessageBox, MessageBoxText } from '@/components/CommomPages'
+import { Container, Header, Title, Label, FormBox, TitleBox, Alert } from '@/components/CommomPages'
 import api from '@/hooks/api'
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('')
-    const [response, setResponse] = useState('')
     const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState(null)
+    const [error, setError] = useState({})
 
     const onSubmit = () => {
+        setError({})
         setLoading(true)
-        api.post('forgot-password', { email })
-            .then(({ data }) => setResponse(data.message))
+        api.post('user/mail-password-reset', { email })
+            .then(({ data }) => setMessage(data.message))
+            .catch((e) => setError(e.response.data.errors))
             .finally(() => setLoading(false))
     }
 
@@ -24,14 +27,16 @@ export default function ForgotPassword() {
                     <Title>Esqueci minha senha</Title>
                 </TitleBox>
                 <Text style={{ textAlign: 'center' }}>Você receberá um e-mail com as instruções para redefinir sua senha.</Text>
-                <MessageBox>
-                    <MessageBoxText>E-mail com as instruções para redefinir a senha foi enviado para</MessageBoxText>
-                </MessageBox>
+                <View style={{ display: 'flex', marginVertical: 25 }}>
+                    {message && <Alert.Box>
+                        <Alert.Message>{message}</Alert.Message>
+                    </Alert.Box>}
+                </View>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={email} setValue={setEmail} placeholder="Insira seu e-mail ou CPF" />
+                    <Input error={error.email} value={email} setValue={setEmail} placeholder="Insira seu e-mail ou CPF" />
                 </FormBox>
-                <HighlightedButton onPress={onSubmit} loading={loading}>
+                <HighlightedButton onPress={() => onSubmit()} loading={loading}>
                     Enviar
                 </HighlightedButton>
                 <Link href="/entrar" style={{ alignSelf: 'center', marginVertical: 30 }}>

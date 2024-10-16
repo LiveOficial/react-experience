@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native";
 import { Chevron } from "@/components/Icons";
 
 export default {
-    Root: ({ children, placeholder, value }) => {
+    Root: ({ children, placeholder, value, backgroundColor = body }) => {
         const [modalVisible, setModalVisible] = useState(false)
 
         useEffect(() => {
@@ -14,12 +14,12 @@ export default {
 
         return (
             <>
-                <TouchableOpacity style={styles.container} onPress={() => setModalVisible(!modalVisible)}>
+                <TouchableOpacity style={[styles.container, { backgroundColor: backgroundColor }]} onPress={() => setModalVisible(!modalVisible)}>
                     {value ? <Text>{value}</Text> : <Text style={{ color: modalVisible ? 'black' : '#BCA292' }}>{placeholder}</Text>}
                     <Chevron fontSize={25} color={primary} rotate={ modalVisible ? 0 : 180} />
                 </TouchableOpacity>
                 <View style={{ display: modalVisible ? 'flex' : 'none', backgroundColor: body, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, elevation: 5  }}>
-                    <View style={{ display: 'flex', flexDirection: 'column', width: '100%', height: 200, paddingHorizontal: 10, paddingVertical: 20, gap: 20 }}>
+                    <View style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                         {children}
                     </View>
                 </View>
@@ -35,7 +35,7 @@ export default {
     },
     Option: ({ children, onPress, icon = null }) => {
         return (
-            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5 }} onPress={onPress}>
+            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 5, padding: 15 }} onPress={onPress}>
                 {icon}
                 <Text style={{ color: primary, fontWeight: 500 }}>
                     {children}
