@@ -42,14 +42,13 @@ export default function Calendar() {
                 <Text style={{ textAlign: 'center', fontSize: 20 }}>Calendário</Text>
                 <View />
             </View>
-
             <View style={{ display: 'flex', flexDirection: 'column' }}>
                 <View style={{ display: 'flex', flexDirection: 'column', rowGap: 30 }}>
                     {
-                        events && events.map((event) => {
+                        events && events.map((event, index) => {
                             return (
                                 <>
-                                    <View style={{ display: 'flex', flexDirection: 'row', gap: 15 }}>
+                                    <View style={{ display: 'flex', flexDirection: 'row', gap: 15 }} key={index}>
                                         <View style={{ display: 'flex', flexDirection: 'column' }}>
                                             <Text style={{ fontSize: 26, fontWeight: 500 }}>24</Text>
                                             <Text style={{ fontSize: 16, fontWeight: 500 }}>NOV</Text>

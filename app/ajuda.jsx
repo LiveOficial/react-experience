@@ -4,10 +4,12 @@ import { Input } from "@/components/LiveExperience";
 import { router } from "expo-router";
 import { primary, body, text } from "@/constants/Colors";
 import { ChevronLeft, Chat, Envelope } from "@/components/Icons";
-import { useState } from "react";
-import { HighlightedButton } from "@/components/LiveExperience";
-import { Accordion, AccordionItem } from "@/components/Accordion";
+import { useEffect, useState } from "react";
+import { HighlightedButton, ContentLoads } from "@/components/LiveExperience";
+import { Accordion } from "@/components/Accordion";
 import Select from '@/components/Select'
+import api from "@/hooks/api";
+import { useAuth } from '@/context/auth'
 
 export default function Help() {
     const [section, setSection] = useState(0)
@@ -42,18 +44,20 @@ function Button({ label, icon, onPress, active }) {
 }
 
 function Contact() {
+    const { user } = useAuth()
     const [subject, setSubject] = useState(null)
-    const [name, setName] = useState(null)
-    const [email, setEmail] = useState(null)
-    const [cellphone, setCellphone] = useState(null)
+    const [name, setName] = useState(user.name)
+    const [email, setEmail] = useState(user.email)
+    const [cellphone, setCellphone] = useState(user.cellphone)
     const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [response, setResponse] = useState(null)
 
     const onSubmit = () => {
         setLoading(true)
         api.post('faq/contato', { subject, name, email, cellphone, message })
-            .then()
-            .catch()
+            .then(({ data }) => setResponse(data))
+            .catch(e => console.log(e))
             .finally(() => setLoading(false))
     }
 
@@ -96,43 +100,32 @@ function Contact() {
 }
 
 function FrequentQuestions() {
+    const [questions, setQuestions] = useState([])
+    const [loading, setLoading] = useState(true)
 
-    const questions = [
-        {
-            title: 'Como faço para realizar meu cadastro no App?',
-            answer: 'Baixe o app LIVE! Experience na Apple Store ou Play Store, clique em cadastrar-se, crie seu perfil com um e-mail e depois é só escolher o evento ou as aulas que deseja assistir.'
-        },
-        {
-            title: 'Como faço para realizar meu cadastro no App?',
-            answer: 'Baixe o app LIVE! Experience na Apple Store ou Play Store, clique em cadastrar-se, crie seu perfil com um e-mail e depois é só escolher o evento ou as aulas que deseja assistir.'
-        },
-        {
-            title: 'Como faço para realizar meu cadastro no App?',
-            answer: 'Baixe o app LIVE! Experience na Apple Store ou Play Store, clique em cadastrar-se, crie seu perfil com um e-mail e depois é só escolher o evento ou as aulas que deseja assistir.'
-        },
-        {
-            title: 'Como faço para realizar meu cadastro no App?',
-            answer: 'Baixe o app LIVE! Experience na Apple Store ou Play Store, clique em cadastrar-se, crie seu perfil com um e-mail e depois é só escolher o evento ou as aulas que deseja assistir.'
-        },
-        {
-            title: 'Como faço para realizar meu cadastro no App?',
-            answer: 'Baixe o app LIVE! Experience na Apple Store ou Play Store, clique em cadastrar-se, crie seu perfil com um e-mail e depois é só escolher o evento ou as aulas que deseja assistir.'
-        },
-        {
-            title: 'Como faço para realizar meu cadastro no App?',
-            answer: 'Baixe o app LIVE! Experience na Apple Store ou Play Store, clique em cadastrar-se, crie seu perfil com um e-mail e depois é só escolher o evento ou as aulas que deseja assistir.'
-        }
-    ]
+    useEffect(() => {
+        fetchQuestions()
+    }, [])
+
+    const fetchQuestions = () => {
+        setLoading(true)
+        api.get('faq')
+            .then(({ data }) => setQuestions(data))
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }
 
     return (
-        <Accordion>
-            {questions.map((question) => {
-                return (
-                    <AccordionItem title={question.title}>
-                        <Text>{question.answer}</Text>
-                    </AccordionItem>
-                )
-            })}
-        </Accordion>
+        <ContentLoads loading={loading}>
+            <Accordion.Container>
+                {questions.map((question, index) => {
+                    return (
+                        <Accordion.Item title={question.pergunta} key={index}>
+                            <Text>{question.resposta}</Text>
+                        </Accordion.Item>
+                    )
+                })}
+            </Accordion.Container>
+        </ContentLoads>
     )
 }

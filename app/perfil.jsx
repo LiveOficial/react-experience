@@ -1,17 +1,18 @@
 import { ChevronLeft, Camera, EditProfile, Asterisk, OrderCart, CalendarTwo, Playlist, Help, Privacy, Exit, DeleteMyAcccount as IconDeleteMyAcccount, Profile } from '@/components/Icons';
 import { Gradient, Hr, HighlightedButton, Modal } from '@/components/LiveExperience';
-import { body, danger } from '@/constants/Colors';
+import { body, danger, primary } from '@/constants/Colors';
 import { router } from 'expo-router';
 import { View, Text, ScrollView, Image, Pressable } from 'react-native';
-import { primary } from '@/constants/Colors';
 import { useAuth } from '@/context/auth'
 import { useEffect, useState } from 'react';
+import { launchImageLibraryAsync } from 'expo-image-picker';
+import api from '@/hooks/api'
 
 export default function MyProfile() {
   const [openModalDeleteMyAcccount, setOpenModalDeleteMyAcccount] = useState(false);
   const [openModalLogout, setOpenModalLogout] = useState(false);
   const [openModalChangePhoto, setOpenModalChangePhoto] = useState(false);
-  const { user, logout, token } = useAuth()
+  const { user, setUser, setToken, logout, token } = useAuth()
 
   useEffect(() => {
     if (token === null) {
@@ -20,6 +21,9 @@ export default function MyProfile() {
   }, [token])
 
   const onDeleteMyAcccount = () => {
+    api.delete('user')
+    setUser(null)
+    setToken(null)
     setOpenModalDeleteMyAcccount(false)
   }
 
@@ -39,9 +43,13 @@ export default function MyProfile() {
           <View />
         </View>
         <View style={{ display: 'flex', flexDirection: 'column', marginTop: 40, marginBottom: 30 }}>
-          <View style={{ position: 'relative', width: 150, height: 150 }}>
-            <Photo uri={user?.photo} />
-            <Pressable style={{ position: 'absolute', right: 0, bottom: 0, backgroundColor: primary, padding: 10, borderRadius: 100 }} onPress={() => setOpenModalChangePhoto(true)}>
+          <View style={{ position: 'relative', width: 180, height: 180 }}>
+            <View style={{ display: 'flex', borderRadius: 100, overflow: 'hidden', height: 180, width: 180 }}>
+              <Gradient>
+                <ProfilePhoto uri={user?.photo} />
+              </Gradient>
+            </View>
+            <Pressable style={{ position: 'absolute', zIndex: 12, right: 0, bottom: 0, backgroundColor: primary, padding: 10, borderRadius: 100 }} onPress={() => setOpenModalChangePhoto(true)}>
               <Camera color={body} size={20} />
             </Pressable>
           </View>
@@ -50,18 +58,18 @@ export default function MyProfile() {
         </View>
         <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           <Hr />
-          <Link icon={<EditProfile />} href='editar-perfil'>Editar perfil</Link>
-          <Link icon={<Asterisk />} href='alterar-senha'>Alterar senha</Link>
+          <Link icon={<EditProfile color={primary} />} href='editar-perfil'>Editar perfil</Link>
+          <Link icon={<Asterisk color={primary} />} href='alterar-senha'>Alterar senha</Link>
           <Hr />
-          <Link icon={<OrderCart />} href='pedidos'>Pedidos</Link>
-          <Link icon={<CalendarTwo />} href='calendario'>Meu calendário</Link>
-          <Link icon={<Playlist />} href='playlist'>Minha playlists</Link>
+          <Link icon={<OrderCart color={primary} />} href='pedidos'>Pedidos</Link>
+          <Link icon={<CalendarTwo color={primary} />} href='calendario'>Meu calendário</Link>
+          <Link icon={<Playlist color={primary} />} href='playlists'>Minha playlists</Link>
           <Hr />
-          <Link icon={<Help />} href='ajuda'>Ajuda</Link>
+          <Link icon={<Help color={primary} />} href='ajuda'>Ajuda</Link>
           <Link icon={<Privacy color={primary} />} href='privacidade'>Privacidade</Link>
           <Hr />
-          <Link icon={<Exit />} onPress={() => setOpenModalLogout(true)}>Sair</Link>
-          <Link icon={<IconDeleteMyAcccount />} onPress={() => setOpenModalDeleteMyAcccount(true)}>Excluir conta e dados</Link>
+          <Link icon={<Exit color={primary} />} onPress={() => setOpenModalLogout(true)}>Sair</Link>
+          <Link icon={<IconDeleteMyAcccount color={primary} />} onPress={() => setOpenModalDeleteMyAcccount(true)}>Excluir conta e dados</Link>
         </View>
       </ScrollView>
       <DeleteMyAcccount visible={openModalDeleteMyAcccount} setVisible={setOpenModalDeleteMyAcccount} onPressDelete={onDeleteMyAcccount} />
@@ -102,13 +110,47 @@ function Email({ children }) {
   )
 }
 
-function Photo({ uri }) {
-  return (
-    <Image style={{ width: '100%', height: '100%', borderRadius: 100 }} source={{ uri: uri }} />
-  )
-}
+function ChangePhoto({ visible, setVisible }) {
+  const [submiting, setSubmiting] = useState(false)
+  const { user, setUser } = useAuth()
 
-function ChangePhoto({ user, visible, setVisible }) {
+  const openPicker = async () => {
+    const result = await launchImageLibraryAsync({ mediaTypes: 'Images' })
+
+    if (!result.canceled) {
+      try {
+        setSubmiting(true)
+
+        const data = new FormData()
+
+        data.append('photo', {
+          uri: result.assets[0].uri,
+          type: result.assets[0].type,
+          name: result.assets[0].fileName,
+        });
+
+        const response = await api.post('user/upload-photo', data, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          }
+        })
+
+        console.log(response.data.uri)
+
+        setUser({ ...user, photo: response.data.uri })
+      } catch (error) {
+        console.log((error))
+      }
+
+      setSubmiting(false)
+    }
+  }
+
+  const onRemovePhoto = () => {
+    setUser({ ...user, photo: null })
+    api.post('user/remove-photo')
+  }
+
   return (
     <Modal visible={visible} setVisible={setVisible}>
       <View style={{ paddingHorizontal: 20, gap: 10 }}>
@@ -119,10 +161,11 @@ function ChangePhoto({ user, visible, setVisible }) {
           </Gradient>
         </View>
         <View style={{ display: 'flex', gap: 10 }}>
-          <HighlightedButton onPress={() => setVisible(false)}>
+          {!submiting && <HighlightedButton onPress={() => openPicker()}>
             Carregar foto
-          </HighlightedButton>
-          {user?.photo && <Pressable style={{ padding: 15 }} onPress={() => setVisible(false)}>
+          </HighlightedButton>}
+          {submiting && <Text>Carregando</Text>}
+          {user?.photo && <Pressable style={{ padding: 15 }} onPress={() => onRemovePhoto()}>
             <Text style={{ color: primary, textAlign: 'center', fontWeight: 600 }}>Remover foto</Text>
           </Pressable>}
         </View>

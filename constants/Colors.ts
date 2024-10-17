@@ -7,6 +7,7 @@ export const danger = '#D6251A'
 export const text = '#5e4738'
 export const greenText = '#587211'
 export const BaseText = '#2C2C2C'
+export const black = '#1D1D1D'
 
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';

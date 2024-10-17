@@ -18,7 +18,6 @@ export default function Enter() {
         }
     }, [token])
 
-
     const onSubmit = async () => {
         setError({})
         setLoading(true)

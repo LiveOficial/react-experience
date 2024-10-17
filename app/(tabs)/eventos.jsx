@@ -1,7 +1,6 @@
-import { Image as ReactImage, Modal, Pressable, ScrollView, Text, View } from "react-native";
-import { ChevronLeft, Mark, Times } from "@/components/Icons";
+import { Image as ReactImage, Pressable, ScrollView, Text, View } from "react-native";
+import { ChevronLeft, Mark } from "@/components/Icons";
 import { primary, secondary, body, borderColor, text, greenText } from "@/constants/Colors";
-import { Button, HighlightedButton, CheckBox as LiveExpCheckBox } from "@/components/LiveExperience";
 import { router } from "expo-router";
 import { ResultsTitle, SearchInput, FilterButton, SortButton } from "@/components/MainPages";
 import { useEffect, useState } from "react";
@@ -31,21 +30,17 @@ export default function Events() {
         api.get('event')
             .then(({ data }) => setData(data))
             .catch(err => console.log(err))
-    } 
+    }
 
     return (
         <>
             <ScrollView style={{ backgroundColor: secondary, paddingTop: 40 }}>
                 <View style={{ display: 'flex', flexDirection: 'column', backgroundColor: secondary, paddingHorizontal: 20, paddingVertical: 30 }}>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-                        <Button onPress={() => router.back()}>
-                            <ChevronLeft />
-                        </Button>
-                        <View>
-                            <Text style={{ textAlign: 'center', fontSize: 20 }}>
-                                Eventos
-                            </Text>
-                        </View>
+                        <Pressable style={{ padding: 10 }} onPress={() => router.back()}>
+                            <ChevronLeft color={primary} size={25} />
+                        </Pressable>
+                        <Text style={{ textAlign: 'center', fontSize: 20 }}>Eventos</Text>
                         <View />
                     </View>
                     <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginVertical: 25 }}>
@@ -69,7 +64,7 @@ export default function Events() {
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
                         {data && data.events.map((event, index) => {
                             return (
-                                <Pressable onPress={() => router.push(`/eventos/${event.slug}`)} style={{ width: '100%' }} key={event.index}>
+                                <Pressable onPress={() => router.push(`/eventos/${event.slug}`)} style={{ width: '100%' }} key={index}>
                                     <Image uri={event.image} />
                                     <View style={{ marginTop: 15 }}>
                                         {event.has_kits && <Text style={{ fontWeight: 500, color: greenText }}>Kits disponíveis</Text>}

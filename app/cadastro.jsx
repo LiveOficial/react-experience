@@ -1,19 +1,29 @@
 import { Text, View } from 'react-native'
-import { useState } from 'react'
 import { HighlightedButton, Hr, Input, NeedHelp } from '@/components/LiveExperience'
 import { primary } from '@/constants/Colors'
 import { Container, Header, Title, FormBox, Label, TitleBox } from '@/components/CommomPages'
+import { useState } from 'react'
+import api from '@/hooks/api'
 
 export default function SingIn() {
-    const [name, setName] = useState('')
-    const [document, setDocument] = useState('')
-    const [email, setEmail] = useState('')
-    const [cellphone, setCellphone] = useState('')
-    const [password, setPassword] = useState('')
+    const [name, setName] = useState(null)
+    const [document, setDocument] = useState(null)
+    const [email, setEmail] = useState(null)
+    const [cellphone, setCellphone] = useState(null)
+    const [password, setPassword] = useState(null)
     const [loading, setLoading] = useState(false)
+
+    const { setUser, setToken } = useAuth()
 
     const onSubmit = () => {
         setLoading(true)
+        api.post('register', { name, document, email, cellphone, password })
+            .then(({ data }) => {
+                setUser(data.user)
+                setToken(data.token)
+            })
+            .catch(e => console.log(e))
+            .finally(() => setLoading(false))
     }
 
     return (

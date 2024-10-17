@@ -20,14 +20,6 @@ export default function({ children }) {
     })()
   }, [])
 
-
-  const saveUserData = (user, token) => {
-    setItemAsync('token', token)
-    setItemAsync('user', JSON.stringify(user))
-    setToken(token)
-    setUser(user)
-  }
-
   const login = async (email, password) => {
     try {
       const { data: { token, user } } = await api.post('authentication/login', {
@@ -35,22 +27,35 @@ export default function({ children }) {
         password: password
       })
 
-      saveUserData(user, token)
+      setToken(token)
+      setUser(user)
+      saveToken(token)
+      saveUser(user)
       return true
     } catch (error) {
       return false
     }
   }
 
+  const saveUser = async (user) => {
+    await setItemAsync('user', JSON.stringify(user))
+    setUser(user)
+  }
+
+  const saveToken = async (token) => {
+    await setItemAsync('token', token)
+    setToken(token)
+  }
+
   const logout = async () => {
-    await deleteItemAsync('token')
-    await deleteItemAsync('user')
     setToken(null)
     setUser(null)
+    deleteItemAsync('token')
+    deleteItemAsync('user')
   }
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, setToken, user, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   )

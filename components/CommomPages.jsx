@@ -1,6 +1,6 @@
 import { ScrollView, Text, View } from "react-native";
 import { Logo, SuccessCheck } from "@/components/Icons"
-import { body } from "@/constants/Colors";
+import { body, greenText } from "@/constants/Colors";
 import { Label as BaseLabel } from '@/components/LiveExperience'
 
 export function Container({ children }) {
@@ -57,15 +57,16 @@ export const Alert = {
             <View style={{
                 display: 'flex',
                 flexDirection: 'row',
-                gap: 10,
+                justifyContent: 'center',
                 alignItems: 'center',
                 backgroundColor: '#f5f3ef',
+                gap: 10,
                 padding: 20,
             }}>
-                <SuccessCheck />
+                <SuccessCheck color={greenText} />
                 {children}
             </View>
         )
     },
-    Message: ({ children }) => <Text style={{ color: '#587211', fontWeight: 500 }}>{children}</Text>,
+    Message: ({ children }) => <Text style={{ color: greenText, fontWeight: 500, flexShrink: 1 }}>{children}</Text>
 }

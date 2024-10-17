@@ -1,9 +1,8 @@
 import { primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
-import { Logo, Times } from "@/components/Icons"
+import { Logo, Times, Help } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
-import { Help } from '@/components/Icons'
 
 export function Page({ children, header, padding = 0 }) {
     return (
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
 export function NeedHelp({ marginVertical = 30 }) {
     return (
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, marginVertical: marginVertical }}>
-            <Help />
+            <Help color={primary} />
             <Link href='/ajuda'>
                 Precisa de ajuda?
             </Link>
@@ -208,4 +207,12 @@ export function Modal({ children, visible, setVisible }) {
         </NativeModal>
       </>
     )
-  }
+}
+
+export function ContentLoads({ children, loading }) {
+    return (
+        <>
+            {loading ? <Text>Carregando...</Text> : children}
+        </>
+    )
+}

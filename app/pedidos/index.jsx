@@ -32,16 +32,15 @@ export default function Pedidos() {
                 <View />
             </View>
             {
-                orders && orders.map((order) => {
+                orders && orders.map((order, index) => {
                     return (
-                        <>
-                            <View style={{ display: 'flex', flexDirection: 'column', paddingVertical: 25 }}>
+                        <View key={index}>
+                            <View style={{ display: 'flex', flexDirection: 'column', paddingVertical: 20 }} key={index}>
                                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
                                     <Text style={{ fontWeight: 'bold', fontSize: 16, color: text }}>#{order.id}</Text>
                                     <Status status={order.status} />
                                 </View>
                                 <View>
-                                    <Text style={{ fontWeight: 600, marginBottom: 10 }}>LIVE! RUN XP São Jose do Vale do Rio Preto</Text>
                                     <Text>{order.created_at}</Text>
                                     <Text>{order.total}</Text>
                                     <Text>{order.payment_type}</Text>
@@ -51,7 +50,7 @@ export default function Pedidos() {
                                 </Pressable>
                             </View>
                             <Hr />
-                        </>
+                        </View>
                     )
                 })
             }
@@ -61,9 +60,13 @@ export default function Pedidos() {
 
 export function Status({ status }) {
     const statuses = {
+        1: {
+            color: primary,
+            text: 'Aguardando pagamento',
+        },
         2: {
             color: greenText,
-            text: 'Concluído',
+            text: 'Confirmado',
         },
         3: {
             color: danger,

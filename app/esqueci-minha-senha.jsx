@@ -1,4 +1,4 @@
-import { View, Text, Alert as A } from 'react-native'
+import { View, Text } from 'react-native'
 import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveExperience'
 import { useState } from 'react'
 import { Container, Header, Title, Label, FormBox, TitleBox, Alert } from '@/components/CommomPages'
@@ -15,7 +15,13 @@ export default function ForgotPassword() {
         setLoading(true)
         api.post('user/mail-password-reset', { email })
             .then(({ data }) => setMessage(data.message))
-            .catch((e) => setError(e.response.data.errors))
+            .catch((e) => {
+                try {
+                    setError(e.response.data.errors)
+                } catch (error) {
+                    
+                }
+            })
             .finally(() => setLoading(false))
     }
 
@@ -34,7 +40,7 @@ export default function ForgotPassword() {
                 </View>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input error={error.email} value={email} setValue={setEmail} placeholder="Insira seu e-mail ou CPF" />
+                    <Input error={error?.email} value={email} setValue={setEmail} placeholder="Insira seu e-mail ou CPF" />
                 </FormBox>
                 <HighlightedButton onPress={() => onSubmit()} loading={loading}>
                     Enviar

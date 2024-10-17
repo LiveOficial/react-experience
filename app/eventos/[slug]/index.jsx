@@ -1,18 +1,18 @@
 import { Image, Pressable, ScrollView, Text, View, Share as NativeShare, Modal } from "react-native"
 import { body, primary, secondary, text } from '@/constants/Colors'
-import { Share, Chevron, CalendarCheck, Flag, Label, Folks, Times } from "@/components/Icons";
-import { router, useLocalSearchParams } from "expo-router";
-import { Accordion, AccordionItem } from "@/components/Accordion";
-import { Gradient, GradientRun, Hr } from "@/components/LiveExperience";
-import api from "@/hooks/api";
-import { useEffect, useState } from "react";
+import { Share, Chevron, CalendarCheck, Flag, Label, Folks, Times } from "@/components/Icons"
+import { router, useLocalSearchParams } from "expo-router"
+import { Accordion, AccordionItem } from "@/components/Accordion"
+import { Gradient, GradientRun, Hr } from "@/components/LiveExperience"
+import { useEffect, useState } from "react"
+import api from "@/hooks/api"
 
-export default function Event() {
-    const { slug } = useLocalSearchParams()
+export default function Evento() {
     const [event, setEvent] = useState()
     const [loading, setLoading] = useState(true)
     const [visibleRegulation, setVisibleRegulation] = useState(false)
     const [selectedModality, setSelectedModality] = useState(null)
+    const { slug } = useLocalSearchParams()
 
     useEffect(() => {
         fetchEvent()
@@ -43,7 +43,7 @@ export default function Event() {
                             <View>
                                 <Text style={{ textAlign: 'center', fontSize: 20 }}>Evento</Text>
                             </View>
-                            <Pressable style={{ padding: 10 }} onPress={() => NativeShare.share({ title: event.name, url: 'https://reactnative.dev' }) }>
+                            <Pressable style={{ padding: 10 }} onPress={() => NativeShare.share({ title: event?.name, url: 'https://reactnative.dev' }) }>
                                 <Share color={primary} size={24} />
                             </Pressable>
                         </View>
@@ -51,44 +51,44 @@ export default function Event() {
                     <View style={{ display: 'flex', flexDirection: 'column', paddingHorizontal: 20, marginTop: 50 }}>
                         <View style={{ display: 'flex', flexDirection: 'row', gap: 20, alignItems: 'center', marginBottom: 20 }}>
                             <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 33, fontWeight: 500 }}>{event.day}</Text>
-                                <Text style={{ fontSize: 18, fontWeight: 500 }}>{event.month}</Text>
+                                <Text style={{ fontSize: 33, fontWeight: 500 }}>{event?.day}</Text>
+                                <Text style={{ fontSize: 18, fontWeight: 500 }}>{event?.month}</Text>
                             </View>
-                            <Title>{event.name}</Title>
+                            <Title>{event?.name}</Title>
                         </View>
 
                         <Detail.Wrap>
                             <Detail.Box icon={<CalendarCheck size={28} />}>
                                 <Detail.Title>Data</Detail.Title>
-                                <Detail.Value>{event.long_date}</Detail.Value>
+                                <Detail.Value>{event?.long_date}</Detail.Value>
                             </Detail.Box>
                             <Detail.Box icon={<Flag size={28} />}>
                                 <Detail.Title>Local da largada</Detail.Title>
-                                <Detail.Value>{event.start_location}</Detail.Value>
+                                <Detail.Value>{event?.start_location}</Detail.Value>
                                 <Pressable onPress={() => {  }}>
                                     <Text style={{ color: primary, fontWeight: 500, marginTop: 10 }}>Ver detalhes</Text>
                                 </Pressable>
                             </Detail.Box>
                             <Detail.Box icon={<Label size={28} />}>
                                 <Detail.Title>Tipo de evento</Detail.Title>
-                                <Detail.Value>{event.types.join(', ')}</Detail.Value>
+                                <Detail.Value>{event?.types.join(', ')}</Detail.Value>
                             </Detail.Box>
                             <Detail.Box icon={<Folks size={28} />}>
                                 <Detail.Title>Público</Detail.Title>
-                                <Detail.Value>{event.folks}</Detail.Value>
+                                <Detail.Value>{event?.folks}</Detail.Value>
                             </Detail.Box>
                         </Detail.Wrap>
 
                         <Accordion>
                             <AccordionItem title="Kits">
                                 <ScrollView horizontal contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 20, marginTop: 20 }} showsHorizontalScrollIndicator={false}>
-                                    {event.kits.map(kit => <Kit kit={kit} />)}
+                                    {event && event?.kits.map(kit => <Kit kit={kit} />)}
                                 </ScrollView>
                             </AccordionItem>
                             <AccordionItem title="Percursos">
                                 <Text style={{ fontSize: 14, textAlign: 'center', padding: 10 }}>{selectedModality}</Text>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                    {event.maps.map(map => (
+                                    {event && event?.maps.map(map => (
                                         <Pressable style={{ backgroundColor: secondary, flexGrow: 1 }} onPress={() => setSelectedModality(map.name)}>
                                             <Text style={{ fontSize: 14, textAlign: 'center', padding: 10 }}>
                                                 {map.name}
@@ -103,14 +103,14 @@ export default function Event() {
                             </AccordionItem>
                         </Accordion>
                         <Hr />
-                        <Text style={{ marginTop: 30 }}>{event.description}</Text>
+                        <Text style={{ marginTop: 30 }}>{event?.description}</Text>
                         <Pressable style={{ padding: 20 }} onPress={() => setVisibleRegulation(true)}>
                             <Text style={{ color: primary, fontWeight: 600 }}>Ver regulamento</Text>
                         </Pressable>
                     </View>
                 </ScrollView>
-                <FloatingBox slug={slug} name={event.name} date={event.short_date} />
-                <Regulation content={event.regulation} visible={visibleRegulation} setVisible={setVisibleRegulation} />
+                <FloatingBox slug={slug} name={event?.name} date={event?.short_date} />
+                <Regulation content={event?.regulation} visible={visibleRegulation} setVisible={setVisibleRegulation} />
             </>
         }
         </>

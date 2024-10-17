@@ -3,6 +3,10 @@ import { getItemAsync } from 'expo-secure-store'
 
 const api = axios.create({
     baseURL: "http://172.16.57.93:8000/app",
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
     params: {
         version: 'new-layout'
     }
