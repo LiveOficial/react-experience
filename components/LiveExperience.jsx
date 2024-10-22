@@ -46,7 +46,7 @@ export function HighlightedButton({ children, onPress, loading = false }) {
         <Pressable onPress={onPress} style={{ backgroundColor: primary, paddingVertical: 13, width: '100%' }}>
             {
                 loading ?
-                <ActivityIndicator color={secondary} size="small" /> : <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
+                <Loader color={secondary} /> : <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
             }
         </Pressable>
     )
@@ -214,6 +214,12 @@ export function ContentLoads({ children, loading }) {
         <>
             {loading ? <Text>Carregando...</Text> : children}
         </>
+    )
+}
+
+export function Loader({ color = primary }) {
+    return (
+        <ActivityIndicator color={color} size="small" />
     )
 }
 

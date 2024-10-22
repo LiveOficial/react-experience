@@ -6,9 +6,11 @@ export default function OnBoarding() {
     const [show, setShow] = useState(false)
     const [backgroundIndex, setBackgroundIndex] = useState(0)
 
-    useEffect(async () => {
-        const onboarding = await getItemAsync('onboarding')
-        setShow(onboarding !== 'seen')
+    useEffect(() => {
+        (async () => {
+            const onboarding = await getItemAsync('onboarding')
+            setShow(onboarding !== 'seen')
+        })()
     }, [])
 
     const backgrounds = [

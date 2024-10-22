@@ -142,10 +142,10 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('treinadores') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.teachers.map((teacher) => {
+                                {data && data.teachers.map((teacher, index) => {
                                     return (
-                                        <Card onPress={() => { router.push(`treinadores/${teacher.slug}`) }}>
-                                            <Image uri={teacher.src} />
+                                        <Card onPress={() => router.push(`treinadores/${teacher.slug}`)} key={index}>
+                                            <Image uri={teacher.photo} />
                                             <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 2, marginTop: 10 }}>
                                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{teacher.name}</Text>
                                                 <Text>{teacher.occupation || 'Funcional, Musculação'}</Text>

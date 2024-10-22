@@ -1,16 +1,17 @@
 import { Image, Pressable, ScrollView, Text, View } from "react-native"
 import { body, secondary, primary, borderColor } from "@/constants/Colors"
-import { Gradient, Hr } from "@/components/LiveExperience"
+import { Gradient, Hr, Loader } from "@/components/LiveExperience"
 import { ChevronLeft } from "@/components/Icons"
-import { Button } from "@/components/LiveExperience"
 import { router, useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
 import api from "@/hooks/api"
 
 export default function Treinadores() {
-    const { slug } = useLocalSearchParams()
     const [trainer, setTrainer] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [following, setFollowing] = useState(false)
+
+    const { slug } = useLocalSearchParams()
 
     useEffect(() => {
         fetchData()
@@ -19,36 +20,51 @@ export default function Treinadores() {
     const fetchData = () => {
         setLoading(true)
         api.get(`trainers/${slug}`)
-            .then(({ data }) => setTrainer(data.trainers))
-            .catch(() => {})
+            .then(({ data: { trainer } }) => setTrainer(trainer))
+            .catch((e) => console.log(e))
             .finally(() => setLoading(false))
+    }
+
+    const onRequestFollow = () => {
+        setFollowing(true)
+        api.post(`trainers/${slug}/follow`)
+            .then(() => setTrainer({ ...trainer, following: true }))
+            .catch((e) => console.log(e))
+            .finally(() => setFollowing(false))
+    }
+
+    const onRequestUnfollow = () => {
+        setFollowing(true)
+        api.post(`trainers/${slug}/unfollow`)
+            .then(() => setTrainer({ ...trainer, following: false }))
+            .catch((e) => console.log(e))
+            .finally(() => setFollowing(false))
     }
 
     return (
         <ScrollView style={{ backgroundColor: secondary, paddingTop: 60 }} showsVerticalScrollIndicator={false}>
             <View style={{ display: 'flex', flexDirection: 'column', backgroundColor: secondary, paddingHorizontal: 20, paddingVertical: 25 }}>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-                    <Button onPress={() => router.back()}>
+                    <Pressable onPress={() => router.back()}>
                         <ChevronLeft color={primary} size={25} />
-                    </Button>
+                    </Pressable>
                     <Text style={{ textAlign: 'center', fontSize: 20 }}>Professores</Text>
-                    <View />
+                    <View style={{ padding: 10 }} />
                 </View>
             </View>
             <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
                 <View style={{ display: 'flex', borderRadius: 100, overflow: 'hidden', marginHorizontal: 20, height: 200, width: 200, marginVertical: 40, marginHorizontal: 'auto' }}>
                     <Gradient>
-                        <Image style={{ height: '100%', width: '100%' }} source={{ uri: trainer?.image }} />
+                        <Image style={{ height: '100%', width: '100%' }} source={{ uri: trainer?.photo }} />
                     </Gradient>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Text style={{ fontWeight: 500, fontSize: 25 }}>{trainer?.name}</Text>
-                    <Text style={{ color: primary, fontWeight: 500, fontSize: 16 }}>+ Seguir</Text>
+                    {trainer?.following === false ? <FollowButton onPress={onRequestFollow} loading={following} /> : <UnfollowButton onPress={onRequestUnfollow} loading={following} />}
                 </View>
                 <Text style={{ fontWeight: 500, marginTop: 10, marginBottom: 20 }}>13 vídeos</Text>
                 <View style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
-                    <Text>Cau Saad é personal trainer, educadora física pós-graduada em Metodologia do Treinamento Específico e especialista em Nutrição Esportiva. Criou o método Cau Saad que inclui técnicas de treinamento funcional, musculação e mobilidades articulares. </Text>
-                    <Text>Fundadora do Instituto Cau Saad, a trainer também é empresária, digital influencer, palestrante do TEDxSaoPaulo e se autodenomina uma eterna estudante da Saúde.</Text>
+                    <Text>{trainer?.description}</Text>
                 </View>
                 <View style={{ marginVertical: 20 }}>
                     <Hr />
@@ -68,5 +84,25 @@ export default function Treinadores() {
                 </View>
             </View>
         </ScrollView>
+    )
+}
+
+function FollowButton({ onPress, loading }) {
+    return (
+        <BaseButton onPress={onPress} loading={loading} label='+ Seguir' />
+    )
+}
+
+function UnfollowButton({ onPress, loading }) {
+    return (
+        <BaseButton onPress={onPress} loading={loading} label='- Deixa de seguir' />
+    )
+}
+
+function BaseButton({ label, onPress, loading }) {
+    return (
+        <Pressable onPress={onPress}>
+            {loading ? <Loader /> : <Text style={{ color: primary, fontWeight: 500, fontSize: 16 }}>{label}</Text>}
+        </Pressable>
     )
 }

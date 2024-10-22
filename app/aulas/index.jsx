@@ -1,19 +1,24 @@
 import { Text, View, ScrollView, Image as ReactImage, Pressable } from 'react-native'
-import { ResultsTitle, CardSubTitle, SearchInput } from '@/components/MainPages';
+import { ResultsTitle, CardSubTitle } from '@/components/MainPages';
 import { Button } from '@/components/LiveExperience';
 import { ChevronLeft, Point } from '@/components/Icons';
 import { text, secondary, body } from '@/constants/Colors';
 import { router } from 'expo-router';
+import { FilterButton, SortButton, SearchInput } from '@/components/Filter';
 import api from '@/hooks/api';
-import { FilterButton, SortButton } from '@/components/Filter';
+import { useEffect, useState } from 'react';
 
 export default function Aulas() {
     const [trainers, setTrainers] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const fetchData = async () => {
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchData = () => {
         setLoading(true)
-        api.get()
+        api.get('aulsa')
             .then(({ data }) => setTrainers(data.trainers))
             .catch(() => {})
             .finally(() => setLoading(false))
@@ -33,7 +38,7 @@ export default function Aulas() {
                     </View>
                     <View />
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff', marginVertical: 25 }}>
+                <View style={{ marginVertical: 25 }}>
                     <SearchInput placeholder='Aulas, tipo de treino ou professores' />
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>

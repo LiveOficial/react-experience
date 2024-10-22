@@ -7,8 +7,8 @@ import api from "@/hooks/api"
 import { ChevronLeft } from "@/components/Icons";
 
 export default function Pedidos() {
-    const [loading, setLoading] = useState(true)
     const [orders, setOrders] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         fetchOrders()

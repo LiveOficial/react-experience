@@ -1,7 +1,7 @@
 import { HighlightedButton, CheckBox as LiveExpCheckBox } from '@/components/LiveExperience'
 import { borderColor, primary, secondary, textColor } from '@/constants/Colors'
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from 'react-native'
-import { Times, Filter, Search } from './Icons'
+import { Times, Filter, Search, Order } from './Icons'
 
 export default function({ children, visible, setVisible, onPressApplyFilters, onPressClearFilters, loading }) {
     return (
@@ -108,11 +108,11 @@ function HeaderButton({ children, icon, onPress }) {
 
 export function SearchInput({ value, setValue, placeholder }) {
     return (
-        <>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff' }}>
             <TextInput value={value} onChangeText={setValue} placeholder={placeholder} placeholderTextColor='#6d6d6d' style={{ backgroundColor: '#fff', flexGrow: 1, paddingVertical: 15, width: '80%', paddingHorizontal: 10 }} />
             <View style={{ paddingHorizontal: 10 }}>
                 <Search />
             </View>
-        </>
+        </View>
     )
 }

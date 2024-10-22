@@ -1,5 +1,5 @@
 import { ChevronLeft, Camera, EditProfile, Asterisk, OrderCart, CalendarTwo, Playlist, Help, Privacy, Exit, DeleteMyAcccount as IconDeleteMyAcccount, Profile } from '@/components/Icons';
-import { Gradient, Hr, HighlightedButton, Modal } from '@/components/LiveExperience';
+import { Gradient, Hr, HighlightedButton, Modal, Loader } from '@/components/LiveExperience';
 import { body, danger, primary } from '@/constants/Colors';
 import { router } from 'expo-router';
 import { View, Text, ScrollView, Image, Pressable } from 'react-native';
@@ -63,7 +63,7 @@ export default function MyProfile() {
           <Hr />
           <Link icon={<OrderCart color={primary} />} href='pedidos'>Pedidos</Link>
           <Link icon={<CalendarTwo color={primary} />} href='calendario'>Meu calendário</Link>
-          <Link icon={<Playlist color={primary} />} href='playlists'>Minha playlists</Link>
+          <Link icon={<Playlist color={primary} />} href='playlists'>Minhas playlists</Link>
           <Hr />
           <Link icon={<Help color={primary} />} href='ajuda'>Ajuda</Link>
           <Link icon={<Privacy color={primary} />} href='privacidade'>Privacidade</Link>
@@ -164,7 +164,7 @@ function ChangePhoto({ visible, setVisible }) {
           {!submiting && <HighlightedButton onPress={() => openPicker()}>
             Carregar foto
           </HighlightedButton>}
-          {submiting && <Text>Carregando</Text>}
+          {submiting && <Loader />}
           {user?.photo && <Pressable style={{ padding: 15 }} onPress={() => onRemovePhoto()}>
             <Text style={{ color: primary, textAlign: 'center', fontWeight: 600 }}>Remover foto</Text>
           </Pressable>}

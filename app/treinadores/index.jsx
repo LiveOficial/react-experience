@@ -1,24 +1,25 @@
-import { Image, Pressable, ScrollView, Text, View, TextInput } from "react-native"
+import { Image, Pressable, ScrollView, Text, View } from "react-native"
 import { secondary, primary, body } from "@/constants/Colors"
 import { ChevronLeft } from "@/components/Icons"
 import { router } from "expo-router"
 import { Gradient } from "@/components/LiveExperience"
 import { ResultsTitle, CardSubTitle } from "@/components/MainPages"
 import { useEffect, useState } from "react"
+import { SearchInput } from "@/components/Filter"
 import api from "@/hooks/api"
 
 export default function Treinadores() {
     const [trainers, setTrainers] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         fetchData()
     }, [])
 
-    const fetchData = async () => {
+    const fetchData = () => {
         setLoading(true)
         api.get('trainers')
-            .then(({ data }) => setTrainers(data.trainers))
+            .then(({ data: { trainers } }) => setTrainers(trainers))
             .catch(() => {})
             .finally(() => setLoading(false))
     }
@@ -34,7 +35,7 @@ export default function Treinadores() {
                     <View />
                 </View>
                 <View style={{ marginVertical: 25 }}>
-                    <TextInput placeholder="Eventos ou localização" placeholderTextColor={'#6d6d6d'} style={{ backgroundColor: '#fff', padding: 10 }} />
+                    <SearchInput placeholder={'Eventos ou localização'} />
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Pressable onPress={() => {}}>
