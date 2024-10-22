@@ -2,12 +2,12 @@ import { Image, Pressable, ScrollView, Text, View, Share as NativeShare, Modal }
 import { body, primary, secondary, text } from '@/constants/Colors'
 import { Share, Chevron, CalendarCheck, Flag, Label, Folks, Times } from "@/components/Icons"
 import { router, useLocalSearchParams } from "expo-router"
-import { Accordion, AccordionItem } from "@/components/Accordion"
 import { Gradient, GradientRun, Hr } from "@/components/LiveExperience"
 import { useEffect, useState } from "react"
+import Accordion from "@/components/Accordion"
 import api from "@/hooks/api"
 
-export default function Evento() {
+export default function Index() {
     const [event, setEvent] = useState()
     const [loading, setLoading] = useState(true)
     const [visibleRegulation, setVisibleRegulation] = useState(false)
@@ -56,7 +56,6 @@ export default function Evento() {
                             </View>
                             <Title>{event?.name}</Title>
                         </View>
-
                         <Detail.Wrap>
                             <Detail.Box icon={<CalendarCheck size={28} />}>
                                 <Detail.Title>Data</Detail.Title>
@@ -79,13 +78,13 @@ export default function Evento() {
                             </Detail.Box>
                         </Detail.Wrap>
 
-                        <Accordion>
-                            <AccordionItem title="Kits">
+                        <Accordion.Container>
+                            <Accordion.Item title="Kits">
                                 <ScrollView horizontal contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 20, marginTop: 20 }} showsHorizontalScrollIndicator={false}>
-                                    {event && event?.kits.map(kit => <Kit kit={kit} />)}
+                                    {event && event?.kits.map((kit, index) => <Kit key={index} kit={kit} />)}
                                 </ScrollView>
-                            </AccordionItem>
-                            <AccordionItem title="Percursos">
+                            </Accordion.Item>
+                            <Accordion.Item title="Percursos">
                                 <Text style={{ fontSize: 14, textAlign: 'center', padding: 10 }}>{selectedModality}</Text>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                                     {event && event?.maps.map(map => (
@@ -97,11 +96,11 @@ export default function Evento() {
                                         </Pressable>
                                     ))}
                                 </View>
-                            </AccordionItem>
-                            <AccordionItem title="Inscrições">
+                            </Accordion.Item>
+                            <Accordion.Item title="Inscrições">
                                 <Text>Descricão</Text>
-                            </AccordionItem>
-                        </Accordion>
+                            </Accordion.Item>
+                        </Accordion.Container>
                         <Hr />
                         <Text style={{ marginTop: 30 }}>{event?.description}</Text>
                         <Pressable style={{ padding: 20 }} onPress={() => setVisibleRegulation(true)}>

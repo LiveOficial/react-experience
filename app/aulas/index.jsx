@@ -1,10 +1,11 @@
 import { Text, View, ScrollView, Image as ReactImage, Pressable } from 'react-native'
-import { ResultsTitle, CardSubTitle, SearchInput, FilterButton, SortButton } from '@/components/MainPages';
+import { ResultsTitle, CardSubTitle, SearchInput } from '@/components/MainPages';
 import { Button } from '@/components/LiveExperience';
 import { ChevronLeft, Point } from '@/components/Icons';
 import { text, secondary, body } from '@/constants/Colors';
 import { router } from 'expo-router';
 import api from '@/hooks/api';
+import { FilterButton, SortButton } from '@/components/Filter';
 
 export default function Aulas() {
     const [trainers, setTrainers] = useState([]);

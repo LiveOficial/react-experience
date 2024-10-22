@@ -4,6 +4,7 @@ import { primary } from '@/constants/Colors'
 import { Container, Header, Title, FormBox, Label, TitleBox } from '@/components/CommomPages'
 import { useState } from 'react'
 import api from '@/hooks/api'
+import { useAuth } from '@/context/auth'
 
 export default function SingIn() {
     const [name, setName] = useState(null)

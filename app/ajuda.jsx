@@ -6,7 +6,7 @@ import { primary, body, text } from "@/constants/Colors";
 import { ChevronLeft, Chat, Envelope } from "@/components/Icons";
 import { useEffect, useState } from "react";
 import { HighlightedButton, ContentLoads } from "@/components/LiveExperience";
-import { Accordion } from "@/components/Accordion";
+import Accordion from "@/components/Accordion";
 import Select from '@/components/Select'
 import api from "@/hooks/api";
 import { useAuth } from '@/context/auth'

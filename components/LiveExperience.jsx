@@ -1,4 +1,4 @@
-import { primary, secondary } from '@/constants/Colors'
+import { danger, greenText, primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
 import { Logo, Times, Help } from "@/components/Icons"
@@ -183,9 +183,9 @@ export function Gradient({ children }) {
     )
 }
 
-export function GradientRun() {
+export function GradientRun({ height = 1 }) {
     return (
-        <LinearGradient colors={['#A31F22', '#D3842C', '#D6892C', '#F3BA30', '#FFCD32', '#FFCD32']} start={{ x: 0, y: 0 }} style={{ height: 1 }} />
+        <LinearGradient colors={['#A31F22', '#D3842C', '#D6892C', '#F3BA30', '#FFCD32', '#FFCD32']} start={{ x: 0, y: 0 }} style={{ height: height }} />
     )
 }
 
@@ -214,5 +214,28 @@ export function ContentLoads({ children, loading }) {
         <>
             {loading ? <Text>Carregando...</Text> : children}
         </>
+    )
+}
+
+export function Status({ status }) {
+    const statuses = {
+        1: {
+            color: primary,
+            text: 'Aguardando pagamento',
+        },
+        2: {
+            color: greenText,
+            text: 'Confirmado',
+        },
+        3: {
+            color: danger,
+            text: 'Cancelado',
+        }
+    }
+
+    return (
+        <Text style={[{ color: statuses[status].color }, { borderColor: statuses[status].color, borderWidth: 1, paddingHorizontal: 10, paddingVertical: 5, fontSize: 12, borderRadius: 13, fontWeight: 500 }]}>
+            {statuses[status].text}
+        </Text>
     )
 }

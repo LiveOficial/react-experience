@@ -4,7 +4,7 @@ import { primary } from '../constants/Colors';
 import { Minus, Plus } from '@/components/Icons'
 import { Hr } from '@/components/LiveExperience'
 
-export const Accordion = {
+export default Accordion = {
   Container: ({ children }) => {
     return (
       <View style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>

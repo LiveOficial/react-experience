@@ -1,12 +1,12 @@
 import { HighlightedButton, CheckBox as LiveExpCheckBox } from '@/components/LiveExperience'
 import { borderColor, primary, secondary, textColor } from '@/constants/Colors'
-import { Modal, Pressable, Text, View } from 'react-native'
-import { Times } from './Icons'
+import { Modal, Pressable, ScrollView, Text, TextInput, View } from 'react-native'
+import { Times, Filter, Search } from './Icons'
 
 export default function({ children, visible, setVisible, onPressApplyFilters, onPressClearFilters, loading }) {
     return (
         <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={() => setVisible(false)}>
-            <View style={{ flex: 1, paddingTop: 20, paddingHorizontal: 20, backgroundColor: 'white' }}>
+            <ScrollView style={{ flex: 1, paddingTop: 20, paddingHorizontal: 20, backgroundColor: 'white' }}>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20, marginTop: 10 }}>
                     <Pressable style={{ paddingHorizontal: 10, paddingVertical: 20 }} onPress={() => setVisible(false)}>
                         <Times color={primary} size={25} />
@@ -17,9 +17,9 @@ export default function({ children, visible, setVisible, onPressApplyFilters, on
                     <ColoredButton onPress={onPressClearFilters}>Limpar filtros</ColoredButton>
                 </View>
                 {children}
-            </View>
+            </ScrollView>
             <FloatingBox>
-                <HighlightedButton onPress={onPressApplyFilters} loading={loading}>
+                <HighlightedButton onPress={() => onPressApplyFilters()} loading={loading}>
                     Aplicar filtros
                 </HighlightedButton>
             </FloatingBox>
@@ -47,14 +47,6 @@ export const CheckBox = {
     Grid: ({ children }) => <View style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 20 }}>{children}</View>,
     CheckBox: ({ children }) => <LiveExpCheckBox>{children}</LiveExpCheckBox>,
     Title: ({ children }) => <Text style={{ fontWeight: 500, fontSize: 15 }}>{children}</Text>
-}
-
-export function FilterButton({ onPress }) {
-    return (
-        <HeaderButton icon={<Filter />} onPress={onPress}>
-            Filtro
-        </HeaderButton>
-    )
 }
 
 export function ColoredButton({ children, onPress }) {
@@ -85,5 +77,42 @@ export function FilterBadge({ children, onPressClose }) {
                 <Times color={textColor} size={17} />
             </Pressable>
         </View>
+    )
+}
+
+export function FilterButton({ onPress, numberFilters = null }) {
+    return (
+        <HeaderButton icon={<Filter />} onPress={onPress}>
+            <Text style={{ color: primary, fontWeight: 600 }}>Filtro</Text>
+            {numberFilters && <Text style={{ color: primary, fontWeight: 600 }}>({numberFilters})</Text>}
+        </HeaderButton>
+    )
+}
+
+export function SortButton({ onPress }) {
+    return (
+        <HeaderButton icon={<Order />} onPress={onPress}>
+            <Text style={{ color: primary, fontWeight: 600 }}>Ordenar</Text>
+        </HeaderButton>
+    )
+}
+
+function HeaderButton({ children, icon, onPress }) {
+    return (
+        <Pressable style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 7, padding: 10 }} onPress={onPress}>
+            {icon}
+            {children}
+        </Pressable>
+    )
+}
+
+export function SearchInput({ value, setValue, placeholder }) {
+    return (
+        <>
+            <TextInput value={value} onChangeText={setValue} placeholder={placeholder} placeholderTextColor='#6d6d6d' style={{ backgroundColor: '#fff', flexGrow: 1, paddingVertical: 15, width: '80%', paddingHorizontal: 10 }} />
+            <View style={{ paddingHorizontal: 10 }}>
+                <Search />
+            </View>
+        </>
     )
 }

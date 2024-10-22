@@ -1,63 +1,97 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { primary } from '@/constants/Colors'
-import { Hr } from "@/components/LiveExperience";
+import { primary, text } from '@/constants/Colors'
+import { Hr, Status } from "@/components/LiveExperience";
+import { router, useLocalSearchParams } from "expo-router";
+import { ChevronLeft, Mark } from "@/components/Icons";
+import { useEffect, useState } from "react";
+import api from "@/hooks/api"
 
 export default function Pedidos() {
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    const { id } = useLocalSearchParams()
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const fetchData = () => {
+        setLoading(true)
+        api.get(`order/${id}`)
+            .then(({ data }) => setData(data))
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }
+
     return (
-        <ScrollView style={{ backgroundColor: '#fff', padding: 10 }}>
-            <Text>Seu pedido</Text>
-            <Text># 1</Text>            
-            <Text>LIVE! RUN XP São Jose do Vale do Rio Preto</Text>
-            <Text>Data do evento</Text>
-            <Text>24/11/2024</Text>
-            <Text>Local da largada</Text>
-            <Text>praça do lido s/n - RJ</Text>
-            <Hr />
-            <Text>Retira seu kit</Text>
-            <Text>Local de retirada</Text>
-            <Text>LIVE! São José do Vale do Rio Preto - Shopping RioMar</Text>
-            <Pressable onPress={() => {}}>
-                <Text>Ver local no mapa</Text>
-            </Pressable>
-            <Hr />
-            <Text>Sua compra</Text>
-            <DetailBox>
-                <DetailTitle>Valor</DetailTitle>
-                <DetailValue>160</DetailValue>
-            </DetailBox>
+        <ScrollView style={{ backgroundColor: '#fff', paddingTop: 60, paddingHorizontal: 20 }} contentContainerStyle={{ paddingBottom: 100 }}>
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
+                <Pressable style={{ padding: 10 }} onPress={() => router.back()}>
+                    <ChevronLeft color={primary} size={25} />
+                </Pressable>
+                <Text style={{ fontSize: 20 }}>Pedidos</Text>
+                <View style={{ padding: 10 }} />
+            </View>
+            <View style={{ marginTop: 40, marginBottom: 20 }}>
+                <Hr />
+            </View>
+
+            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
+                <Title>Seu pedido</Title>
+                <Status status={1} />
+            </View>
+            <Text style={{ color: text }}>#1</Text>            
+            <Box>
+                <SubBox>
+                    <Text>LIVE! RUN XP São Jose do Vale do Rio Preto</Text>
+                </SubBox>
+                <SubBox>
+                    <SubTitle>Data do evento</SubTitle>
+                    <Text>24/11/2024</Text>
+                </SubBox>
+                <SubBox>
+                    <SubTitle>Local da largada</SubTitle>
+                    <Text>praça do lido s/n - RJ</Text>
+                </SubBox>
+            </Box>
+            <Hr marginVertical={20} />
+            <Title>Retire seu kit</Title>
+            <Box>
+                <SubBox>
+                    <SubTitle>Local de retirada</SubTitle>
+                    <Text>LIVE! São José do Vale do Rio Preto - Shopping RioMar</Text>
+                </SubBox>
+                <Pressable style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 7, padding: 15 }} onPress={() => {}}>
+                    <Mark color={primary} />
+                    <Text style={{ color: primary, fontWeight: 600 }}>Ver local no mapa</Text>
+                </Pressable>
+            </Box>
+            <Hr marginVertical={20} />
+            <Title>Sua compra</Title>
+            <Box>
+                <SubBox>
+                    <SubTitle>Valor</SubTitle>
+                    <Text>R$ 100,00</Text>
+                </SubBox>
+                <SubBox>
+                    <SubTitle>Nome do titular</SubTitle>
+                    <Text>Taís Lima</Text>
+                </SubBox>
+                <SubBox>
+                    <SubTitle>Data da compra</SubTitle>
+                    <Text>24/11/2024</Text>
+                </SubBox>
+                <SubBox>
+                    <SubTitle>Método de pagamento</SubTitle>
+                    <Text>Cartão Mastercard</Text>
+                </SubBox>
+            </Box>
         </ScrollView>
     );
 }
 
-export function Status({ status }) {
-    const statuses = {
-        finished: {
-            color: 'green',
-            text: 'Concluído',
-        }
-    }
-
-    return (
-        <Text style={[{ color: statuses[status].color }, { borderColor: statuses[status].color, borderWidth: 1, padding: 5, fontSize: 12, borderRadius: 10 }]}>
-            {statuses[status].text}
-        </Text>
-    )
-}
-
-function DetailBox({ children }) {
-    <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        {children}
-    </View>
-}
-
-function DetailTitle() {
-    return (
-        <Text style={{ fontWeight: 500 }}>Valor</Text>
-    )
-}
-
-function DetailValue({ children }) {
-    return (
-        <Text>{children}</Text>
-    )
-}
+const Title = ({ children }) => <Text style={{ fontSize: 18, marginBottom: 20 }}>{children}</Text>
+const SubTitle = ({ children }) => <Text style={{ fontSize: 16, fontWeight: 500 }}>{children}</Text>
+const Box = ({ children }) => <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>{children}</View>
+const SubBox = ({ children }) => <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>{children}</View>

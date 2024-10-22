@@ -30,32 +30,3 @@ export function SearchInput({ value, setValue, placeholder }) {
         </>
     )
 }
-
-export function FilterButton({ onPress, numberFilters = null }) {
-    return (
-        <HeaderButton icon={<Filter />} onPress={onPress}>
-            <Text style={{ color: primary, fontWeight: 600 }}>Filtro</Text>
-            <Text style={{ color: primary, fontWeight: 600 }}>({numberFilters})</Text>
-        </HeaderButton>
-    )
-}
-
-export function SortButton({ onPress }) {
-    return (
-        <HeaderButton icon={<Order />} onPress={onPress}>
-            <Text style={{ color: primary, fontWeight: 600 }}>Ordenar</Text>
-        </HeaderButton>
-    )
-}
-
-
-
-function HeaderButton({ children, icon, onPress }) {
-    return (
-        <Pressable style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 7, padding: 10 }} onPress={onPress}>
-            {icon}
-            {children}
-        </Pressable>
-    )
-}
-

@@ -2,9 +2,9 @@ import { Image as ReactImage, Pressable, ScrollView, Text, View } from "react-na
 import { ChevronLeft, Mark } from "@/components/Icons";
 import { primary, secondary, body, borderColor, text, greenText } from "@/constants/Colors";
 import { router } from "expo-router";
-import { ResultsTitle, SearchInput, FilterButton, SortButton } from "@/components/MainPages";
+import { ResultsTitle, SearchInput } from "@/components/MainPages";
 import { useEffect, useState } from "react";
-import Filter, { CheckBox, FilterBadge, BadgeContainer } from '@/components/Filter'
+import Filter, { CheckBox, FilterBadge, BadgeContainer, FilterButton, SortButton } from '@/components/Filter'
 import Select from '@/components/Select'
 import api from "@/hooks/api";
 

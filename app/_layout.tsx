@@ -43,6 +43,8 @@ export default function RootLayout() {
         <Stack.Screen name="alterar-senha" />
         <Stack.Screen name="pedidos" />
         <Stack.Screen name="eventos/[slug]" />
+        <Stack.Screen name="eventos/[slug]/inscrever" />
+        <Stack.Screen name="eventos/[slug]/resultados" />
         <Stack.Screen name="+not-found" />
       </Stack>
     </AuthContext>

@@ -1,6 +1,6 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { primary, text, danger, greenText } from '@/constants/Colors'
-import { Hr } from "@/components/LiveExperience";
+import { primary, text } from '@/constants/Colors'
+import { Hr, Status } from "@/components/LiveExperience";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import api from "@/hooks/api"
@@ -45,7 +45,7 @@ export default function Pedidos() {
                                     <Text>{order.total}</Text>
                                     <Text>{order.payment_type}</Text>
                                 </View>
-                                <Pressable style={{ padding: 20 }} onPress={() => { router.push(`pedidos/${order.id}`) }}>
+                                <Pressable style={{ padding: 10 }} onPress={() => { router.push(`pedidos/${order.id}`) }}>
                                     <Text style={{ color: primary, fontWeight: 500 }}>Ver detalhes</Text>
                                 </Pressable>
                             </View>
@@ -56,27 +56,4 @@ export default function Pedidos() {
             }
         </ScrollView>
     );
-}
-
-export function Status({ status }) {
-    const statuses = {
-        1: {
-            color: primary,
-            text: 'Aguardando pagamento',
-        },
-        2: {
-            color: greenText,
-            text: 'Confirmado',
-        },
-        3: {
-            color: danger,
-            text: 'Cancelado',
-        }
-    }
-
-    return (
-        <Text style={[{ color: statuses[status].color }, { borderColor: statuses[status].color, borderWidth: 1, paddingHorizontal: 10, paddingVertical: 5, fontSize: 12, borderRadius: 13, fontWeight: 500 }]}>
-            {statuses[status].text}
-        </Text>
-    )
 }
