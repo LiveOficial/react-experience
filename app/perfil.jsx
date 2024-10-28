@@ -12,7 +12,7 @@ export default function MyProfile() {
   const [openModalDeleteMyAcccount, setOpenModalDeleteMyAcccount] = useState(false);
   const [openModalLogout, setOpenModalLogout] = useState(false);
   const [openModalChangePhoto, setOpenModalChangePhoto] = useState(false);
-  const { user, setUser, setToken, logout, token } = useAuth()
+  const { user, setUser, setToken, logout, token, saveUser, saveToken } = useAuth()
 
   useEffect(() => {
     if (token === null) {
@@ -21,9 +21,11 @@ export default function MyProfile() {
   }, [token])
 
   const onDeleteMyAcccount = () => {
-    api.delete('user')
+    api.post('user/delete-account')
     setUser(null)
     setToken(null)
+    saveUser(null)
+    saveToken(null)
     setOpenModalDeleteMyAcccount(false)
   }
 
@@ -56,7 +58,7 @@ export default function MyProfile() {
           <Name>{user?.name}</Name>
           <Email>{user?.email}</Email>
         </View>
-        <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <View style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           <Hr />
           <Link icon={<EditProfile color={primary} />} href='editar-perfil'>Editar perfil</Link>
           <Link icon={<Asterisk color={primary} />} href='alterar-senha'>Alterar senha</Link>
@@ -89,7 +91,7 @@ function Link({ children, href, onPress, icon }) {
   }
 
   return (
-    <Pressable style={{ padding: 10 }} onPress={() => handlePress()}> 
+    <Pressable style={{ paddingVertical: 20 }} onPress={() => handlePress()}> 
       <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
         {icon}
         <Text style={{ color: primary, fontWeight: 600 }}>{children}</Text>
@@ -135,8 +137,6 @@ function ChangePhoto({ visible, setVisible }) {
           }
         })
 
-        console.log(response.data.uri)
-
         setUser({ ...user, photo: response.data.uri })
       } catch (error) {
         console.log((error))
@@ -155,7 +155,7 @@ function ChangePhoto({ visible, setVisible }) {
     <Modal visible={visible} setVisible={setVisible}>
       <View style={{ paddingHorizontal: 20, gap: 10 }}>
         <Text style={{ fontSize: 18, fontWeight: 600 }}>Adicionar imagem de perfil</Text>
-        <View style={{ display: 'flex', borderRadius: 100, overflow: 'hidden', marginHorizontal: 20, height: 180, width: 180, marginVertical: 20, marginHorizontal: 'auto' }}>
+        <View style={{ display: 'flex', borderRadius: 100, overflow: 'hidden', marginHorizontal: 20, height: 150, width: 150, marginVertical: 20, marginHorizontal: 'auto' }}>
           <Gradient>
             <ProfilePhoto uri={user?.photo} />
           </Gradient>

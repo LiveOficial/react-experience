@@ -46,16 +46,25 @@ function Button({ label, icon, onPress, active }) {
 function Contact() {
     const { user } = useAuth()
     const [subject, setSubject] = useState(null)
-    const [name, setName] = useState(user.name)
-    const [email, setEmail] = useState(user.email)
-    const [cellphone, setCellphone] = useState(user.cellphone)
+    const [name, setName] = useState(user?.name)
+    const [email, setEmail] = useState(user?.email)
+    const [cellphone, setCellphone] = useState(user?.cellphone)
     const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
     const [response, setResponse] = useState(null)
 
     const onSubmit = () => {
         setLoading(true)
-        api.post('faq/contato', { subject, name, email, cellphone, message })
+
+        const data = {
+            subject,
+            name,
+            email,
+            cellphone,
+            message
+        }
+
+        api.post('help/contact', data)
             .then(({ data }) => setResponse(data))
             .catch(e => console.log(e))
             .finally(() => setLoading(false))
@@ -109,8 +118,8 @@ function FrequentQuestions() {
 
     const fetchQuestions = () => {
         setLoading(true)
-        api.get('faq')
-            .then(({ data }) => setQuestions(data))
+        api.get('help/frequent-questions')
+            .then(({ data: { questions } }) => setQuestions(questions))
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }

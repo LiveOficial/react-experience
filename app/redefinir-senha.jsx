@@ -24,7 +24,7 @@ export default function ForgotPassword() {
             <Header />
             <View style={{ display: 'flex', flexDirection: 'column', minWidth: 350, maxWidth: 500 }}>
                 <TitleBox>
-                    <Title>Esqueci minha senha</Title>
+                    <Title>Redefinir senha</Title>
                 </TitleBox>
                 <Text style={{ textAlign: 'center' }}>Você receberá um e-mail com as instruções para redefinir sua senha.</Text>
                 <View style={{ display: 'flex', marginVertical: 25 }}>

@@ -5,12 +5,37 @@ import { Input, HighlightedButton, Hr } from "@/components/LiveExperience";
 import { body, primary } from "@/constants/Colors";
 import { router } from "expo-router";
 import { useAuth } from "@/context/auth";
+import api from "@/hooks/api";
+import { useState } from "react";
 
 export default function EditarPerfil() {
     const { user } = useAuth()
+    
+    const [name, setName] = useState(user.name)
+    const [document, setDocument] = useState(user.document)
+    const [email, setEmail] = useState(user.email)
+    const [cellphone, setCellphone] = useState(user.cellphone)
+    const [birthDate, setBirthDate] = useState(user.birth_date)
+    const [gender, setGender] = useState(user.gender)
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState(null)
 
     const onSubmit = () => {
-        console.log('onSubmit')
+        setLoading(true)
+
+        const data = {
+            name: name,
+            email: email,
+            document: document,
+            cellphone: cellphone,
+            birth_date: birthDate,
+            gender: gender
+        }
+
+        api.post('user/update-profile', data)
+            .then(({ data: { message } }) => setMessage(message))
+            .catch(e => console.log(e))
+            .finally(() => setLoading(false))
     }
 
     return (
@@ -22,40 +47,38 @@ export default function EditarPerfil() {
                 <Text style={{ textAlign: 'center', fontSize: 20 }}>Editar perfil</Text>
                 <View />
             </View>
-
-            <View style={{ marginVertical: 30 }}>
-                <Alert.Box marginTop={40}>
-                    <Alert.Message>
-                        Dados atualizados com sucesso
-                    </Alert.Message>
-                </Alert.Box>
-            </View>
-
-            <View style={{ paddingBottom: 100 }}>
+            <View style={{ paddingBottom: 100, marginTop: 40 }}>
+                {message && <View style={{ marginVertical: 10 }}>
+                    <Alert.Box marginTop={40}>
+                        <Alert.Message>
+                            {message}
+                        </Alert.Message>
+                    </Alert.Box>
+                </View>}
                 <Title>Seus dados</Title>
                 <FormBox>
                     <Label>Nome e sobrenome</Label>
-                    <Input value={user?.name} />
+                    <Input value={name} />
                 </FormBox>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={user?.email} />
+                    <Input value={email} />
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
-                    <Input value={user?.document} />
+                    <Input value={document} />
                 </FormBox>
                 <FormBox>
                     <Label>Telefone</Label>
-                    <Input value={user?.cellphone} />
+                    <Input value={cellphone} />
                 </FormBox>
                 <FormBox>
                     <Label>Data de nascimento</Label>
-                    <Input value={user?.birthday} />
+                    <Input value={birthDate} />
                 </FormBox>
                 <FormBox>
                     <Label>Gênero</Label>
-                    <Input></Input>
+                    <Input value={gender} />
                 </FormBox>
                 <FormBox>
                     <Label>Nome e sobrenome</Label>
@@ -95,7 +118,7 @@ export default function EditarPerfil() {
                     <Label>Complemento</Label>
                     <Input></Input>
                 </FormBox>
-                <HighlightedButton onPress={() => onSubmit()}>
+                <HighlightedButton onPress={() => onSubmit()} loading={loading}>
                     Salvar alterações
                 </HighlightedButton>
             </View>
@@ -103,4 +126,4 @@ export default function EditarPerfil() {
     )
 }
 
-const Title = ({ children }) => <Text style={{ fontSize: 20 }}>{children}</Text>
+const Title = ({ children }) => <Text style={{ fontSize: 20, marginVertical: 20 }}>{children}</Text>

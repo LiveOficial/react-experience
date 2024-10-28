@@ -3,6 +3,7 @@ import { Link as NativeLink } from 'expo-router'
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
 import { Logo, Times, Help } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
+import { useEffect } from 'react'
 
 export function Page({ children, header, padding = 0 }) {
     return (

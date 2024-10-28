@@ -87,8 +87,8 @@ export default function Index() {
                             <Accordion.Item title="Percursos">
                                 <Text style={{ fontSize: 14, textAlign: 'center', padding: 10 }}>{selectedModality}</Text>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                    {event && event?.maps.map(map => (
-                                        <Pressable style={{ backgroundColor: secondary, flexGrow: 1 }} onPress={() => setSelectedModality(map.name)}>
+                                    {event && event?.maps.map((map, index) => (
+                                        <Pressable style={{ backgroundColor: secondary, flexGrow: 1 }} onPress={() => setSelectedModality(map.name)} key={index}>
                                             <Text style={{ fontSize: 14, textAlign: 'center', padding: 10 }}>
                                                 {map.name}
                                             </Text>
@@ -154,24 +154,6 @@ function Kit({ kit }) {
     )
 }
 
-const Detail = {
-    Box: ({ children, icon }) => {
-        return (
-            <View style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
-                <View style={{ width: 30 }}>
-                    {icon}
-                </View>
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                    {children}
-                </View>
-            </View>
-        )
-    },
-    Wrap: ({ children }) => <View style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 35 }}>{children}</View>,
-    Title: ({ children }) => <Text style={{ fontSize: 16, fontWeight: 500 }}>{children}</Text>,
-    Value: ({ children }) => <Text style={{ fontSize: 14 }}>{children}</Text>
-}
-
 function Regulation({ content, visible, setVisible }) {
     return (
         <Modal animationType='slide' visible={visible}>
@@ -189,4 +171,22 @@ function Regulation({ content, visible, setVisible }) {
             </View>
         </Modal>
     )
+}
+
+const Detail = {
+    Box: ({ children, icon }) => {
+        return (
+            <View style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+                <View style={{ width: 30 }}>
+                    {icon}
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    {children}
+                </View>
+            </View>
+        )
+    },
+    Wrap: ({ children }) => <View style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 35 }}>{children}</View>,
+    Title: ({ children }) => <Text style={{ fontSize: 16, fontWeight: 500 }}>{children}</Text>,
+    Value: ({ children }) => <Text style={{ fontSize: 14 }}>{children}</Text>
 }

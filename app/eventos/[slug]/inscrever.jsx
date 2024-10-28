@@ -1,7 +1,7 @@
-import { Text, View, ScrollView, Pressable, Image } from "react-native";
+import { Text, View, ScrollView, Pressable, Image, TouchableOpacity } from "react-native";
 import { Chevron, Cart, CalendarCheck } from "@/components/Icons";
 import { secondary, body, primary, grey, borderColor } from "@/constants/Colors";
-import { CheckBox, HighlightedButton, Input } from "@/components/LiveExperience";
+import { CheckBox, HighlightedButton, Input, Gradient } from "@/components/LiveExperience";
 import { useEffect, useMemo, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import api from "@/hooks/api";
@@ -14,11 +14,13 @@ export default function Inscrever() {
     const [couponApplied, setCouponApplied] = useState(false)
     const [customerXp, setCustomerXp] = useState(false)
     const [applingCoupon, setApplyingCoupon] = useState(false)
-    const [isXp, setIsXp] = useState(false)
     const [category, setCategory] = useState('Adulto')
-    const [modality, setModality] = useState(null)
+    const [selectedModality, setSelectedModality] = useState(null)
+    const [schedule, setSchedule] = useState(null)
+    const [selectedKit, setSelectedKit] = useState(null)
     const [kits, setKits] = useState([])
     const [errors, setErrors] = useState({})
+    const [loadingKits, setLoadingKits] = useState(false)
 
     const categories = useMemo(() => {
         const data = []
@@ -34,19 +36,29 @@ export default function Inscrever() {
         return data
     }, [event])
 
-    useEffect(() => {
-        fetchData()
-    }, [])
+    useEffect(() => fetchData(), [])
+    useEffect(() => fetchKits(), [selectedModality, customerXp])
+
+    const products = useMemo(() => {
+        return kits.find(kit => kit.id === selectedKit)?.products
+    }, [kits])
+
+    const onPressModality = (modality) => {
+        setSelectedModality(modality)
+
+        if (modality.is_kids) {
+            setCustomerXp(false)
+        }
+
+        if (modality.schedules.length === 1) {
+            setSchedule(modality.schedules[0].id)
+        }
+    }
 
     const fetchData = () => {
         setLoading(true)
         api.get(`event/${slug}/registration`)
-            .then(({ data }) => {
-
-                console.log(data)
-                setEvent(data.event)
-
-            })
+            .then(({ data: { event } }) => setEvent(event))
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }
@@ -54,15 +66,21 @@ export default function Inscrever() {
     const fetchKits = () => {
         const data = {
             params: {
-                schedule_id: 1,
+                schedule_id: schedule,
                 xp: customerXp,
-                coupon: couponApplied ?? coupon,
+                coupon: !couponApplied ? null : coupon
             }
         }
 
+        setLoadingKits(true)
         api.get(`event/${slug}/kit`, data)
-            .then(({ data }) => setKits(data.kits))
-            .catch(err => console.log(err))
+            .then(({ data: { kits } }) => setKits(kits))
+            .catch(err => console.log(err.response.data))
+            .finally(() => setLoadingKits(false))
+    }
+
+    const onSelectKit = (kit) => {
+        setSelectedKit(kit.id)
     }
 
     const onPressApplyCoupon = () => {
@@ -86,7 +104,7 @@ export default function Inscrever() {
                     <Pressable onPress={() => router.back()}>
                         <Chevron rotate={270} size={25} color={primary} />
                     </Pressable>
-                    <Text style={{ fontWeight: 500, fontSize: 23, flexShrink: 1, textAlign: 'center' }}>{event.name}</Text>
+                    <Text style={{ fontWeight: 500, fontSize: 23, flexShrink: 1, textAlign: 'center' }}>{event?.name}</Text>
                     <Pressable>
                         <Cart />
                     </Pressable>
@@ -119,10 +137,10 @@ export default function Inscrever() {
                 <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
                     {event.modalities
                         .filter(modality => category == 'Adulto' ? !modality.is_kids : modality.is_kids)
-                        .map(m => {
+                        .map((modality, index) => {
                             return (
-                                <Button active={modality == m.id} onPress={() => setModality(m.id)}>
-                                    {m.name}
+                                <Button key={index} active={modality.id === selectedModality?.id} onPress={() => onPressModality(modality)}>
+                                    {modality.name}
                                 </Button>
                             )
                         })}
@@ -145,44 +163,45 @@ export default function Inscrever() {
                 <View>
                     <View style={{ display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
                         <Title>Kits</Title>
-                        <CheckBox value={isXp} setValue={setIsXp}>
+                        {selectedModality?.is_kids === false && <CheckBox value={customerXp} setValue={setCustomerXp}>
                             <Text style={{ fontWeight: 500 }}>Sou cliente XP</Text>
-                        </CheckBox>
+                        </CheckBox>}
                     </View>
                 </View>
     
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 50 }}>
-                    {kits.map(kit => {
+                <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                    {kits.map((kit, index) => {
+                        const selected = kit.id === selectedKit
+
                         return (
-                            <View style={{ backgroundColor: '#fff', padding: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
-                                <Image
-                                    style={{ width: '100%', height: 300 }}
-                                    source={{
-                                        uri: 'https://s3-alpha-sig.figma.com/img/ffba/7277/d82cc118c361b36e6851aae32fb52edd?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=HrT31sDXXpzHuz2ZAG~~9tGiefi~~o-ezGJp9h~RTrMhxxDtUeASh0VlQNgtSGtdGpmjzOsiVGtCGFEYCzzIfLayEZr9KA6NE6Zwh6FU6KoR2STvLEUigfhZmOu1mbPebs79vdTvqoURyUTes~zVc7tADfwrgYxsMAC4xO7Mn57X3jD8GnDZ2tECEjKFVMshgtTaoUYcmcZ2Ycd03g6OJqsCFR9Zyvdr9zhYaHf1i7xi1I-pjRLNU5a05CFUVTeXDrSOOJFcHPHApSWY5zP~gdKgxEJ5Yin9bFRCzR~UFLtdB8hhDlHMmSdbbbEoWGEtboNSwBzj7OuLzbu9oI7i5A__',
-                                    }}
-                                />
-                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginVertical: 20 }}>
-                                    <Text style={{ fontWeight: 500, fontSize: 20 }}>{kit.name}</Text>
-                                    <Text style={{ fontWeight: 500, fontSize: 20 }}>{formatMoney(kit.price)}</Text>
+                            <Pressable style={{ backgroundColor: '#fff', borderWidth: 1, borderColor: selected ? borderColor : body }} key={index} onPress={() => onSelectKit(kit)}>
+                                <Gradient>
+                                    <Image style={{ width: '100%', height: 350 }} source={{ uri: kit.image }} />
+                                </Gradient>
+                                <View style={{ backgroundColor: selected ? secondary : '#fff', padding: 20 }}>
+                                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <Text style={{ fontWeight: 500, fontSize: 20, marginBottom: 10 }}>{kit.name}</Text>
+                                        <Text style={{ fontWeight: 500, fontSize: 20 }}>{formatMoney(kit.price)}</Text>
+                                    </View>
+                                    <Text>Bolsa, camiseta Atleta, camiseta Finisher XP e medalha</Text>
                                 </View>
-                                <Text>Bolsa, camiseta Atleta, camiseta Finisher XP e medalha</Text>
-                            </View>
+                            </Pressable>
                         )
                     })}
                 </View>
     
                 <View style={{ display: 'flex', flexDirection: 'column', gap: 20, marginVertical: 30 }}>
-                    {[1,2].map(i => {
+                    {products && products.map((product, index) => {
                         return (
-                            <View>
-                                <Text style={{ fontWeight: 500, fontSize: 15, marginBottom: 10 }}>Tamanho camiseta Atleta (unissex)</Text>
-                                <View style={{ display: 'flex', flexDirection: 'row', gap: 10, justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <Button active={true}>Babylook</Button>
-                                    <Button>P</Button>
-                                    <Button>M</Button>
-                                    <Button>G</Button>
-                                    <Button>GG</Button>
-                                </View>
+                            <View key={index}>
+                                <Text style={{ fontWeight: 500, fontSize: 15, marginBottom: 10 }}>{product.name}</Text>
+                                <ScrollView horizontal contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
+                                    {product.sizes && product.sizes.map((size, index) => {
+                                        return (
+                                            <Button key={index}>{size.name}</Button>
+                                        )
+                                    })}
+                                </ScrollView>
                             </View>
                         ) 
                     })}

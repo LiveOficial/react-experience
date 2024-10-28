@@ -5,25 +5,39 @@ import { Container, Header, Title, FormBox, Label, TitleBox } from '@/components
 import { useState } from 'react'
 import api from '@/hooks/api'
 import { useAuth } from '@/context/auth'
+import { router } from 'expo-router'
 
 export default function SingIn() {
-    const [name, setName] = useState(null)
-    const [document, setDocument] = useState(null)
-    const [email, setEmail] = useState(null)
-    const [cellphone, setCellphone] = useState(null)
-    const [password, setPassword] = useState(null)
+    const [name, setName] = useState('Felipe Bona')
+    const [email, setEmail] = useState('uqD6h@example.com')
+    const [document, setDocument] = useState('979.776.890-22')
+    const [cellphone, setCellphone] = useState('11999999999')
+    const [password, setPassword] = useState('132567')
+    const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
 
-    const { setUser, setToken } = useAuth()
+    const { setUser, setToken, saveUser, saveToken } = useAuth()
 
     const onSubmit = () => {
         setLoading(true)
-        api.post('register', { name, document, email, cellphone, password })
-            .then(({ data }) => {
-                setUser(data.user)
-                setToken(data.token)
+
+        const data = {
+            name,
+            email,
+            document,
+            cellphone,
+            password
+        }
+
+        api.post('user/register', data)
+            .then(({ data: { token, user } }) => {
+                setToken(token)
+                saveToken(token)
+                setUser(user)
+                saveUser(user)
+                router.push('/perfil')
             })
-            .catch(e => console.log(e))
+            .catch(e => setErrors(e.response.data.errors))
             .finally(() => setLoading(false))
     }
 
@@ -36,23 +50,23 @@ export default function SingIn() {
                 </TitleBox>
                 <FormBox>
                     <Label>Nome completo</Label>
-                    <Input value={name} setValue={setName} placeholder="Insira seu nome completo" />
+                    <Input error={errors.name} value={name} setValue={setName} placeholder="Insira seu nome completo" />
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
-                    <Input value={document} setValue={setDocument} placeholder="000.000.000-00" />
+                    <Input error={errors.document} value={document} setValue={setDocument} placeholder="000.000.000-00" />
                 </FormBox>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={email} setValue={setEmail} placeholder="Insira seu e-mail" />
+                    <Input error={errors.email} value={email} setValue={setEmail} placeholder="Insira seu e-mail" />
                 </FormBox>
                 <FormBox>
                     <Label>Celular</Label>
-                    <Input value={cellphone} setValue={setCellphone} placeholder="Insira seu número de celular" />
+                    <Input error={errors.cellphone} value={cellphone} setValue={setCellphone} placeholder="Insira seu número de celular" />
                 </FormBox>
                 <FormBox>
                     <Label>Senha</Label>
-                    <Input value={password} setValue={setPassword} placeholder="Insira sua senha" />
+                    <Input error={errors.password} value={password} setValue={setPassword} placeholder="Insira sua senha" />
                 </FormBox>
                 <HighlightedButton onPress={onSubmit} loading={loading}>
                     Criar Conta

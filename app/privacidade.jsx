@@ -4,8 +4,25 @@ import { Hr } from "@/components/LiveExperience";
 import { ChevronLeft, Help } from '@/components/Icons'
 import { body, primary, text } from '@/constants/Colors';
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
+import api from "@/hooks/api"
 
 export default function Privacy() {
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    const fetchData = () => {
+        setLoading(true)
+        api.get('user/data-usage')
+            .then(({ data }) => setData(data))
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     return (
         <ScrollView style={{ backgroundColor: body, paddingTop: 60, paddingHorizontal: 20 }} contentContainerStyle={{ paddingBottom: 100 }}>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
@@ -13,7 +30,7 @@ export default function Privacy() {
                     <ChevronLeft color={primary} size={25} />
                 </Pressable>
                 <Text style={{ fontSize: 20 }}>Privacidade</Text>
-                <View />
+                <View style={{ padding: 10 }} />
             </View>
 
             <Text style={{ fontSize: 20, fontWeight: 600, marginTop: 40, marginBottom: 10 }}>Central de Privacidade</Text>

@@ -6,25 +6,17 @@ const api = axios.create({
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-    },
-    params: {
-        version: 'new-layout'
     }
 })
 
 api.interceptors.request.use(async (config: any) => {
     const token = await getItemAsync('token')
 
-    if (!token) {
-        return config
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`
     }
 
-    return {
-        ...config,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    }
+    return config
 })
 
 export default api

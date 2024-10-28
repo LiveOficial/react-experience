@@ -32,7 +32,7 @@ export default function Pedidos() {
                 <View />
             </View>
             {
-                orders && orders.map((order, index) => {
+                orders.length && orders.map((order, index) => {
                     return (
                         <View key={index}>
                             <View style={{ display: 'flex', flexDirection: 'column', paddingVertical: 20 }} key={index}>
@@ -52,7 +52,7 @@ export default function Pedidos() {
                             <Hr />
                         </View>
                     )
-                })
+                }) || <Text>Não há pedidos</Text>
             }
         </ScrollView>
     );

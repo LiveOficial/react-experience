@@ -7,7 +7,7 @@ export default function({ children, visible, setVisible, onPressApplyFilters, on
     return (
         <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={() => setVisible(false)}>
             <ScrollView style={{ flex: 1, paddingTop: 20, paddingHorizontal: 20, backgroundColor: 'white' }}>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20, marginTop: 10 }}>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20, marginTop: 30 }}>
                     <Pressable style={{ paddingHorizontal: 10, paddingVertical: 20 }} onPress={() => setVisible(false)}>
                         <Times color={primary} size={25} />
                     </Pressable>

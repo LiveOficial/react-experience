@@ -142,13 +142,13 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('treinadores') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.teachers.map((teacher, index) => {
+                                {data && data.trainers.map((trainer, index) => {
                                     return (
-                                        <Card onPress={() => router.push(`treinadores/${teacher.slug}`)} key={index}>
-                                            <Image uri={teacher.photo} />
+                                        <Card onPress={() => router.push(`treinadores/${trainer.slug}`)} key={index}>
+                                            <Image uri={trainer.photo} />
                                             <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 2, marginTop: 10 }}>
-                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{teacher.name}</Text>
-                                                <Text>{teacher.occupation || 'Funcional, Musculação'}</Text>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{trainer.name}</Text>
+                                                <Text>{trainer.occupation || 'Funcional, Musculação'}</Text>
                                             </View>
                                         </Card>
                                     )
@@ -161,7 +161,7 @@ export default function Home() {
                                 <SmallButton onPress={() => openBrowserAsync('https://blog.liveoficial.com.br') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.blog.map((post, index) => {
+                                {data && data.blog_posts.map((post, index) => {
                                     return (
                                         <Card key={index} onPress={() => openBrowserAsync(post.to)}>
                                             <Image uri={post.imagem} />

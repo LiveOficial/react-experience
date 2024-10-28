@@ -13,9 +13,14 @@ export default function Events() {
     const [type, setType] = useState()
     const [showFilter, setShowFilter] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [states, setStates] = useState(null)
+    const [cities, setCities] = useState(null)
+    const [types, setTypes] = useState(null)
+    const [state, setState] = useState(null)
 
     useEffect(() => {
         fetchData()
+        fetchFilters()
     }, [])
 
     const fetchData = () => {
@@ -24,6 +29,16 @@ export default function Events() {
             .then(({ data }) => setData(data))
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
+    }
+
+    const fetchFilters = () => {
+        api.get('event/filters')
+            .then(({ data: { filters: { types, states, cities } } }) => {
+                setTypes(types)
+                setStates(states)
+                setCities(cities)
+            })
+            .catch(err => console.log(err))
     }
 
     const applyFilters = () => {
@@ -50,16 +65,16 @@ export default function Events() {
                         <FilterButton onPress={() => setShowFilter(true)} numberFilters={2} />
                         <SortButton />
                     </View>
-                    <BadgeContainer>
+                    {/* <BadgeContainer>
                         <FilterBadge>
                             São Paulo
                         </FilterBadge>
                         <FilterBadge>
                             Evento em loja
                         </FilterBadge>
-                    </BadgeContainer>
+                    </BadgeContainer> */}
                 </View>
-                <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
+                <View style={{ backgroundColor: body, paddingHorizontal: 20, paddingBottom: 70 }}>
                     <ResultsTitle name="Eventos" resultsNumber={data && data.events.length} />
                     <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
                         {data && data.events.map((event, index) => {
@@ -73,7 +88,7 @@ export default function Events() {
                                             <Date day={event.day} month={event.month} />
                                         </View>
                                         <View style={{ display: 'flex', flexDirection: 'row', columnGap: 10, marginVertical: 10 }}>
-                                            {event.types.map(type => <Type name={type} icon={<Mark />} />)}
+                                            {event.types.map((type, index) => <Type key={index} name={type} icon={<Mark />} />)}
                                         </View>
                                     </View>
                                 </Pressable>
@@ -86,6 +101,10 @@ export default function Events() {
                 visible={showFilter}
                 setVisible={setShowFilter}
                 onApplyFilters={applyFilters}
+                states={states}
+                types={types}
+                state={state}
+                setState={setState}
             />
         </>
     )
@@ -131,53 +150,39 @@ function Date({ day, month }) {
     )
 }
 
-function EventFilter({ visible, setVisible, onApplyFilters }) {
-    const [loading, setLoading] = useState(false)
-    const [data, setData] = useState({ state: null })
-    const [state, setState] = useState(null)
-
+function EventFilter({ visible, setVisible, onApplyFilters, types, states, state, setState }) {
     const applyFilters = () => {
         onApplyFilters(data)
     }
 
-    const clearFilters = () => {
-        setData({ state: null })
-
-        applyFilters()
-    }
-
-    const handleSetState = (state) => {
-        setState(state)
-    }
-
     return (
-        <Filter visible={visible} setVisible={setVisible} onPressApplyFilters={applyFilters} loading={loading}>
-            
+        <Filter visible={visible} setVisible={setVisible} onPressApplyFilters={applyFilters}>
             <View style={{ marginBottom: 20, marginTop: 40 }}>
                 <Select.Label>
                     Estado
                 </Select.Label>
                 <Select.Root placeholder='Selecione o estado' value={state}>
-                    <Select.Option onPress={() => handleSetState('Usar minha localização')} icon={<Mark color={primary} />}>Usar minha localização</Select.Option>
-                    <Select.Option onPress={() => handleSetState('São Paulo')}>São Paulo</Select.Option>
-                    <Select.Option onPress={() => handleSetState('Rio de Janeiro')}>Rio de Janeiro</Select.Option>
-                    <Select.Option onPress={() => handleSetState('Belo Horizonte')}>Belo Horizonte</Select.Option>
-                    <Select.Option onPress={() => handleSetState('Fortaleza')}>Fortaleza</Select.Option>
+                    <Select.Option onPress={() => setState('Usar minha localização')} icon={<Mark color={primary} />}>
+                        Usar minha localização
+                    </Select.Option>
+                    {states && states.map((state, index) => {
+                        <Select.Option key={index} onPress={() => setState(state)}>
+                            {state}
+                        </Select.Option>
+                    })}
                 </Select.Root>
             </View>
-
             <View style={{ backgroundColor: 'white' }}>
                 <Text>Tipo de evento</Text>
                 <CheckBox.Grid>
-                    {['Corrida', 'Evento de loja', 'Treino', 'Yoga', 'Bike', 'Beach Tennis'].map((name) => {
+                    {types && types.map((name, index) => {
                         return (
-                            <CheckBox.CheckBox>
+                            <CheckBox.CheckBox key={index}>
                                 <CheckBox.Title>{name}</CheckBox.Title>
                             </CheckBox.CheckBox>
                         )
                     })}
                 </CheckBox.Grid>
-
                 <Text style={{ marginBottom: 20, marginTop: 30 }}>Disponibilidade</Text>
                 <CheckBox.CheckBox>
                     <CheckBox.Title>

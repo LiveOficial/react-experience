@@ -19,7 +19,7 @@ export default function Pedidos() {
     const fetchData = () => {
         setLoading(true)
         api.get(`order/${id}`)
-            .then(({ data }) => setData(data))
+            .then(({ data: { order } }) => setData(order))
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }
@@ -36,12 +36,11 @@ export default function Pedidos() {
             <View style={{ marginTop: 40, marginBottom: 20 }}>
                 <Hr />
             </View>
-
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
                 <Title>Seu pedido</Title>
                 <Status status={1} />
             </View>
-            <Text style={{ color: text }}>#1</Text>            
+            <Text style={{ color: text }}>#{data?.id}</Text>            
             <Box>
                 <SubBox>
                     <Text>LIVE! RUN XP São Jose do Vale do Rio Preto</Text>
