@@ -4,6 +4,7 @@ import { Gradient, Hr, Loader } from "@/components/LiveExperience"
 import { ChevronLeft } from "@/components/Icons"
 import { router, useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
+import RenderHtml from 'react-native-render-html';
 import api from "@/hooks/api"
 
 export default function Treinadores() {
@@ -62,9 +63,9 @@ export default function Treinadores() {
                     <Text style={{ fontWeight: 500, fontSize: 25 }}>{trainer?.name}</Text>
                     {trainer?.following === false ? <FollowButton onPress={onRequestFollow} loading={following} /> : <UnfollowButton onPress={onRequestUnfollow} loading={following} />}
                 </View>
-                <Text style={{ fontWeight: 500, marginTop: 10, marginBottom: 20 }}>13 vídeos</Text>
+                <Text style={{ fontWeight: 500, marginTop: 10, marginBottom: 20 }}>{trainer?.video_numbers} vídeos</Text>
                 <View style={{ display: 'flex', flexDirection: 'column', gap: 15 }}>
-                    <Text>{trainer?.description}</Text>
+                    <RenderHtml source={{ html: trainer?.description }} />
                 </View>
                 <View style={{ marginVertical: 20 }}>
                     <Hr />

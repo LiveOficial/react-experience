@@ -27,8 +27,6 @@ export default function({ children }) {
         password: password
       })
 
-      setToken(token)
-      setUser(user)
       saveToken(token)
       saveUser(user)
       return true
@@ -38,20 +36,26 @@ export default function({ children }) {
   }
 
   const saveUser = async (user) => {
-    await setItemAsync('user', JSON.stringify(user))
+    if (user === null) {
+      await deleteItemAsync('user')
+    } else {
+      await setItemAsync('user', JSON.stringify(user))
+    }
     setUser(user)
   }
 
   const saveToken = async (token) => {
-    await setItemAsync('token', token)
+    if (token === null) {
+      await deleteItemAsync('token')      
+    } else {
+      await setItemAsync('token', token)
+    }
     setToken(token)
   }
 
   const logout = async () => {
-    setToken(null)
-    setUser(null)
-    deleteItemAsync('token')
-    deleteItemAsync('user')
+    saveToken(null)
+    saveUser(null)
   }
 
   return (

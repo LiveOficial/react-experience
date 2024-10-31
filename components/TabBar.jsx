@@ -8,7 +8,7 @@ export default function TabBar() {
     const iconSize = 22
 
     return (
-        <View horizontal style={[style.container, { display: currentRoute == '/perfil' ? 'none' : 'flex' }]}>
+        <View horizontal style={[style.container, { display: currentRoute == '/meu-perfil' ? 'none' : 'flex' }]}>
             <Button onPress={() => router.push('/')}>
                 <Home color={currentRoute === '/' ? primary : 'black' } size={iconSize} />
                 <Title active={currentRoute === '/'}>Home</Title>
@@ -21,9 +21,9 @@ export default function TabBar() {
                 <Calendar color={currentRoute === '/calendario' ? primary : 'black' } size={iconSize} />
                 <Title active={currentRoute === '/calendario'}>Calendário</Title>
             </Button>
-            <Button onPress={() => router.push('/perfil')}>
-                <Profile color={currentRoute === '/perfil' ? primary : 'black' } size={iconSize} />
-                <Title active={currentRoute === '/perfil'}>Perfil</Title>
+            <Button onPress={() => router.push('/meu-perfil')}>
+                <Profile color={currentRoute === '/meu-perfil' ? primary : 'black' } size={iconSize} />
+                <Title active={currentRoute === '/meu-perfil'}>Perfil</Title>
             </Button>
         </View>
     )

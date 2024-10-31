@@ -1,5 +1,5 @@
 import { Image, Pressable, ScrollView, Text, View } from "react-native"
-import { secondary, primary, body } from "@/constants/Colors"
+import { secondary, primary, body, borderColor, text } from "@/constants/Colors"
 import { ChevronLeft } from "@/components/Icons"
 import { router } from "expo-router"
 import { Gradient } from "@/components/LiveExperience"
@@ -34,17 +34,17 @@ export default function Treinadores() {
                     <Text style={{ textAlign: 'center', fontSize: 20 }}>Professores</Text>
                     <View />
                 </View>
-                <View style={{ marginVertical: 25 }}>
+                {/* <View style={{ marginVertical: 25 }}>
                     <SearchInput placeholder={'Eventos ou localização'} />
-                </View>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                </View> */}
+                {/* <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Pressable onPress={() => {}}>
                         <Text style={{ color: primary, fontWeight: 500 }}>Filtrar</Text>
                     </Pressable>
                     <Pressable onPress={() => {}}>
                         <Text style={{ color: primary, fontWeight: 500 }}>Ordenar</Text>
                     </Pressable>
-                </View>
+                </View> */}
             </View>
             <View style={{ backgroundColor: body, paddingHorizontal: 20, paddingBottom: 100 }}>
                 <ResultsTitle name="Professores" resultsNumber={trainers?.length} />
@@ -54,7 +54,7 @@ export default function Treinadores() {
                         return (
                             <Pressable key={index} onPress={() => router.push(`/treinadores/${trainer.slug}`)}>
                                 <Gradient style={{ display: 'flex', flexDirection: 'column', paddingHorizontal: 5, paddingVertical: 10 }}>
-                                    <Image style={{ width: '100%', height: 250 }} source={{ uri: trainer?.photo }} />
+                                    <TrainerPhoto uri={trainer?.photo} news={trainer?.news} />
                                     <View style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 15 }}>
                                         <CardSubTitle>{trainer?.video_numbers} {trainer.video_numbers === 1 ? 'vídeo' : 'vídeos'} </CardSubTitle>
                                         <Text style={{ fontWeight: 500, fontSize: 20 }}>{trainer?.name}</Text>
@@ -68,5 +68,16 @@ export default function Treinadores() {
                 </View>
             </View>
         </ScrollView>
+    )
+}
+
+function TrainerPhoto({ uri, news }) {
+    return (
+        <View style={{ position: 'relative' }}>
+            {news && <View style={{ position: 'absolute', zIndex: 1, top: 0, left: 0, backgroundColor: 'transparent', borderWidth: 1, borderColor: borderColor, margin: 10, padding: 10, borderRadius: 20 }}>
+                <Text style={{ color: text }}>Novidade</Text>
+            </View>}
+            <Image style={{ width: '100%', height: 250 }} source={{ uri: uri }} />
+        </View>
     )
 }

@@ -30,6 +30,7 @@ export default function MyProfile() {
   }
 
   const onLogout = () => {
+    console.log('start')
     logout()
     setOpenModalLogout(false)
   }

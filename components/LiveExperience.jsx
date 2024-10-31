@@ -3,7 +3,6 @@ import { Link as NativeLink } from 'expo-router'
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
 import { Logo, Times, Help } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
-import { useEffect } from 'react'
 
 export function Page({ children, header, padding = 0 }) {
     return (
@@ -245,4 +244,24 @@ export function Status({ status }) {
             {statuses[status].text}
         </Text>
     )
+}
+
+export const Radio = {
+    Group: ({ children }) => {
+        return (
+            <View style={{ display: 'flex', flexDirection: 'column' }}>
+                {children}
+            </View>
+        )
+    },
+    Option: ({ children, selected, onPress }) => {
+        return (
+            <Pressable style={{ display: 'flex', flexDirection: 'row', gap: 7, alignItems: 'center', paddingVertical: 5 }} onPress={onPress}>
+                <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 50, borderWidth: 1, borderColor: primary }}>
+                    {selected && <View style={{ width: 17, height: 17, borderRadius: 50, backgroundColor: '#f38532' }} />}
+                </View>
+                {children}
+            </Pressable>
+        )
+    }
 }

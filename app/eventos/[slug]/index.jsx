@@ -2,8 +2,9 @@ import { Image, Pressable, ScrollView, Text, View, Share as NativeShare, Modal }
 import { body, primary, secondary, text } from '@/constants/Colors'
 import { Share, Chevron, CalendarCheck, Flag, Label, Folks, Times } from "@/components/Icons"
 import { router, useLocalSearchParams } from "expo-router"
-import { Gradient, GradientRun, Hr } from "@/components/LiveExperience"
+import { Gradient, GradientRun } from "@/components/LiveExperience"
 import { useEffect, useState } from "react"
+import RenderHtml from 'react-native-render-html';
 import Accordion from "@/components/Accordion"
 import api from "@/hooks/api"
 
@@ -77,7 +78,6 @@ export default function Index() {
                                 <Detail.Value>{event?.folks}</Detail.Value>
                             </Detail.Box>
                         </Detail.Wrap>
-
                         <Accordion.Container>
                             <Accordion.Item title="Kits">
                                 <ScrollView horizontal contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 20, marginTop: 20 }} showsHorizontalScrollIndicator={false}>
@@ -98,11 +98,10 @@ export default function Index() {
                                 </View>
                             </Accordion.Item>
                             <Accordion.Item title="Inscrições">
-                                <Text>Descricão</Text>
+                                <RenderHtml source={{ html: event?.registration }} />
                             </Accordion.Item>
                         </Accordion.Container>
-                        <Hr />
-                        <Text style={{ marginTop: 30 }}>{event?.description}</Text>
+                        <RenderHtml source={{ html: event?.description }} />
                         <Pressable style={{ padding: 20 }} onPress={() => setVisibleRegulation(true)}>
                             <Text style={{ color: primary, fontWeight: 600 }}>Ver regulamento</Text>
                         </Pressable>

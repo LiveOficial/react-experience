@@ -14,7 +14,7 @@ export default function Enter() {
 
     useEffect(() => {
         if (token !== null) {
-            router.push('/perfil')
+            router.push('/meu-perfil')
         }
     }, [token])
 

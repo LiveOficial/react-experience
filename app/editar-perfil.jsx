@@ -1,22 +1,29 @@
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { ChevronLeft } from "@/components/Icons";
 import { FormBox, Label, Alert } from "@/components/CommomPages";
-import { Input, HighlightedButton, Hr } from "@/components/LiveExperience";
+import { Input, HighlightedButton, Hr, Radio } from "@/components/LiveExperience";
 import { body, primary } from "@/constants/Colors";
 import { router } from "expo-router";
 import { useAuth } from "@/context/auth";
-import api from "@/hooks/api";
 import { useState } from "react";
+import api from "@/hooks/api";
 
 export default function EditarPerfil() {
-    const { user } = useAuth()
-    
+    const { user, saveUser } = useAuth()
+
     const [name, setName] = useState(user.name)
     const [document, setDocument] = useState(user.document)
     const [email, setEmail] = useState(user.email)
     const [cellphone, setCellphone] = useState(user.cellphone)
     const [birthDate, setBirthDate] = useState(user.birth_date)
     const [gender, setGender] = useState(user.gender)
+    const [cep, setCep] = useState(user.address.cep)
+    const [state, setState] = useState(user.address.state)
+    const [city, setCity] = useState(user.address.city)
+    const [district, setDistrict] = useState(user.address.district)
+    const [street, setStreet] = useState(user.address.street)
+    const [number, setNumber] = useState(user.address.number)
+    const [complement, setComplement] = useState(user.address.complement)
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState(null)
 
@@ -29,11 +36,38 @@ export default function EditarPerfil() {
             document: document,
             cellphone: cellphone,
             birth_date: birthDate,
-            gender: gender
+            gender: gender,
+            cep: cep,
+            state: state,
+            city: city,
+            district: district,
+            street: street,
+            number: number,
+            complement: complement
         }
 
         api.post('user/update-profile', data)
-            .then(({ data: { message } }) => setMessage(message))
+            .then(({ data: { message } }) => {
+                setMessage(message)
+                saveUser({
+                    name: name,
+                    photo: user.photo,
+                    email: user.email,
+                    document: user.document,
+                    cellphone: cellphone,
+                    birth_date: birthDate,
+                    gender: gender,
+                    address: {
+                        cep: cep,
+                        state: state,
+                        city: city,
+                        district: district,
+                        street: street,
+                        number: number,
+                        complement: complement
+                    }
+                })
+            })
             .catch(e => console.log(e))
             .finally(() => setLoading(false))
     }
@@ -58,65 +92,64 @@ export default function EditarPerfil() {
                 <Title>Seus dados</Title>
                 <FormBox>
                     <Label>Nome e sobrenome</Label>
-                    <Input value={name} />
+                    <Input value={name} setValue={setName} />
                 </FormBox>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={email} />
+                    <Input value={email} setValue={setEmail} />
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
-                    <Input value={document} />
+                    <Input value={document} setValue={setDocument} />
                 </FormBox>
                 <FormBox>
                     <Label>Telefone</Label>
-                    <Input value={cellphone} />
+                    <Input value={cellphone} setValue={setCellphone} />
                 </FormBox>
                 <FormBox>
                     <Label>Data de nascimento</Label>
-                    <Input value={birthDate} />
+                    <Input value={birthDate} setValue={setBirthDate} />
                 </FormBox>
                 <FormBox>
                     <Label>Gênero</Label>
-                    <Input value={gender} />
-                </FormBox>
-                <FormBox>
-                    <Label>Nome e sobrenome</Label>
-                    <Input></Input>
+                    <Radio.Group>
+                        <Radio.Option selected={gender === 'masculino'} onPress={() => setGender('masculino')}>
+                            <Text style={{ fontSize: 13, fontWeight: 600 }}>Masculino</Text>
+                        </Radio.Option>
+                        <Radio.Option selected={gender === 'feminino'} onPress={() => setGender('feminino')}>
+                            <Text style={{ fontSize: 13, fontWeight: 600 }}>Feminino</Text>
+                        </Radio.Option>
+                    </Radio.Group>
                 </FormBox>
                 <Hr />
                 <Title>Endereço</Title>
                 <FormBox>
                     <Label>CEP</Label>
-                    <Input></Input>
+                    <Input value={cep} setValue={setCep} />
                 </FormBox>
                 <FormBox>
                     <Label>Estado</Label>
-                    <Input></Input>
-                </FormBox>
-                <FormBox>
-                    <Label>Estado</Label>
-                    <Input></Input>
+                    <Input value={state} setValue={setState} />
                 </FormBox>
                 <FormBox>
                     <Label>Cidade</Label>
-                    <Input></Input>
+                    <Input value={city} setValue={setCity} />
                 </FormBox>
                 <FormBox>
                     <Label>Bairro</Label>
-                    <Input></Input>
+                    <Input value={district} setValue={setDistrict} />
                 </FormBox>
                 <FormBox>
                     <Label>Logadouro</Label>
-                    <Input></Input>
+                    <Input value={street} setValue={setStreet} />
                 </FormBox>
                 <FormBox>
                     <Label>Número</Label>
-                    <Input></Input>
+                    <Input value={number} setValue={setNumber} />
                 </FormBox>
                 <FormBox>
                     <Label>Complemento</Label>
-                    <Input></Input>
+                    <Input value={complement} setValue={setComplement} />
                 </FormBox>
                 <HighlightedButton onPress={() => onSubmit()} loading={loading}>
                     Salvar alterações

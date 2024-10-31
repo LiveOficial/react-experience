@@ -50,8 +50,9 @@ function Contact() {
     const [email, setEmail] = useState(user?.email)
     const [cellphone, setCellphone] = useState(user?.cellphone)
     const [message, setMessage] = useState(null)
+    const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
-    const [response, setResponse] = useState(null)
+    const [sent, setSent] = useState(false)
 
     const onSubmit = () => {
         setLoading(true)
@@ -65,8 +66,8 @@ function Contact() {
         }
 
         api.post('help/contact', data)
-            .then(({ data }) => setResponse(data))
-            .catch(e => console.log(e))
+            .then(() => setSent(true))
+            .catch(e => setErrors(e.response.data.errors))
             .finally(() => setLoading(false))
     }
 
@@ -77,33 +78,41 @@ function Contact() {
     return (
         <View style={{ paddingTop: 15 }}>
             <Text style={{ fontSize: 16, marginBottom: 20 }}>Quer tirar dúvidas ou está precisando de ajuda para resolver algum problema? Fale conosco, queremos que você tenha a melhor experiência possível aqui.</Text>
-            <FormBox>
-                <Label>Tipo de solicitação</Label>
-                <Select.Root placeholder={'Selecionar tipo de solicitação'} value={subject} setValue={setSubject} backgroundColor='#fff'>
-                    <Select.Option onPress={() => handleSetSubject('suporte')}>Suporte</Select.Option>
-                    <Select.Option onPress={() => handleSetSubject('duvidas')}>Dúvidas</Select.Option>
-                    <Select.Option onPress={() => handleSetSubject('feedback')}>Feedback</Select.Option>
-                </Select.Root>
-            </FormBox>
-            <FormBox>
-                <Label>Nome</Label>
-                <Input value={name} setValue={setName} placeholder="Insira seu e-mail" />
-            </FormBox>
-            <FormBox>
-                <Label>E-mail</Label>
-                <Input value={email} setValue={setEmail} placeholder="Insira seu e-mail" />
-            </FormBox>
-            <FormBox>
-                <Label>Telefone</Label>
-                <Input value={cellphone} setValue={setCellphone} placeholder="Insira seu telefone" />
-            </FormBox>
-            <FormBox>
-                <Label>Descrição</Label>
-                <Input value={message} setValue={setMessage} placeholder="Descreva sua solicitação" />
-            </FormBox>
-            <HighlightedButton onPress={() => onSubmit()} loading={loading}>
-                Enviar
-            </HighlightedButton>
+            {
+                sent ? (
+                    <Text style={{ fontSize: 16, marginBottom: 20 }}>Sua mensagem foi enviada com sucesso. Em breve retornaremos.</Text>
+                ) : (
+                    <>
+                        <FormBox>
+                            <Label>Tipo de solicitação</Label>
+                            <Select.Root placeholder={'Selecionar tipo de solicitação'} value={subject} setValue={setSubject} backgroundColor='#fff'>
+                                <Select.Option onPress={() => handleSetSubject('suporte')}>Suporte</Select.Option>
+                                <Select.Option onPress={() => handleSetSubject('duvidas')}>Dúvidas</Select.Option>
+                                <Select.Option onPress={() => handleSetSubject('feedback')}>Feedback</Select.Option>
+                            </Select.Root>
+                        </FormBox>
+                        <FormBox>
+                            <Label>Nome</Label>
+                            <Input errors={errors?.name} value={name} setValue={setName} placeholder="Insira seu e-mail" />
+                        </FormBox>
+                        <FormBox>
+                            <Label>E-mail</Label>
+                            <Input errors={errors?.email} value={email} setValue={setEmail} placeholder="Insira seu e-mail" />
+                        </FormBox>
+                        <FormBox>
+                            <Label>Telefone</Label>
+                            <Input errors={errors?.cellphone} value={cellphone} setValue={setCellphone} placeholder="Insira seu telefone" />
+                        </FormBox>
+                        <FormBox>
+                            <Label>Descrição</Label>
+                            <Input errors={errors?.message} value={message} setValue={setMessage} placeholder="Descreva sua solicitação" />
+                        </FormBox>
+                        <HighlightedButton onPress={() => onSubmit()} loading={loading}>
+                            Enviar
+                        </HighlightedButton>
+                    </>
+                )
+            }
         </View>
     )
 }

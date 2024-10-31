@@ -8,8 +8,8 @@ import router from 'expo-router'
 import api from '@/hooks/api'
 
 export default function ChangePassword() {
-    const [currentPassword, setCurrentPassword] = useState('132567888888');
-    const [newPassword, setNewPassword] = useState('132567');
+    const [currentPassword, setCurrentPassword] = useState(null);
+    const [newPassword, setNewPassword] = useState(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [errors, setErrors] = useState({});
