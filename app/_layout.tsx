@@ -2,12 +2,11 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { Stack } from 'expo-router';
-import 'react-native-reanimated';
 import AuthContext from '@/context/auth';
-import { Alert, StatusBar } from 'react-native';
-import api from '@/hooks/api';
+import { StatusBar } from 'react-native';
 import { version } from '../package.json';
 import { Modal } from '@/components/TermPolicy';
+import api from '@/hooks/api';
 
 SplashScreen.preventAutoHideAsync()
 

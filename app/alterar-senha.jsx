@@ -4,7 +4,7 @@ import { body, primary } from "@/constants/Colors"
 import { FormBox, Label, Alert } from '@/components/CommomPages'
 import { ChevronLeft } from '@/components/Icons'
 import { useState } from "react";
-import router from 'expo-router'
+import { router } from "expo-router";
 import api from '@/hooks/api'
 
 export default function ChangePassword() {

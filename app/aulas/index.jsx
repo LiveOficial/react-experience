@@ -1,25 +1,21 @@
-import { Text, View, ScrollView, Image as ReactImage, Pressable } from 'react-native'
+import { Text, View, ScrollView, Image as ReactImage, Pressable, StyleSheet } from 'react-native'
 import { ResultsTitle, CardSubTitle } from '@/components/MainPages';
-import { Button } from '@/components/LiveExperience';
 import { ChevronLeft, Point } from '@/components/Icons';
-import { text, secondary, body } from '@/constants/Colors';
+import { text, secondary, body, primary } from '@/constants/Colors';
 import { router } from 'expo-router';
 import { FilterButton, SortButton, SearchInput } from '@/components/Filter';
 import api from '@/hooks/api';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function Aulas() {
-    const [trainers, setTrainers] = useState([]);
+    const [classes, setClasses] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        fetchData()
-    }, [])
 
     const fetchData = () => {
         setLoading(true)
-        api.get('aulsa')
-            .then(({ data }) => setTrainers(data.trainers))
+        api.get('classes')
+            .then(({ data: { classes } }) => setClasses(classes))
             .catch(() => {})
             .finally(() => setLoading(false))
     }
@@ -28,15 +24,11 @@ export default function Aulas() {
         <ScrollView style={{ backgroundColor: secondary, paddingTop: 40 }}>
             <View style={{ display: 'flex', flexDirection: 'column', backgroundColor: secondary, paddingHorizontal: 20, paddingVertical: 30 }}>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
-                    <Button onPress={() => router.back()}>
-                        <ChevronLeft />
-                    </Button>
-                    <View>
-                        <Text style={{ textAlign: 'center', fontSize: 20 }}>
-                            Aulas
-                        </Text>
-                    </View>
-                    <View />
+                    <Pressable onPress={() => router.back()}>
+                        <ChevronLeft color={primary} size={20} />
+                    </Pressable>
+                    <Text style={{ textAlign: 'center', fontSize: 20 }}>Aulas</Text>
+                    <View style={{ padding: 10 }} />
                 </View>
                 <View style={{ marginVertical: 25 }}>
                     <SearchInput placeholder='Aulas, tipo de treino ou professores' />
@@ -46,17 +38,16 @@ export default function Aulas() {
                     <SortButton />
                 </View>
             </View>
-            <View style={{ backgroundColor: body, paddingHorizontal: 20 }}>
+            <View style={{ backgroundColor: body, paddingHorizontal: 20, paddingBottom: 100 }}>
                 <ResultsTitle name='Aulas' resultsNumber={12} />
                 <View style={{ display: 'flex', flexDirection: 'column', gap: 30 }}>
-                    {trainers && trainers.map((trainer, index) => {
+                    {classes && classes.map((item, index) => {
                         return (
-                            <Card style={{ display: 'flex', flexDirection: 'column', gap: 30 }} onPress={() => { router.push('/aulas/1') }} key={index}>
-                                <Image duration='01:30' uri='https://s3-alpha-sig.figma.com/img/00b1/a808/8e02c477d1c927d2947107480fe3a137?Expires=1729468800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XsiHugCOYs1CWke~B1wzF2aRkBHOdebCOW0-yj-7rpp04KDSwIg~UOeDiN7LSWT1hOb7XFugHK0dP-tJMQB2PROmuZgzFU1kG5sih7PzOzu57BOqrA9YXoe~SIB0pbInUHWidxjO~lQi2A-EoAKbUsxkEf9y3378zjIz5trOBNFhkn43G4sRcUzSoCk67YzVv01AlkVjQg0xQdmabhN3O9NWydl93mSw2XNl7-ehX7WCv5NF8k6pAPci91O8QGpcW6GRC6cf~Qb0Me6KKRi3f88qHQZfrbpTyKHq6jeFrHmcrsLdIii0weJQE8IX6Fqol-HoynhS6-bWUwCN~iQjGA__' />
+                            <Card style={{ display: 'flex', flexDirection: 'column', gap: 30 }} onPress={() => { router.push(`/aulas/${item.slug}`) }} key={index}>
                                 <View style={{ display: 'flex', flexDirection: 'column', gap: 5, marginVertical: 10 }}>
-                                    <CardSubTitle>Cau Saad</CardSubTitle>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>WorCAUt - Aula 01</Text>
-                                    <Categories values={['Funcional', 'Moderado']} />
+                                    <CardSubTitle>{item.trainer_name}</CardSubTitle>
+                                    <Text style={{ fontSize: 20, fontWeight: 500 }}>{item.name}</Text>
+                                    <Categories type={item.type} dificult={item.dificult} />
                                 </View>
                             </Card>
                         )
@@ -86,15 +77,13 @@ function Image({ uri, duration }) {
     )
 }
 
-function Categories({ values }) {
+function Categories({ type, dificult }) {
     return (
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-            {values.map((value, index) => (
-                <>
-                    <Text>{value}</Text>
-                    {index != values.length - 1 && <Point />}
-                </>
-            ))}
+            <Text>{type}</Text>
+            <Point color={primary} />
+            <Text>{dificult}</Text>
         </View>
     )
 }
+

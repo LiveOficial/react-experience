@@ -29,10 +29,10 @@ export default function Pedidos() {
                     <ChevronLeft color={primary} size={25} />
                 </Pressable>
                 <Text style={{ fontSize: 20 }}>Pedidos</Text>
-                <View />
+                <View style={{ padding: 20 }} />
             </View>
             {
-                orders.length && orders.map((order, index) => {
+                orders?.length && orders.map((order, index) => {
                     return (
                         <View key={index}>
                             <View style={{ display: 'flex', flexDirection: 'column', paddingVertical: 20 }} key={index}>

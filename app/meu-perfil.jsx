@@ -30,7 +30,6 @@ export default function MyProfile() {
   }
 
   const onLogout = () => {
-    console.log('start')
     logout()
     setOpenModalLogout(false)
   }
@@ -40,10 +39,10 @@ export default function MyProfile() {
       <ScrollView style={{ backgroundColor: body, paddingTop: 60, paddingHorizontal: 20 }} contentContainerStyle={{ paddingBottom: 100 }}>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
           <Pressable style={{ padding: 10 }} onPress={() => router.back()}>
-            <ChevronLeft color={primary} />
+            <ChevronLeft color={primary} size={25} />
           </Pressable>
           <Text style={{ fontSize: 20 }}>Meu perfil</Text>
-          <View />
+          <View style={{ padding: 20 }} />
         </View>
         <View style={{ display: 'flex', flexDirection: 'column', marginTop: 40, marginBottom: 30 }}>
           <View style={{ position: 'relative', width: 180, height: 180 }}>

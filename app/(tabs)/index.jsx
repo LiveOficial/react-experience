@@ -60,7 +60,7 @@ export default function Home() {
                             <>
                                 <Text style={{ marginVertical: 17, fontSize: 22 }}>{data.recommended.title}</Text>
                                 <ScrollView horizontal contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
-                                    {data.recommended.items.map((recommended) => {
+                                    {data?.recommended.items.map((recommended) => {
                                         return (
                                             <View style={{ backgroundColor: '#fff', display: 'flex', flexDirection: 'column', width: 300 }}>
                                                 <ReactImage
@@ -94,15 +94,15 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('/eventos') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.events.map((event, index) => {
+                                {data?.events.map((event, index) => {
                                     return (
                                         <Card onPress={() => { router.push(`eventos/${event.slug}`) }} key={index}>
-                                            <Image uri={event.images[0].src} />
+                                            <Image uri={event.image} />
                                             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'start', gap: 10, marginTop: 7 }}>
                                                 <Text style={{ fontWeight: 600, fontSize: 16, flexShrink: 1 }}>{event.name}</Text>
                                                 <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ fontWeight: 600, fontSize: 18 }}>24</Text>
-                                                    <Text style={{ textTransform: 'uppercase', fontSize: 11 }}>Nov</Text>
+                                                    <Text style={{ fontWeight: 600, fontSize: 18 }}>{event.day}</Text>
+                                                    <Text style={{ textTransform: 'uppercase', fontSize: 11 }}>{event.month}</Text>
                                                 </View>
                                             </View>
                                         </Card>
@@ -118,17 +118,17 @@ export default function Home() {
                                 </SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.classes.map((classs, index) => {
+                                {data?.classes.map((classs, index) => {
                                     return (
                                         <Card key={index} onPress={() => router.push(`aulas/${classs.id}`)}>
                                             <Image uri={classs.image} />
                                             <View style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 2, marginTop: 10 }}>
-                                                <CardSubTitle>{classs.autor}</CardSubTitle>
-                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{classs.title}</Text>
+                                                <CardSubTitle>{classs.trainer_name}</CardSubTitle>
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{classs.name}</Text>
                                                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                                                    <Text>{classs.description || 'Funcional'}</Text>
+                                                    <Text>{classs.category}</Text>
                                                     <Point />
-                                                    <Text>{classs.duration || '20 a 30m'}</Text>
+                                                    <Text>{classs.duration}</Text>
                                                 </View>
                                             </View>
                                         </Card>
@@ -142,7 +142,7 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('treinadores') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.trainers.map((trainer, index) => {
+                                {data?.trainers.map((trainer, index) => {
                                     return (
                                         <Card onPress={() => router.push(`treinadores/${trainer.slug}`)} key={index}>
                                             <Image uri={trainer.photo} />
@@ -161,7 +161,7 @@ export default function Home() {
                                 <SmallButton onPress={() => openBrowserAsync('https://blog.liveoficial.com.br') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data && data.blog_posts.map((post, index) => {
+                                {data?.blog_posts.map((post, index) => {
                                     return (
                                         <Card key={index} onPress={() => openBrowserAsync(post.to)}>
                                             <Image uri={post.imagem} />

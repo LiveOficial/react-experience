@@ -2,21 +2,21 @@ import { Pressable, ScrollView, Text, View } from "react-native"
 import { Mark, ChevronLeft } from "@/components/Icons"
 import { Hr } from "@/components/LiveExperience"
 import { body, primary, text } from "@/constants/Colors"
-import { router } from "expo-router"
+import { router, useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
+import api from "@/hooks/api"
 
 export default function Calendario() {
-    const [data, setData] = useState(null)
+    const { slug } = useLocalSearchParams()
+    const [event, setEvent] = useState(null)
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-        fetchData()
-    }, [])
+    useEffect(() => fetchData(), [])
 
     const fetchData = () => {
         setLoading(true)
-        api.get('event')
-            .then(({ data }) => setData(data))
+        api.get(`calendar/${slug}`)
+            .then(({ data: { event } }) => setEvent(event))
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }
@@ -28,19 +28,16 @@ export default function Calendario() {
                     <ChevronLeft color={primary} size={25} />
                 </Pressable>
                 <Text style={{ textAlign: 'center', fontSize: 20 }}>Calendário</Text>
-                <View />
+                <View style={{ padding: 20 }} />
             </View>
-
             <Text>Seu evento</Text>
-            <Text style={{ color: text, fontWeight: 500 }}>#78654</Text>
-            <Text>LIVE! RUN XP São José do Vale do Rio Preto</Text>
+            <Text style={{ color: text, fontWeight: 500 }}>#{event?.id}</Text>
+            <Text>{event?.name}</Text>
             <Text>Data do Evento</Text>
             <Text>24/11/2024</Text>
             <Text>Local da largada</Text>
-            <Text>Praça do Lido s/n - BAirro dos Jardins - RJ</Text>
-            <View style={{ marginBottom: 20, marginTop: 40 }}>
-                <Hr />
-            </View>
+            <Text>{event?.start_location}</Text>
+            <Hr marginVertical={10} />
             <Text style={{ fontSize: 20, marginBottom: 20, fontWeight: 300 }}>Retire seu kit</Text>
             <Text style={{ fontWeight: 500, marginBottom: 5 }}>Local de retirada</Text>
             <Text>LIVE! São José do Vale do Rio Preto - Shopping RioMar</Text>

@@ -1,6 +1,6 @@
 import { danger, greenText, primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
+import { Dimensions, Pressable, ScrollView, Text, TextInput, View, ActivityIndicator, Modal as NativeModal, TextInputProps } from 'react-native'
 import { Logo, Times, Help } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -52,26 +52,15 @@ export function HighlightedButton({ children, onPress, loading = false }) {
     )
 }
 
-export function Hr({ marginVertical = 0 }) {
-    return (
-        <View style={[styles.hr, { marginVertical: marginVertical }]} />
-    )
-}
+export const Hr = (props) => <View style={{ width: '100%', height: 1, backgroundColor: '#ccc' }} {...props} />
 
-export function Input({ value, setValue, onChange = null, placeholder, error = false, secureTextEntry = false }) {
+export function Input(props) {
     return (
-        <>
-            <TextInput
-                value={value}
-                onChangeText={setValue}
-                onChange={onChange}
-                placeholder={placeholder}
-                placeholderTextColor='#6d6d6d'
-                style={styles.input}
-                secureTextEntry={secureTextEntry}
-            />
-            {error && <Text style={{ color: primary, fontSize: 12, marginTop: 5 }}>{error}</Text>}
-        </>
+        <TextInput
+            placeholderTextColor='#6d6d6d'
+            style={{ width: '100%', borderBottomWidth: 1, borderStyle: 'solid', padding: 10, paddingVertical: 15, marginBottom: 3, backgroundColor: '#ffffff', borderColor: '#c4ad9f' }}
+            {...props}
+        />
     )
 }
 
@@ -90,24 +79,6 @@ export function Label({ children, style = {} }) {
         </Text>
     )
 }
-
-const styles = StyleSheet.create({
-    hr: {
-        width: '100%',
-        height: 1,
-        backgroundColor: '#ccc',
-    },
-    input: {
-        width: '100%',
-        borderBottomWidth: 1,
-        borderStyle: 'solid',
-        padding: 10,
-        paddingVertical: 15,
-        marginBottom: 3,
-        backgroundColor: '#ffffff',
-        borderColor: '#c4ad9f',
-    }
-})
 
 export function NeedHelp({ marginVertical = 30 }) {
     return (
@@ -257,8 +228,8 @@ export const Radio = {
     Option: ({ children, selected, onPress }) => {
         return (
             <Pressable style={{ display: 'flex', flexDirection: 'row', gap: 7, alignItems: 'center', paddingVertical: 5 }} onPress={onPress}>
-                <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 25, height: 25, borderRadius: 50, borderWidth: 1, borderColor: primary }}>
-                    {selected && <View style={{ width: 17, height: 17, borderRadius: 50, backgroundColor: '#f38532' }} />}
+                <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 50, borderWidth: 1, borderColor: primary }}>
+                    {selected && <View style={{ width: 13, height: 13, borderRadius: 50, backgroundColor: '#f38532' }} />}
                 </View>
                 {children}
             </Pressable>

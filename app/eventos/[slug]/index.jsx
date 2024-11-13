@@ -164,7 +164,7 @@ function Regulation({ content, visible, setVisible }) {
                                 <Times color={primary} size={25} />
                             </Pressable>
                         </View>
-                        <Text>{content}</Text>
+                        <RenderHtml source={{ html: content }} />
                     </ScrollView>
                 </View>
             </View>

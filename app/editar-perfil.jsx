@@ -48,6 +48,7 @@ export default function EditarPerfil() {
 
         api.post('user/update-profile', data)
             .then(({ data: { message } }) => {
+                setTimeout(() => setMessage(null), 3000)
                 setMessage(message)
                 saveUser({
                     name: name,
@@ -72,6 +73,14 @@ export default function EditarPerfil() {
             .finally(() => setLoading(false))
     }
 
+    const handleSetDocument = (value) => {
+        setDocument(value.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4"))
+    }
+
+    const handleSetCellphone = (value) => {
+        setCellphone(value.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3"))
+    }
+
     return (
         <ScrollView style={{ backgroundColor: body, paddingHorizontal: 20, paddingVertical: 60 }}>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
@@ -79,7 +88,7 @@ export default function EditarPerfil() {
                     <ChevronLeft color={primary} size={25} />
                 </Pressable>
                 <Text style={{ textAlign: 'center', fontSize: 20 }}>Editar perfil</Text>
-                <View />
+                <View style={{ padding: 10 }} />
             </View>
             <View style={{ paddingBottom: 100, marginTop: 40 }}>
                 {message && <View style={{ marginVertical: 10 }}>
@@ -100,11 +109,11 @@ export default function EditarPerfil() {
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
-                    <Input value={document} setValue={setDocument} />
+                    <Input value={document} onChangeText={handleSetDocument} />
                 </FormBox>
                 <FormBox>
                     <Label>Telefone</Label>
-                    <Input value={cellphone} setValue={setCellphone} />
+                    <Input value={cellphone} onChangeText={handleSetCellphone} />
                 </FormBox>
                 <FormBox>
                     <Label>Data de nascimento</Label>

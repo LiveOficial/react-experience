@@ -1,5 +1,5 @@
 import { View } from 'react-native'
-import { HighlightedButton, Hr, Input, Link, NeedHelp } from '@/components/LiveExperience'
+import { HighlightedButton, Input, Link, NeedHelp, Hr } from '@/components/LiveExperience'
 import { useEffect, useState } from 'react'
 import { Container, FormBox, Header, Label, Title, TitleBox } from '@/components/CommomPages'
 import { useAuth } from '@/context/auth'
@@ -40,11 +40,11 @@ export default function Enter() {
                 </TitleBox>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={email} setValue={setEmail} placeholder="Insira seu e-mail ou CPF" />
+                    <Input value={email} onChangeText={setEmail} placeholder="Insira seu e-mail ou CPF" />
                 </FormBox>
                 <FormBox>
                     <Label>Senha</Label>
-                    <Input error={error.password} value={password} setValue={setPassword} placeholder="Insira sua senha" secureTextEntry={true} />
+                    <Input value={password} onChangeText={setPassword} placeholder="Insira sua senha" secureTextEntry={true} />
                 </FormBox>
                 <Link href="/esqueci-minha-senha" style={{ textAlign: 'right', marginRight: 15, marginBottom: 25 }}>
                     Esqueci minha senha
