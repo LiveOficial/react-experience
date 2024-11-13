@@ -56,7 +56,7 @@ export default function Enter() {
                     Primeira vez aqui? Cadastre-se
                 </Link>
                 <Hr />
-                <NeedHelp />
+                <NeedHelp style={{ marginTop: 50 }} />
             </View>
         </Container>
     )

@@ -21,7 +21,13 @@ export default function Home() {
     const fetchHome = () => {
         setLoading(true)
         api.get('home')
-            .then(({ data }) => setData(data.home))
+            .then(({ data: { home } }) => {
+
+
+                console.log(home.categories)
+                setData(home)
+
+            })
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }
@@ -48,7 +54,7 @@ export default function Home() {
                     <Text style={{ marginBottom: 3, fontWeight: 500, color: text }}>Pesquise por tipo de atividade</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 10, marginVertical: 10 }}>
                         <ContentLoads loading={loading}>
-                            {data && data.categories.map((category, index) => <Button onPress={() => onSelectCategory(category)} key={index}>{category}</Button>)}
+                            {/* {data && data.categories.map((category, index) => <Button onPress={() => onSelectCategory(category)} key={index}>{category}</Button>)} */}
                         </ContentLoads>
                     </ScrollView>
                     <SearchInput />
@@ -94,7 +100,7 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('/eventos') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data?.events.map((event, index) => {
+                                {/* {data?.events.map((event, index) => {
                                     return (
                                         <Card onPress={() => { router.push(`eventos/${event.slug}`) }} key={index}>
                                             <Image uri={event.image} />
@@ -107,7 +113,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })}
+                                })} */}
                             </Carrousel>
                         </Section>
                         <Section>
@@ -118,7 +124,7 @@ export default function Home() {
                                 </SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data?.classes.map((classs, index) => {
+                                {/* {data?.classes.map((classs, index) => {
                                     return (
                                         <Card key={index} onPress={() => router.push(`aulas/${classs.id}`)}>
                                             <Image uri={classs.image} />
@@ -133,7 +139,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })}
+                                })} */}
                             </Carrousel>
                         </Section>
                         <Section>
@@ -142,7 +148,7 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('treinadores') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data?.trainers.map((trainer, index) => {
+                                {/* {data?.trainers.map((trainer, index) => {
                                     return (
                                         <Card onPress={() => router.push(`treinadores/${trainer.slug}`)} key={index}>
                                             <Image uri={trainer.photo} />
@@ -152,7 +158,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })}
+                                })} */}
                             </Carrousel>
                         </Section>
                         <Section>
@@ -161,7 +167,7 @@ export default function Home() {
                                 <SmallButton onPress={() => openBrowserAsync('https://blog.liveoficial.com.br') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {data?.blog_posts.map((post, index) => {
+                                {/* {data?.blog_posts.map((post, index) => {
                                     return (
                                         <Card key={index} onPress={() => openBrowserAsync(post.to)}>
                                             <Image uri={post.imagem} />
@@ -171,7 +177,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })}
+                                })} */}
                             </Carrousel>
                         </Section>
                     </View>

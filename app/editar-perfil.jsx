@@ -105,11 +105,11 @@ export default function EditarPerfil() {
                 </FormBox>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={email} setValue={setEmail} />
+                    <Input value={email} setValue={setEmail} readOnly={true} />
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
-                    <Input value={document} onChangeText={handleSetDocument} />
+                    <Input value={document} onChangeText={handleSetDocument} readOnly={true} />
                 </FormBox>
                 <FormBox>
                     <Label>Telefone</Label>

@@ -1,6 +1,6 @@
 import { danger, greenText, primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
-import { Dimensions, Pressable, ScrollView, Text, TextInput, View, ActivityIndicator, Modal as NativeModal, TextInputProps } from 'react-native'
+import { Dimensions, Pressable, ScrollView, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
 import { Logo, Times, Help } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -54,35 +54,41 @@ export function HighlightedButton({ children, onPress, loading = false }) {
 
 export const Hr = (props) => <View style={{ width: '100%', height: 1, backgroundColor: '#ccc' }} {...props} />
 
-export function Input(props) {
+export function Input({ style, error, ...props }) {
+    const readOnly = !!props?.readOnly
+    const errorText = Array.isArray(error) ? error.join(', ') : error
+
     return (
-        <TextInput
-            placeholderTextColor='#6d6d6d'
-            style={{ width: '100%', borderBottomWidth: 1, borderStyle: 'solid', padding: 10, paddingVertical: 15, marginBottom: 3, backgroundColor: '#ffffff', borderColor: '#c4ad9f' }}
-            {...props}
-        />
+        <>
+            <TextInput
+                placeholderTextColor='#6d6d6d'
+                style={{ width: '100%', borderBottomWidth: 1, borderStyle: 'solid', padding: 10, paddingVertical: 20, backgroundColor: readOnly ? '#EFEBE6' : '#ffffff', borderColor: '#c4ad9f', ...style }}
+                {...props}
+            />
+            {error && <Text style={{ fontSize: 11, color: danger, marginTop: 5 }}>{errorText}</Text>}
+        </>
     )
 }
 
-export function Link({ children, href, style = {} }) {
+export function Link({ children, href, style }) {
     return (
-        <NativeLink href={href} style={[{ color: primary, fontWeight: 500 }, style]}>
+        <NativeLink href={href} style={{ color: primary, fontWeight: 500, ...style }}>
             {children}
         </NativeLink>
     )
 }
 
-export function Label({ children, style = {} }) {
+export function Label({ children, style }) {
     return (
-        <Text style={[style, { fontWeight: 500 }]}>
+        <Text style={{ fontWeight: 500, ...style }}>
             {children}
         </Text>
     )
 }
 
-export function NeedHelp({ marginVertical = 30 }) {
+export function NeedHelp({ style }) {
     return (
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, marginVertical: marginVertical }}>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, ...style }}>
             <Help color={primary} />
             <Link href='/ajuda'>
                 Precisa de ajuda?
