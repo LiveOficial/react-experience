@@ -100,7 +100,7 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('/eventos') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {/* {data?.events.map((event, index) => {
+                                {data?.events.map((event, index) => {
                                     return (
                                         <Card onPress={() => { router.push(`eventos/${event.slug}`) }} key={index}>
                                             <Image uri={event.image} />
@@ -113,7 +113,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })} */}
+                                })}
                             </Carrousel>
                         </Section>
                         <Section>

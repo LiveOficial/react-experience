@@ -10,6 +10,8 @@ export default function Privacy() {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
 
+    useEffect(() => fetchData(), [])
+
     const fetchData = () => {
         setLoading(true)
         api.get('user/data-usage')
@@ -17,10 +19,6 @@ export default function Privacy() {
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }
-
-    useEffect(() => {
-        fetchData()
-    }, [])
 
     return (
         <ScrollView style={{ backgroundColor: body, paddingTop: 60, paddingHorizontal: 20 }} contentContainerStyle={{ paddingBottom: 100 }}>
@@ -56,32 +54,67 @@ export default function Privacy() {
                     <Text>{data?.birth_date}</Text>
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                <Label>Sexo</Label>
+                    <Label>Sexo</Label>
                     <Text>{data?.gender}</Text>
                 </View>
             </View>
 
             <Button>Ver menos</Button>
+            <Hr />
 
-            <Text style={{ fontWeight: 600, fontSize: 18, marginVertical: 10 }}>Meios de comunicação</Text>
-            <Text>E-mail e celular: para envio de avisos, confirmações e marketing.</Text>
-            <Label>E-mail</Label>
-            <Text>{data?.email}</Text>
-            <Label>Telefone</Label>
-            <Text>(11) 99999-9999</Text>
+            <View style={{ display: 'flex', justifyContent: 'column', gap: 10 }}>
+                <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <Text style={{ fontWeight: 600, fontSize: 18, marginVertical: 10 }}>Meios de comunicação</Text>
+                    <Text>E-mail e celular: para envio de avisos, confirmações e marketing.</Text>
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <Label>E-mail</Label>
+                    <Text>{data?.email}</Text>
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                    <Label>Telefone</Label>
+                    <Text>{data?.cellphone}</Text>
+                </View>
+            </View>
 
-            <Text>Endereço</Text>
-            <Text>Utilizado para entrega de kits de eventos e para definir de onde é o atleta.</Text>
-            <Text>Localização</Text>
-            <Text>Utilizada para buscar eventos perto de você e registrar suas atividades como corridas e pedaladas. Estes dados são de leitura temporária, não salvamos sua localização.</Text>
             <Button>Ver menos</Button>
+            <Hr />
 
+            <Text style={{ fontWeight: 600, fontSize: 18, marginVertical: 10 }}>Endereço</Text>
+            <Text>Utilizado para entrega de kits de eventos e para definir de onde é o atleta.</Text>
+
+            <View style={{ display: 'flex', justifyContent: 'column', gap: 5, marginTop: 15 }}>
+                <Label>Localização</Label>
+                <Text>Utilizada para buscar eventos perto de você e registrar suas atividades como corridas e pedaladas. Estes dados são de leitura temporária, não salvamos sua localização.</Text>
+            </View>
+
+            <Button>Ver menos</Button>
+            <Hr />
+
+            <Text style={{ fontWeight: 600, fontSize: 18, marginVertical: 10 }}>Utilização do APP</Text>
+            <Text style={{ marginBottom: 5, fontSize: 15 }}>Como registrar seu progresso nos vídeos e até mesmo sua navegação no APP: Para personalizar sua experiência e analisar possíveis melhorias.</Text>
+            <Text style={{ fontWeight: 300 }}>Estes dados contêm diversas informações sobre o conteúdo relacionado a eles, para facilitar o entendimento resumiremos eles em números.</Text>
+
+            <View style={{ marginTop: 20 }}>
+                <Text>0 Treinos assistidos</Text>
+                <Text>0 Playlists criadas</Text>
+                <Text>0 Eventos ao vivo assistidos</Text>
+                <Text>0 Treinos avaliados</Text>
+                <Text>3 Inscrições em eventos</Text>
+                <Text>0 Resultados sincronizados</Text>
+                <Text>0 Assinatura / Renovações realizadas</Text>
+                <Text>3 Dispositivos já registrados</Text>
+            </View>
+
+            <Hr marginTop={30} marginBottom={15} />
+            <Text style={{ fontWeight: 600, fontSize: 18, marginBottom: 5 }}>Localização</Text>
+            <Text>Utilizada para buscar eventos perto de você e registrar suas atividades como corridas e pedaladas. Estes dados são de leitura temporária, não salvamos sua localização.</Text>
 
             <Info.External.Container>
                 <Text style={{ fontSize: 18, marginTop: 25 }}>Veja com quem os seus dados são compartilhados:</Text>
                 <Hr />
                 <Info.External.Box>
-                    <Info.External.Title style={{  fontWeight: 600 , fontSize: 18 }}>Paypal</Info.External.Title>
+                    <Info.External.Title style={{ fontWeight: 600 , fontSize: 18 }}>Paypal</Info.External.Title>
                     <Info.External.Text>Enviamos as informações dos produtos adquiridos (Inscrições em eventos ou assinaturas) e guardamos um número de recibo enviado pela PayPal em sua conta. Os dados do cartão não são salvos pelo APP.</Info.External.Text>
                 </Info.External.Box>
                 <Hr />

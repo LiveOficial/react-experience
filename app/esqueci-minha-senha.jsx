@@ -43,7 +43,7 @@ export default function ForgotPassword() {
                     Voltar para login
                 </Link>
                 <Hr />
-                <NeedHelp />
+                <NeedHelp style={{ marginTop: 30 }} />
             </View>
         </Container>
     )

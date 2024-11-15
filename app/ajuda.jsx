@@ -138,8 +138,8 @@ function FrequentQuestions() {
             <Accordion.Container>
                 {questions.map((question, index) => {
                     return (
-                        <Accordion.Item title={question.pergunta} key={index}>
-                            <Text>{question.resposta}</Text>
+                        <Accordion.Item title={question.question} key={index}>
+                            <Text>{question.answer}</Text>
                         </Accordion.Item>
                     )
                 })}

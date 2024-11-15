@@ -22,8 +22,6 @@ export default function MyProfile() {
 
   const onDeleteMyAcccount = () => {
     api.post('user/delete-account')
-    setUser(null)
-    setToken(null)
     saveUser(null)
     saveToken(null)
     setOpenModalDeleteMyAcccount(false)

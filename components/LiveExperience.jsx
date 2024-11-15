@@ -1,6 +1,6 @@
-import { danger, greenText, primary, secondary } from '@/constants/Colors'
+import { body, danger, greenText, primary, secondary } from '@/constants/Colors'
 import { Link as NativeLink } from 'expo-router'
-import { Dimensions, Pressable, ScrollView, Text, TextInput, View, ActivityIndicator, Modal as NativeModal } from 'react-native'
+import { Dimensions, Pressable, ScrollView, Text, TextInput, View, ActivityIndicator, Modal as NativeModal, Platform } from 'react-native'
 import { Logo, Times, Help } from "@/components/Icons"
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -41,9 +41,9 @@ export function SmallButton({ children, onPress }) {
     )
 }
 
-export function HighlightedButton({ children, onPress, loading = false }) {
+export function HighlightedButton({ children, loading = false, ...props }) {
     return (
-        <Pressable onPress={onPress} style={{ backgroundColor: primary, paddingVertical: 13, width: '100%' }}>
+        <Pressable style={{ backgroundColor: primary, paddingVertical: 13, width: '100%' }} {...props}>
             {
                 loading ?
                 <Loader color={secondary} /> : <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
@@ -52,7 +52,7 @@ export function HighlightedButton({ children, onPress, loading = false }) {
     )
 }
 
-export const Hr = (props) => <View style={{ width: '100%', height: 1, backgroundColor: '#ccc' }} {...props} />
+export const Hr = (props) => <View style={{ width: '100%', height: 1, backgroundColor: '#EFEBE6' }} {...props} />
 
 export function Input({ style, error, ...props }) {
     const readOnly = !!props?.readOnly
@@ -100,7 +100,7 @@ export function NeedHelp({ style }) {
 export function CheckBox({ children, value, setValue }) {
     return (
         <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-            <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 5, borderWidth: 1, borderColor: primary }} />
+            <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 3, borderWidth: 1.5, borderColor: primary }} />
             {children}
         </Pressable>
     )
@@ -189,14 +189,14 @@ export function Modal({ children, visible, setVisible }) {
 export function ContentLoads({ children, loading }) {
     return (
         <>
-            {loading ? <Text>Carregando...</Text> : children}
+            {loading ? <Loader /> : children}
         </>
     )
 }
 
-export function Loader({ color = primary }) {
+export function Loader(props) {
     return (
-        <ActivityIndicator color={color} size="small" />
+        <ActivityIndicator size="small" {...props} />
     )
 }
 
@@ -234,11 +234,21 @@ export const Radio = {
     Option: ({ children, selected, onPress }) => {
         return (
             <Pressable style={{ display: 'flex', flexDirection: 'row', gap: 7, alignItems: 'center', paddingVertical: 5 }} onPress={onPress}>
-                <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 50, borderWidth: 1, borderColor: primary }}>
+                <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 50, borderWidth: 1.5, borderColor: primary }}>
                     {selected && <View style={{ width: 13, height: 13, borderRadius: 50, backgroundColor: '#f38532' }} />}
                 </View>
                 {children}
             </Pressable>
         )
     }
+}
+
+export function SafeAreaView({ children, color = body }) {
+    const isMobile = Platform.OS === 'ios' || Platform.OS === 'android'
+
+    return (
+        <ScrollView style={{ paddingTop: isMobile ? 50 : 0, backgroundColor: color, flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 150 }} >
+            {children}
+        </ScrollView>
+    )
 }

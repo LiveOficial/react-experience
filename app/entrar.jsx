@@ -14,7 +14,7 @@ export default function Enter() {
 
     useEffect(() => {
         if (token !== null) {
-            router.push('/meu-perfil')
+            router.replace('/meu-perfil')
         }
     }, [token])
 
@@ -44,7 +44,7 @@ export default function Enter() {
                 </FormBox>
                 <FormBox>
                     <Label>Senha</Label>
-                    <Input value={password} onChangeText={setPassword} placeholder="Insira sua senha" secureTextEntry={true} />
+                    <Input value={password} onChangeText={setPassword} placeholder="Insira sua senha" secureTextEntry={true} error={error.password} />
                 </FormBox>
                 <Link href="/esqueci-minha-senha" style={{ textAlign: 'right', marginRight: 15, marginBottom: 25 }}>
                     Esqueci minha senha
