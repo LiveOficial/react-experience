@@ -243,11 +243,11 @@ export const Radio = {
     }
 }
 
-export function SafeAreaView({ children, color = body }) {
+export function SafeAreaView({ children, color = body, paddingBottom = 150 }) {
     const isMobile = Platform.OS === 'ios' || Platform.OS === 'android'
 
     return (
-        <ScrollView style={{ paddingTop: isMobile ? 50 : 0, backgroundColor: color, flex: 1 }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 150 }} >
+        <ScrollView style={{ paddingTop: isMobile ? 50 : 0, backgroundColor: color }} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: paddingBottom }}>
             {children}
         </ScrollView>
     )

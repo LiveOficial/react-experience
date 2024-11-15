@@ -1,33 +1,25 @@
 import { Image as ReactImage, Pressable, ScrollView, Text, TextInput, View } from "react-native"
-import { SmallButton, HighlightedButton, ContentLoads } from "@/components/LiveExperience"
-import { body, secondary, text } from "@/constants/Colors"
+import { SmallButton, HighlightedButton, SafeAreaView, ContentLoads } from "@/components/LiveExperience"
+import { body, text, secondary } from "@/constants/Colors"
 import { useEffect, useState } from "react"
 import { Logo, Menu, Cart as CartIcon, Point } from "@/components/Icons"
 import Onboarding from "@/components/Onboarding"
 import Cart from "@/components/Cart"
 import { router } from "expo-router"
-import api from "@/hooks/api"
 import { openBrowserAsync } from "expo-web-browser"
+import api from "@/hooks/api"
 
 export default function Home() {
     const [data, setData] = useState(null)
     const [showCart, setShowCart] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        fetchHome()
-    }, [])
+    useEffect(() => fetchHome(), [])
 
     const fetchHome = () => {
         setLoading(true)
         api.get('home')
-            .then(({ data: { home } }) => {
-
-
-                console.log(home.categories)
-                setData(home)
-
-            })
+            .then(({ data: { home } }) => setData(home))
             .catch(err => console.log(err))
             .finally(() => setLoading(false))
     }
@@ -38,8 +30,8 @@ export default function Home() {
 
     return (
         <>
-            <ScrollView style={{ backgroundColor: secondary, paddingTop: 60 }} showsVerticalScrollIndicator={false}>
-                <View style={{ display: 'flex', flexDirection: 'column', paddingHorizontal: 20, paddingBottom: 20 }}>
+            <SafeAreaView color={secondary} paddingBottom={0}>
+                <View style={{ display: 'flex', flexDirection: 'column', paddingHorizontal: 20, paddingBottom: 20, backgroundColor: secondary }}>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Pressable onPress={() => {}}>
                             <Menu />
@@ -53,9 +45,7 @@ export default function Home() {
                     </View>
                     <Text style={{ marginBottom: 3, fontWeight: 500, color: text }}>Pesquise por tipo de atividade</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 10, marginVertical: 10 }}>
-                        <ContentLoads loading={loading}>
-                            {/* {data && data.categories.map((category, index) => <Button onPress={() => onSelectCategory(category)} key={index}>{category}</Button>)} */}
-                        </ContentLoads>
+                        {data && data.categories.map((category, index) => <Button onPress={() => onSelectCategory(category)} key={index}>{category}</Button>)}
                     </ScrollView>
                     <SearchInput />
                 </View>
@@ -124,7 +114,7 @@ export default function Home() {
                                 </SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {/* {data?.classes.map((classs, index) => {
+                                {data?.classes.map((classs, index) => {
                                     return (
                                         <Card key={index} onPress={() => router.push(`aulas/${classs.id}`)}>
                                             <Image uri={classs.image} />
@@ -139,7 +129,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })} */}
+                                })}
                             </Carrousel>
                         </Section>
                         <Section>
@@ -148,7 +138,7 @@ export default function Home() {
                                 <SmallButton onPress={() => router.push('treinadores') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {/* {data?.trainers.map((trainer, index) => {
+                                {data?.trainers.map((trainer, index) => {
                                     return (
                                         <Card onPress={() => router.push(`treinadores/${trainer.slug}`)} key={index}>
                                             <Image uri={trainer.photo} />
@@ -158,7 +148,7 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })} */}
+                                })}
                             </Carrousel>
                         </Section>
                         <Section>
@@ -167,7 +157,7 @@ export default function Home() {
                                 <SmallButton onPress={() => openBrowserAsync('https://blog.liveoficial.com.br') }>Ver tudo</SmallButton>
                             </TitleBox>
                             <Carrousel>
-                                {/* {data?.blog_posts.map((post, index) => {
+                                {data?.blog_posts.map((post, index) => {
                                     return (
                                         <Card key={index} onPress={() => openBrowserAsync(post.to)}>
                                             <Image uri={post.imagem} />
@@ -177,12 +167,12 @@ export default function Home() {
                                             </View>
                                         </Card>
                                     )
-                                })} */}
+                                })}
                             </Carrousel>
                         </Section>
                     </View>
                 </ContentLoads>
-            </ScrollView>
+            </SafeAreaView>
             <Onboarding />
             <Cart visible={showCart} setVisible={setShowCart} />
         </>

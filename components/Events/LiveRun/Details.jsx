@@ -5,6 +5,7 @@ import { Gradient, GradientRun } from '@/components/LiveExperience'
 import RenderHtml from 'react-native-render-html'
 import Accordion from '@/components/Accordion'
 import { useState } from 'react'
+import { Title, Detail } from '../Shared'
 
 export default function Details({ event }) {
     const [selectedModality, setSelectedModality] = useState(null)
@@ -16,9 +17,9 @@ export default function Details({ event }) {
                     <Text style={{ fontSize: 33, fontWeight: 500 }}>{event?.day}</Text>
                     <Text style={{ fontSize: 18, fontWeight: 500 }}>{event?.month}</Text>
                 </View>
-                <Text>{event?.name}</Text>
+                <Title>{event?.name}</Title>
             </View>
-            <Detail.Wrap>
+            <Detail.Container>
                 <Detail.Box icon={<CalendarCheck size={28} />}>
                     <Detail.Title>Data</Detail.Title>
                     <Detail.Value>{event?.long_date}</Detail.Value>
@@ -38,11 +39,23 @@ export default function Details({ event }) {
                     <Detail.Title>Público</Detail.Title>
                     <Detail.Value>{event?.folks}</Detail.Value>
                 </Detail.Box>
-            </Detail.Wrap>
+            </Detail.Container>
             <Accordion.Container>
                 <Accordion.Item title="Kits">
                     <ScrollView horizontal contentContainerStyle={{ display: 'flex', flexDirection: 'row', gap: 20, marginTop: 20 }} showsHorizontalScrollIndicator={false}>
-                        {event && event?.kits.map((kit, index) => <Kit key={index} kit={kit} />)}
+                        {event && event?.kits.map((kit, index) => {
+                            return (
+                                <View style={{ position: 'relative' }} key={index}>
+                                    <Gradient>
+                                        <Image style={{ width: 250, height: 250, borderRadius: 10 }} source={{ uri: kit.image }} />
+                                    </Gradient>
+                                    <View style={{ position: 'absolute', bottom: 0, left: 0, backgroundColor: secondary }}>
+                                        <Text style={{ fontWeight: 500, color: text, padding: 10 }}>{kit.name}</Text>
+                                        <GradientRun />
+                                    </View>
+                                </View>
+                            )
+                        })}
                     </ScrollView>
                 </Accordion.Item>
                 <Accordion.Item title="Percursos">
@@ -64,38 +77,5 @@ export default function Details({ event }) {
             </Accordion.Container>
             <RenderHtml source={{ html: event?.description }} />
         </>
-    )
-}
-
-const Detail = {
-    Box: ({ children, icon }) => {
-        return (
-            <View style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
-                <View style={{ width: 30 }}>
-                    {icon}
-                </View>
-                <View style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                    {children}
-                </View>
-            </View>
-        )
-    },
-    Wrap: ({ children }) => <View style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 35 }}>{children}</View>,
-    Title: ({ children }) => <Text style={{ fontSize: 16, fontWeight: 500 }}>{children}</Text>,
-    Value: ({ children }) => <Text style={{ fontSize: 14 }}>{children}</Text>
-}
-
-
-function Kit({ kit }) {
-    return (
-        <View style={{ position: 'relative' }}>
-            <Gradient>
-                <Image style={{ width: 250, height: 250, borderRadius: 10 }} source={{ uri: kit.image }} />
-            </Gradient>
-            <View style={{ position: 'absolute', bottom: 0, left: 0, backgroundColor: secondary }}>
-                <Text style={{ fontWeight: 500, color: text, padding: 10 }}>{kit.name}</Text>
-                <GradientRun />
-            </View>
-        </View>
     )
 }

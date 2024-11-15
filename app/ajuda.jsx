@@ -9,6 +9,7 @@ import { HighlightedButton, ContentLoads } from "@/components/LiveExperience";
 import Accordion from "@/components/Accordion";
 import Select from '@/components/Select'
 import api from "@/hooks/api";
+import RenderHtml from 'react-native-render-html';
 import { useAuth } from '@/context/auth'
 
 export default function Help() {
@@ -139,7 +140,7 @@ function FrequentQuestions() {
                 {questions.map((question, index) => {
                     return (
                         <Accordion.Item title={question.question} key={index}>
-                            <Text>{question.answer}</Text>
+                            <RenderHtml source={{ html: question.answer }} />
                         </Accordion.Item>
                     )
                 })}
