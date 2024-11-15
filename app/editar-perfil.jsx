@@ -26,6 +26,7 @@ export default function EditarPerfil() {
     const [complement, setComplement] = useState(user.address.complement)
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState(null)
+    const [errors, setErrors] = useState({})
 
     const onSubmit = () => {
         setLoading(true)
@@ -69,7 +70,13 @@ export default function EditarPerfil() {
                     }
                 })
             })
-            .catch(e => console.log(e))
+            .catch(e => {
+
+
+                console.log(e.response.data.errors)
+                setErrors(e.response.data.errors)
+
+            })
             .finally(() => setLoading(false))
     }
 
@@ -101,11 +108,11 @@ export default function EditarPerfil() {
                 <Title>Seus dados</Title>
                 <FormBox>
                     <Label>Nome e sobrenome</Label>
-                    <Input value={name} setValue={setName} />
+                    <Input error={errors.name} value={name} onChangeText={setName} />
                 </FormBox>
                 <FormBox>
                     <Label>E-mail</Label>
-                    <Input value={email} setValue={setEmail} readOnly={true} />
+                    <Input value={email} onChangeText={setEmail} readOnly={true} />
                 </FormBox>
                 <FormBox>
                     <Label>CPF</Label>
@@ -113,11 +120,11 @@ export default function EditarPerfil() {
                 </FormBox>
                 <FormBox>
                     <Label>Telefone</Label>
-                    <Input value={cellphone} onChangeText={handleSetCellphone} />
+                    <Input error={errors.cellphone} value={cellphone} onChangeText={handleSetCellphone} />
                 </FormBox>
                 <FormBox>
                     <Label>Data de nascimento</Label>
-                    <Input value={birthDate} setValue={setBirthDate} />
+                    <Input error={errors.birth_date} value={birthDate} onChangeText={setBirthDate} />
                 </FormBox>
                 <FormBox>
                     <Label>Gênero</Label>
@@ -134,31 +141,31 @@ export default function EditarPerfil() {
                 <Title>Endereço</Title>
                 <FormBox>
                     <Label>CEP</Label>
-                    <Input value={cep} setValue={setCep} />
+                    <Input value={cep} onChangeText={setCep} />
                 </FormBox>
                 <FormBox>
                     <Label>Estado</Label>
-                    <Input value={state} setValue={setState} />
+                    <Input value={state} onChangeText={setState} />
                 </FormBox>
                 <FormBox>
                     <Label>Cidade</Label>
-                    <Input value={city} setValue={setCity} />
+                    <Input value={city} onChangeText={setCity} />
                 </FormBox>
                 <FormBox>
                     <Label>Bairro</Label>
-                    <Input value={district} setValue={setDistrict} />
+                    <Input value={district} onChangeText={setDistrict} />
                 </FormBox>
                 <FormBox>
                     <Label>Logadouro</Label>
-                    <Input value={street} setValue={setStreet} />
+                    <Input value={street} onChangeText={setStreet} />
                 </FormBox>
                 <FormBox>
                     <Label>Número</Label>
-                    <Input value={number} setValue={setNumber} />
+                    <Input value={number} onChangeText={setNumber} />
                 </FormBox>
                 <FormBox>
                     <Label>Complemento</Label>
-                    <Input value={complement} setValue={setComplement} />
+                    <Input value={complement} onChangeText={setComplement} />
                 </FormBox>
                 <HighlightedButton onPress={() => onSubmit()} loading={loading}>
                     Salvar alterações
