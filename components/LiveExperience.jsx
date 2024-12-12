@@ -41,9 +41,9 @@ export function SmallButton({ children, onPress }) {
     )
 }
 
-export function HighlightedButton({ children, loading = false, ...props }) {
+export function HighlightedButton({ children, loading = false, style, ...props }) {
     return (
-        <Pressable style={{ backgroundColor: primary, paddingVertical: 13, width: '100%' }} {...props}>
+        <Pressable style={{ backgroundColor: primary, paddingVertical: 13, width: '100%', ...style }} {...props}>
             {
                 loading ?
                 <Loader color={secondary} /> : <Text style={{ color: 'white', textAlign: 'center', fontSize: 14, fontWeight: 500, letterSpacing: .3 }}>{children}</Text>
@@ -52,7 +52,7 @@ export function HighlightedButton({ children, loading = false, ...props }) {
     )
 }
 
-export const Hr = (props) => <View style={{ width: '100%', height: 1, backgroundColor: '#EFEBE6' }} {...props} />
+export const Hr = ({style, ...props}) => <View style={{ width: '100%', height: 1, backgroundColor: '#EFEBE6', ...style }} {...props} />
 
 export function Input({ style, error, ...props }) {
     const readOnly = !!props?.readOnly
@@ -97,9 +97,9 @@ export function NeedHelp({ style }) {
     )
 }
 
-export function CheckBox({ children, value, setValue }) {
+export function CheckBox({ children, value, setValue, style }) {
     return (
-        <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+        <Pressable onPress={() => setValue(!value)} style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center', ...style }}>
             <View style={{ width: 20, height: 20, backgroundColor: value ? primary : 'transparent', borderRadius: 3, borderWidth: 1.5, borderColor: primary }} />
             {children}
         </Pressable>
@@ -223,24 +223,15 @@ export function Status({ status }) {
     )
 }
 
-export const Radio = {
-    Group: ({ children }) => {
-        return (
-            <View style={{ display: 'flex', flexDirection: 'column' }}>
-                {children}
+export function Radio({ children, selected, style, ...props }) {
+    return (
+        <Pressable style={{ display: 'flex', flexDirection: 'row', gap: 7, alignItems: 'center', paddingVertical: 5, ...style }} {...props}>
+            <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 50, borderWidth: 1.5, borderColor: primary }}>
+                {selected && <View style={{ width: 13, height: 13, borderRadius: 50, backgroundColor: '#f38532' }} />}
             </View>
-        )
-    },
-    Option: ({ children, selected, onPress }) => {
-        return (
-            <Pressable style={{ display: 'flex', flexDirection: 'row', gap: 7, alignItems: 'center', paddingVertical: 5 }} onPress={onPress}>
-                <View style={{ display:'flex', alignItems: 'center', justifyContent: 'center', width: 22, height: 22, borderRadius: 50, borderWidth: 1.5, borderColor: primary }}>
-                    {selected && <View style={{ width: 13, height: 13, borderRadius: 50, backgroundColor: '#f38532' }} />}
-                </View>
-                {children}
-            </Pressable>
-        )
-    }
+            {children}
+        </Pressable>
+    )
 }
 
 export function SafeAreaView({ children, color = body, paddingBottom = 150 }) {

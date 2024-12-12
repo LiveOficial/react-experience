@@ -5,7 +5,7 @@ import { Gradient, GradientRun } from '@/components/LiveExperience'
 import RenderHtml from 'react-native-render-html'
 import Accordion from '@/components/Accordion'
 import { useState } from 'react'
-import { Title, Detail } from '../Shared'
+import { MainTitle, Detail } from '../Components'
 
 export default function Details({ event }) {
     const [selectedModality, setSelectedModality] = useState(null)
@@ -17,7 +17,7 @@ export default function Details({ event }) {
                     <Text style={{ fontSize: 33, fontWeight: 500 }}>{event?.day}</Text>
                     <Text style={{ fontSize: 18, fontWeight: 500 }}>{event?.month}</Text>
                 </View>
-                <Title>{event?.name}</Title>
+                <MainTitle>{event?.name}</MainTitle>
             </View>
             <Detail.Container>
                 <Detail.Box icon={<CalendarCheck size={28} />}>

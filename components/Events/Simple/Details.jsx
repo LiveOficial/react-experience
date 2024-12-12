@@ -1,7 +1,7 @@
 import { Text, View } from "react-native"
 import { Hr } from "@/components/LiveExperience"
 import { CalendarCheck } from "@/components/Icons"
-import { Detail, Title } from '../Shared'
+import { Detail, Title } from '../Components'
 
 export default function Simple({ event }) {
     return (
